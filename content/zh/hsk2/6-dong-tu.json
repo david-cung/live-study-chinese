@@ -1,0 +1,24 @@
+{
+  "title": "Động từ thường dùng",
+  "words": [
+    { "hanzi": "帮助", "pinyin": "bāngzhù", "vi": "giúp đỡ" },
+    { "hanzi": "告诉", "pinyin": "gàosu", "vi": "nói cho biết" },
+    { "hanzi": "回答", "pinyin": "huídá", "vi": "trả lời" },
+    { "hanzi": "问", "pinyin": "wèn", "vi": "hỏi" },
+    { "hanzi": "懂", "pinyin": "dǒng", "vi": "hiểu" },
+    { "hanzi": "知道", "pinyin": "zhīdào", "vi": "biết" },
+    { "hanzi": "觉得", "pinyin": "juéde", "vi": "cảm thấy" },
+    { "hanzi": "希望", "pinyin": "xīwàng", "vi": "hy vọng" },
+    { "hanzi": "准备", "pinyin": "zhǔnbèi", "vi": "chuẩn bị" },
+    { "hanzi": "找", "pinyin": "zhǎo", "vi": "tìm" },
+    { "hanzi": "送", "pinyin": "sòng", "vi": "tặng, tiễn" },
+    { "hanzi": "给", "pinyin": "gěi", "vi": "cho, đưa cho" },
+    { "hanzi": "等", "pinyin": "děng", "vi": "đợi" },
+    { "hanzi": "让", "pinyin": "ràng", "vi": "để cho, bảo" },
+    { "hanzi": "笑", "pinyin": "xiào", "vi": "cười" },
+    { "hanzi": "说话", "pinyin": "shuōhuà", "vi": "nói chuyện" },
+    { "hanzi": "考试", "pinyin": "kǎoshì", "vi": "thi, kiểm tra" },
+    { "hanzi": "完", "pinyin": "wán", "vi": "xong, hết" },
+    { "hanzi": "做", "pinyin": "zuò", "vi": "làm" }
+  ]
+}

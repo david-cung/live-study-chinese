@@ -1,0 +1,17 @@
+# Mỗi dòng một từ hoặc cụm từ cấm (không phân biệt hoa thường). Dòng bắt đầu bằng # là ghi chú.
+# Bình luận chứa các từ này sẽ không được đọc, câu trả lời AI chứa chúng sẽ bị bỏ.
+địt
+đụ
+đéo
+đm
+dm
+dcm
+vcl
+vkl
+cặc
+lồn
+buồi
+đĩ
+fuck
+shit
+bitch

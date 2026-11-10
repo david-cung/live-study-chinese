@@ -1,0 +1,19 @@
+{
+  "title": "Gia đình và mọi người",
+  "words": [
+    { "hanzi": "爸爸", "pinyin": "bàba", "vi": "bố" },
+    { "hanzi": "妈妈", "pinyin": "māma", "vi": "mẹ" },
+    { "hanzi": "儿子", "pinyin": "érzi", "vi": "con trai" },
+    { "hanzi": "女儿", "pinyin": "nǚ'ér", "vi": "con gái" },
+    { "hanzi": "家", "pinyin": "jiā", "vi": "nhà, gia đình" },
+    { "hanzi": "朋友", "pinyin": "péngyou", "vi": "bạn bè" },
+    { "hanzi": "老师", "pinyin": "lǎoshī", "vi": "giáo viên" },
+    { "hanzi": "学生", "pinyin": "xuésheng", "vi": "học sinh" },
+    { "hanzi": "同学", "pinyin": "tóngxué", "vi": "bạn học" },
+    { "hanzi": "医生", "pinyin": "yīshēng", "vi": "bác sĩ" },
+    { "hanzi": "先生", "pinyin": "xiānsheng", "vi": "ông, ngài" },
+    { "hanzi": "小姐", "pinyin": "xiǎojiě", "vi": "cô (cách gọi lịch sự)" },
+    { "hanzi": "人", "pinyin": "rén", "vi": "người" },
+    { "hanzi": "中国", "pinyin": "Zhōngguó", "vi": "Trung Quốc" }
+  ]
+}

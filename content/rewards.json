@@ -1,0 +1,43 @@
+{
+  "tongues": [
+    {
+      "vi": "Câu nói líu lưỡi vui: bốn là bốn, lụa là lụa. Tiếng Trung cũng có câu tương tự nè:",
+      "zh": "四是四，十是十，十四是十四，四十是四十。"
+    },
+    {
+      "vi": "Câu nói nhanh cho luyện miệng:",
+      "zh": "吃葡萄不吐葡萄皮，不吃葡萄倒吐葡萄皮。"
+    },
+    {
+      "vi": "Câu luyện thanh vui vui:",
+      "zh": "妈妈骑马，马慢，妈妈骂马。"
+    }
+  ],
+  "phrases": [
+    {
+      "vi": "Câu giao tiếp hay: mình có thể nói tiếng Trung một chút.",
+      "zh": "我会说一点汉语。",
+      "pinyin": "Wǒ huì shuō yīdiǎn Hànyǔ."
+    },
+    {
+      "vi": "Câu xin lỗi lịch sự:",
+      "zh": "不好意思。",
+      "pinyin": "Bù hǎoyìsi."
+    },
+    {
+      "vi": "Câu khen ai đó giỏi:",
+      "zh": "你真棒！",
+      "pinyin": "Nǐ zhēn bàng!"
+    },
+    {
+      "vi": "Câu tạm biệt thân mật:",
+      "zh": "明天见！",
+      "pinyin": "Míngtiān jiàn!"
+    },
+    {
+      "vi": "Câu hỏi giá khi mua đồ:",
+      "zh": "这个多少钱？",
+      "pinyin": "Zhège duōshǎo qián?"
+    }
+  ]
+}

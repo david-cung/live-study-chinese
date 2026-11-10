@@ -1,0 +1,21 @@
+{
+  "title": "Con người và gia đình",
+  "words": [
+    { "hanzi": "哥哥", "pinyin": "gēge", "vi": "anh trai" },
+    { "hanzi": "姐姐", "pinyin": "jiějie", "vi": "chị gái" },
+    { "hanzi": "弟弟", "pinyin": "dìdi", "vi": "em trai" },
+    { "hanzi": "妹妹", "pinyin": "mèimei", "vi": "em gái" },
+    { "hanzi": "丈夫", "pinyin": "zhàngfu", "vi": "chồng" },
+    { "hanzi": "妻子", "pinyin": "qīzi", "vi": "vợ" },
+    { "hanzi": "孩子", "pinyin": "háizi", "vi": "trẻ con" },
+    { "hanzi": "男", "pinyin": "nán", "vi": "nam (giới)" },
+    { "hanzi": "女", "pinyin": "nǚ", "vi": "nữ (giới)" },
+    { "hanzi": "大家", "pinyin": "dàjiā", "vi": "mọi người" },
+    { "hanzi": "您", "pinyin": "nín", "vi": "ngài (kính trọng)" },
+    { "hanzi": "它", "pinyin": "tā", "vi": "nó (đồ vật, con vật)" },
+    { "hanzi": "服务员", "pinyin": "fúwùyuán", "vi": "nhân viên phục vụ" },
+    { "hanzi": "姓", "pinyin": "xìng", "vi": "họ (tên họ)" },
+    { "hanzi": "介绍", "pinyin": "jièshào", "vi": "giới thiệu" },
+    { "hanzi": "欢迎", "pinyin": "huānyíng", "vi": "chào mừng" }
+  ]
+}

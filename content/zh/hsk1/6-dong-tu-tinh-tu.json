@@ -1,0 +1,26 @@
+{
+  "title": "Động từ và tính từ",
+  "words": [
+    { "hanzi": "去", "pinyin": "qù", "vi": "đi" },
+    { "hanzi": "来", "pinyin": "lái", "vi": "đến" },
+    { "hanzi": "看", "pinyin": "kàn", "vi": "xem, nhìn" },
+    { "hanzi": "听", "pinyin": "tīng", "vi": "nghe" },
+    { "hanzi": "说", "pinyin": "shuō", "vi": "nói" },
+    { "hanzi": "读", "pinyin": "dú", "vi": "đọc" },
+    { "hanzi": "写", "pinyin": "xiě", "vi": "viết" },
+    { "hanzi": "学习", "pinyin": "xuéxí", "vi": "học" },
+    { "hanzi": "工作", "pinyin": "gōngzuò", "vi": "làm việc" },
+    { "hanzi": "喜欢", "pinyin": "xǐhuan", "vi": "thích" },
+    { "hanzi": "爱", "pinyin": "ài", "vi": "yêu" },
+    { "hanzi": "想", "pinyin": "xiǎng", "vi": "muốn, nghĩ" },
+    { "hanzi": "睡觉", "pinyin": "shuìjiào", "vi": "ngủ" },
+    { "hanzi": "大", "pinyin": "dà", "vi": "to, lớn" },
+    { "hanzi": "小", "pinyin": "xiǎo", "vi": "nhỏ" },
+    { "hanzi": "热", "pinyin": "rè", "vi": "nóng" },
+    { "hanzi": "冷", "pinyin": "lěng", "vi": "lạnh" },
+    { "hanzi": "高兴", "pinyin": "gāoxìng", "vi": "vui vẻ" },
+    { "hanzi": "漂亮", "pinyin": "piàoliang", "vi": "xinh đẹp" },
+    { "hanzi": "多", "pinyin": "duō", "vi": "nhiều" },
+    { "hanzi": "少", "pinyin": "shǎo", "vi": "ít" }
+  ]
+}

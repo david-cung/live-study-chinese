@@ -1,0 +1,25 @@
+{
+  "title": "Đồ vật và nơi chốn",
+  "words": [
+    { "hanzi": "书", "pinyin": "shū", "vi": "sách" },
+    { "hanzi": "本", "pinyin": "běn", "vi": "quyển (đếm sách)" },
+    { "hanzi": "字", "pinyin": "zì", "vi": "chữ" },
+    { "hanzi": "汉语", "pinyin": "Hànyǔ", "vi": "tiếng Trung" },
+    { "hanzi": "东西", "pinyin": "dōngxi", "vi": "đồ vật" },
+    { "hanzi": "桌子", "pinyin": "zhuōzi", "vi": "cái bàn" },
+    { "hanzi": "椅子", "pinyin": "yǐzi", "vi": "cái ghế" },
+    { "hanzi": "电脑", "pinyin": "diànnǎo", "vi": "máy tính" },
+    { "hanzi": "电视", "pinyin": "diànshì", "vi": "ti vi" },
+    { "hanzi": "电影", "pinyin": "diànyǐng", "vi": "phim" },
+    { "hanzi": "猫", "pinyin": "māo", "vi": "con mèo" },
+    { "hanzi": "狗", "pinyin": "gǒu", "vi": "con chó" },
+    { "hanzi": "学校", "pinyin": "xuéxiào", "vi": "trường học" },
+    { "hanzi": "医院", "pinyin": "yīyuàn", "vi": "bệnh viện" },
+    { "hanzi": "北京", "pinyin": "Běijīng", "vi": "Bắc Kinh" },
+    { "hanzi": "上", "pinyin": "shàng", "vi": "trên" },
+    { "hanzi": "下", "pinyin": "xià", "vi": "dưới" },
+    { "hanzi": "里", "pinyin": "lǐ", "vi": "bên trong" },
+    { "hanzi": "前面", "pinyin": "qiánmiàn", "vi": "phía trước" },
+    { "hanzi": "后面", "pinyin": "hòumiàn", "vi": "phía sau" }
+  ]
+}

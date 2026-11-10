@@ -1,0 +1,26 @@
+{
+  "title": "Từ để hỏi và từ nhỏ hay dùng",
+  "words": [
+    { "hanzi": "什么", "pinyin": "shénme", "vi": "cái gì" },
+    { "hanzi": "谁", "pinyin": "shéi", "vi": "ai" },
+    { "hanzi": "哪", "pinyin": "nǎ", "vi": "nào" },
+    { "hanzi": "哪儿", "pinyin": "nǎr", "vi": "ở đâu" },
+    { "hanzi": "怎么", "pinyin": "zěnme", "vi": "làm sao, tại sao" },
+    { "hanzi": "怎么样", "pinyin": "zěnmeyàng", "vi": "như thế nào, ra sao" },
+    { "hanzi": "吗", "pinyin": "ma", "vi": "không? (từ để hỏi cuối câu)" },
+    { "hanzi": "呢", "pinyin": "ne", "vi": "còn… thì sao?" },
+    { "hanzi": "这", "pinyin": "zhè", "vi": "này, đây" },
+    { "hanzi": "那", "pinyin": "nà", "vi": "kia, đó" },
+    { "hanzi": "的", "pinyin": "de", "vi": "của" },
+    { "hanzi": "了", "pinyin": "le", "vi": "rồi (đã xong)" },
+    { "hanzi": "和", "pinyin": "hé", "vi": "và" },
+    { "hanzi": "很", "pinyin": "hěn", "vi": "rất" },
+    { "hanzi": "太", "pinyin": "tài", "vi": "quá" },
+    { "hanzi": "都", "pinyin": "dōu", "vi": "đều" },
+    { "hanzi": "些", "pinyin": "xiē", "vi": "một vài, một ít" },
+    { "hanzi": "好", "pinyin": "hǎo", "vi": "tốt, hay" },
+    { "hanzi": "有", "pinyin": "yǒu", "vi": "có" },
+    { "hanzi": "没有", "pinyin": "méiyǒu", "vi": "không có" },
+    { "hanzi": "在", "pinyin": "zài", "vi": "ở, tại" }
+  ]
+}

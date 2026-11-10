@@ -1,0 +1,21 @@
+{
+  "title": "Thời gian và thời tiết",
+  "words": [
+    { "hanzi": "早上", "pinyin": "zǎoshang", "vi": "sáng sớm" },
+    { "hanzi": "晚上", "pinyin": "wǎnshang", "vi": "buổi tối" },
+    { "hanzi": "去年", "pinyin": "qùnián", "vi": "năm ngoái" },
+    { "hanzi": "日", "pinyin": "rì", "vi": "ngày" },
+    { "hanzi": "小时", "pinyin": "xiǎoshí", "vi": "tiếng (đồng hồ)" },
+    { "hanzi": "时间", "pinyin": "shíjiān", "vi": "thời gian" },
+    { "hanzi": "生日", "pinyin": "shēngrì", "vi": "sinh nhật" },
+    { "hanzi": "第一", "pinyin": "dì yī", "vi": "thứ nhất" },
+    { "hanzi": "已经", "pinyin": "yǐjīng", "vi": "đã (rồi)" },
+    { "hanzi": "正在", "pinyin": "zhèngzài", "vi": "đang" },
+    { "hanzi": "开始", "pinyin": "kāishǐ", "vi": "bắt đầu" },
+    { "hanzi": "每", "pinyin": "měi", "vi": "mỗi" },
+    { "hanzi": "次", "pinyin": "cì", "vi": "lần" },
+    { "hanzi": "晴", "pinyin": "qíng", "vi": "trời nắng" },
+    { "hanzi": "阴", "pinyin": "yīn", "vi": "trời âm u" },
+    { "hanzi": "雪", "pinyin": "xuě", "vi": "tuyết" }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "title": "Số đếm và tiền",
+  "words": [
+    { "hanzi": "一", "pinyin": "yī", "vi": "một" },
+    { "hanzi": "二", "pinyin": "èr", "vi": "hai" },
+    { "hanzi": "三", "pinyin": "sān", "vi": "ba" },
+    { "hanzi": "四", "pinyin": "sì", "vi": "bốn" },
+    { "hanzi": "五", "pinyin": "wǔ", "vi": "năm" },
+    { "hanzi": "六", "pinyin": "liù", "vi": "sáu" },
+    { "hanzi": "七", "pinyin": "qī", "vi": "bảy" },
+    { "hanzi": "八", "pinyin": "bā", "vi": "tám" },
+    { "hanzi": "九", "pinyin": "jiǔ", "vi": "chín" },
+    { "hanzi": "十", "pinyin": "shí", "vi": "mười" },
+    { "hanzi": "零", "pinyin": "líng", "vi": "số không" },
+    { "hanzi": "几", "pinyin": "jǐ", "vi": "mấy" },
+    { "hanzi": "多少", "pinyin": "duōshao", "vi": "bao nhiêu" },
+    { "hanzi": "个", "pinyin": "gè", "vi": "cái (lượng từ chung)" },
+    { "hanzi": "岁", "pinyin": "suì", "vi": "tuổi" },
+    { "hanzi": "块", "pinyin": "kuài", "vi": "đồng (tiền)" },
+    { "hanzi": "钱", "pinyin": "qián", "vi": "tiền" }
+  ]
+}

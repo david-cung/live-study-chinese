@@ -1,0 +1,19 @@
+{
+  "title": "Đi lại và sinh hoạt",
+  "words": [
+    { "hanzi": "坐", "pinyin": "zuò", "vi": "ngồi, đi (xe)" },
+    { "hanzi": "出租车", "pinyin": "chūzūchē", "vi": "taxi" },
+    { "hanzi": "飞机", "pinyin": "fēijī", "vi": "máy bay" },
+    { "hanzi": "开", "pinyin": "kāi", "vi": "mở, lái (xe)" },
+    { "hanzi": "回", "pinyin": "huí", "vi": "về" },
+    { "hanzi": "住", "pinyin": "zhù", "vi": "sống, ở (chỗ ở)" },
+    { "hanzi": "做", "pinyin": "zuò", "vi": "làm" },
+    { "hanzi": "打电话", "pinyin": "dǎ diànhuà", "vi": "gọi điện thoại" },
+    { "hanzi": "看见", "pinyin": "kànjiàn", "vi": "nhìn thấy" },
+    { "hanzi": "认识", "pinyin": "rènshi", "vi": "quen biết" },
+    { "hanzi": "会", "pinyin": "huì", "vi": "biết (làm gì)" },
+    { "hanzi": "能", "pinyin": "néng", "vi": "có thể" },
+    { "hanzi": "天气", "pinyin": "tiānqì", "vi": "thời tiết" },
+    { "hanzi": "下雨", "pinyin": "xià yǔ", "vi": "trời mưa" }
+  ]
+}

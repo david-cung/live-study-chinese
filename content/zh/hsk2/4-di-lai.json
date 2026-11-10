@@ -1,0 +1,26 @@
+{
+  "title": "Đi lại và nơi chốn",
+  "words": [
+    { "hanzi": "机场", "pinyin": "jīchǎng", "vi": "sân bay" },
+    { "hanzi": "公共汽车", "pinyin": "gōnggòng qìchē", "vi": "xe buýt" },
+    { "hanzi": "宾馆", "pinyin": "bīnguǎn", "vi": "khách sạn" },
+    { "hanzi": "公司", "pinyin": "gōngsī", "vi": "công ty" },
+    { "hanzi": "教室", "pinyin": "jiàoshì", "vi": "phòng học" },
+    { "hanzi": "房间", "pinyin": "fángjiān", "vi": "căn phòng" },
+    { "hanzi": "门", "pinyin": "mén", "vi": "cửa" },
+    { "hanzi": "路", "pinyin": "lù", "vi": "con đường" },
+    { "hanzi": "票", "pinyin": "piào", "vi": "vé" },
+    { "hanzi": "旅游", "pinyin": "lǚyóu", "vi": "du lịch" },
+    { "hanzi": "远", "pinyin": "yuǎn", "vi": "xa" },
+    { "hanzi": "近", "pinyin": "jìn", "vi": "gần" },
+    { "hanzi": "离", "pinyin": "lí", "vi": "cách (khoảng cách)" },
+    { "hanzi": "旁边", "pinyin": "pángbiān", "vi": "bên cạnh" },
+    { "hanzi": "左边", "pinyin": "zuǒbian", "vi": "bên trái" },
+    { "hanzi": "右边", "pinyin": "yòubian", "vi": "bên phải" },
+    { "hanzi": "外", "pinyin": "wài", "vi": "bên ngoài" },
+    { "hanzi": "往", "pinyin": "wǎng", "vi": "về phía, hướng về" },
+    { "hanzi": "走", "pinyin": "zǒu", "vi": "đi bộ" },
+    { "hanzi": "进", "pinyin": "jìn", "vi": "đi vào" },
+    { "hanzi": "出", "pinyin": "chū", "vi": "đi ra" }
+  ]
+}

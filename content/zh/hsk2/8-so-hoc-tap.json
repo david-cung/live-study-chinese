@@ -1,0 +1,13 @@
+{
+  "title": "Số và học tập",
+  "words": [
+    { "hanzi": "两", "pinyin": "liǎng", "vi": "hai (khi đếm)" },
+    { "hanzi": "百", "pinyin": "bǎi", "vi": "trăm" },
+    { "hanzi": "千", "pinyin": "qiān", "vi": "nghìn" },
+    { "hanzi": "课", "pinyin": "kè", "vi": "bài học, tiết học" },
+    { "hanzi": "题", "pinyin": "tí", "vi": "đề bài" },
+    { "hanzi": "问题", "pinyin": "wèntí", "vi": "câu hỏi, vấn đề" },
+    { "hanzi": "意思", "pinyin": "yìsi", "vi": "ý nghĩa" },
+    { "hanzi": "事情", "pinyin": "shìqing", "vi": "sự việc" }
+  ]
+}

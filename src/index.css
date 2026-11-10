@@ -1,0 +1,258 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800;900&family=Noto+Sans+SC:wght@500;700;900&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --font-quan: 'Be Vietnam Pro', system-ui, sans-serif;
+}
+
+html,
+body {
+  margin: 0;
+  background: #000;
+  font-family: var(--font-quan);
+}
+
+.input {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 14px;
+  color: white;
+  outline: none;
+}
+.input:focus {
+  border-color: #ffd36b;
+}
+.btn {
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter 0.15s;
+}
+.btn:hover {
+  filter: brightness(1.15);
+}
+.btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* ---------- Classroom ---------- */
+.classroom {
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(255, 245, 220, 0.55), transparent 60%),
+    linear-gradient(#cdb48a, #e6d3ad 40%, #d9c29a 55%);
+}
+.floor {
+  background-color: #b07a4a;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+  background-size: 100% 22px, 70px 22px;
+  box-shadow: inset 0 14px 18px rgba(0, 0, 0, 0.25);
+}
+.board-frame {
+  background: linear-gradient(#8a5a32, #6b4423);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+.board {
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(255, 255, 255, 0.07), transparent 55%),
+    radial-gradient(ellipse at 80% 90%, rgba(255, 255, 255, 0.05), transparent 50%),
+    #1f4d3a;
+  box-shadow: inset 0 0 22px rgba(0, 0, 0, 0.55);
+}
+.chalk {
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.9), 0 0 8px rgba(255, 255, 255, 0.25);
+}
+.chalk-stroke {
+  -webkit-text-stroke: 1.5px #3a2a10;
+  paint-order: stroke fill;
+  text-shadow: 0 4px 0 #3a2a10, 0 0 18px rgba(255, 210, 90, 0.7);
+}
+.zh-font {
+  font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', var(--font-quan);
+}
+.desk-top {
+  background: linear-gradient(#d9a066, #c08350);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+.desk-front {
+  background: linear-gradient(#a8693a, #8a5430);
+  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.3);
+}
+.chair-seat {
+  background: linear-gradient(#5b7fa6, #46668a);
+}
+
+/* ---------- Viewers ---------- */
+.guest-in {
+  animation: guest-in 0.5s ease-out;
+}
+@keyframes guest-in {
+  from { opacity: 0; margin-top: -18px; }
+  to { opacity: 1; margin-top: 0; }
+}
+.guest-idle {
+  animation: sway 3.2s ease-in-out infinite;
+}
+@keyframes sway {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg) translateY(-1px); }
+}
+.guest-cheer {
+  animation: hop 0.45s ease-in-out infinite;
+}
+@keyframes hop {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+.hand-up {
+  animation: hand 0.8s ease-in-out infinite;
+  transform-origin: 50% 100%;
+}
+@keyframes hand {
+  0%, 100% { transform: rotate(-10deg); }
+  50% { transform: rotate(10deg); }
+}
+.card-in {
+  animation: card-in 0.5s cubic-bezier(0.2, 1.6, 0.4, 1);
+}
+@keyframes card-in {
+  from { transform: rotateX(90deg) scale(0.6); opacity: 0; }
+  to { transform: rotateX(0) scale(1); opacity: 1; }
+}
+.card-fresh {
+  box-shadow: 0 0 0 2px #ff5b8a, 0 0 12px 3px rgba(255, 91, 138, 0.8);
+}
+.join-tag {
+  animation: join-tag 2.6s ease-out forwards;
+}
+@keyframes join-tag {
+  0% { opacity: 0; transform: translateY(10px) scale(0.6); }
+  12% { opacity: 1; transform: translateY(0) scale(1.1); }
+  20% { transform: scale(1); }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+.sparkle {
+  animation: sparkle 1.3s ease-in-out infinite;
+}
+@keyframes sparkle {
+  0%, 100% { transform: translateX(-50%) scale(0.8) rotate(0deg); opacity: 0.6; }
+  50% { transform: translateX(-50%) scale(1.25) rotate(20deg); opacity: 1; }
+}
+.check-pop {
+  animation: pop-in 0.35s cubic-bezier(0.2, 1.6, 0.4, 1);
+}
+.welcome-in {
+  animation: welcome-in 4s ease-out forwards;
+}
+@keyframes welcome-in {
+  0% { opacity: 0; transform: translateY(8px); }
+  10%, 85% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; }
+}
+.bubble-in {
+  animation: bubble-in 0.25s ease-out;
+}
+@keyframes bubble-in {
+  from { opacity: 0; transform: translate(-50%, 6px) scale(0.8); }
+  to { opacity: 1; transform: translate(-50%, 0) scale(1); }
+}
+
+/* ---------- Board ---------- */
+.word-in {
+  animation: pop-in 0.45s cubic-bezier(0.2, 1.5, 0.4, 1);
+}
+@keyframes pop-in {
+  from { transform: scale(0.4); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.speaker {
+  animation: speaker 1s ease-in-out infinite;
+}
+@keyframes speaker {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+}
+.timer-pulse {
+  animation: speaker 0.5s ease-in-out infinite;
+}
+.option-right {
+  animation: option-right 0.6s ease-out;
+  box-shadow: 0 0 14px rgba(63, 220, 124, 0.8);
+}
+@keyframes option-right {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+/* ---------- Teacher ---------- */
+.teacher-idle {
+  animation: teacher-breathe 3.6s ease-in-out infinite;
+  transform-origin: 50% 100%;
+}
+@keyframes teacher-breathe {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(1.008) translateY(-1px); }
+}
+.teacher-talk {
+  animation: teacher-talk 1.6s ease-in-out infinite;
+  transform-origin: 50% 100%;
+}
+@keyframes teacher-talk {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  25% { transform: rotate(-1.2deg) translateY(-2px); }
+  75% { transform: rotate(0.8deg) translateY(-1px); }
+}
+/* While viewers answer she taps the ruler towards the board */
+.teacher-point {
+  animation: teacher-point 1.2s ease-in-out infinite;
+  transform-origin: 50% 100%;
+}
+@keyframes teacher-point {
+  0%, 100% { transform: rotate(0deg); }
+  15% { transform: rotate(-2.2deg); }
+  30% { transform: rotate(0deg); }
+}
+.sound-wave {
+  animation: speaker 0.6s ease-in-out infinite;
+}
+.caption-in {
+  animation: pop-in 0.2s ease-out;
+}
+
+/* ---------- Overlays ---------- */
+.qa-in {
+  animation: qa-in 8s ease-out forwards;
+}
+@keyframes qa-in {
+  0% { opacity: 0; transform: translateY(12px) scale(0.92); }
+  5% { opacity: 1; transform: translateY(0) scale(1); }
+  94% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-6px); }
+}
+.bonus-pop {
+  animation: pop-in 0.5s cubic-bezier(0.2, 1.6, 0.4, 1);
+}
+.banner-in {
+  animation: banner-in 0.45s cubic-bezier(0.2, 1.4, 0.4, 1) forwards;
+  transform: translateX(-50%);
+}
+@keyframes banner-in {
+  from { transform: translateX(-50%) translateY(-20px) scale(0.7); opacity: 0; }
+  to { transform: translateX(-50%) translateY(0) scale(1); opacity: 1; }
+}
+.marquee {
+  display: inline-block;
+  animation: marquee 45s linear infinite;
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}

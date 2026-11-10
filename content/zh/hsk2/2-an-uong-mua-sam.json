@@ -1,0 +1,25 @@
+{
+  "title": "Ăn uống và mua sắm",
+  "words": [
+    { "hanzi": "鸡蛋", "pinyin": "jīdàn", "vi": "trứng gà" },
+    { "hanzi": "面条", "pinyin": "miàntiáo", "vi": "mì sợi" },
+    { "hanzi": "牛奶", "pinyin": "niúnǎi", "vi": "sữa bò" },
+    { "hanzi": "咖啡", "pinyin": "kāfēi", "vi": "cà phê" },
+    { "hanzi": "西瓜", "pinyin": "xīguā", "vi": "dưa hấu" },
+    { "hanzi": "羊肉", "pinyin": "yángròu", "vi": "thịt cừu" },
+    { "hanzi": "鱼", "pinyin": "yú", "vi": "con cá" },
+    { "hanzi": "卖", "pinyin": "mài", "vi": "bán" },
+    { "hanzi": "贵", "pinyin": "guì", "vi": "đắt" },
+    { "hanzi": "便宜", "pinyin": "piányi", "vi": "rẻ" },
+    { "hanzi": "件", "pinyin": "jiàn", "vi": "chiếc (lượng từ cho áo, việc)" },
+    { "hanzi": "穿", "pinyin": "chuān", "vi": "mặc (quần áo)" },
+    { "hanzi": "颜色", "pinyin": "yánsè", "vi": "màu sắc" },
+    { "hanzi": "白", "pinyin": "bái", "vi": "màu trắng" },
+    { "hanzi": "黑", "pinyin": "hēi", "vi": "màu đen" },
+    { "hanzi": "红", "pinyin": "hóng", "vi": "màu đỏ" },
+    { "hanzi": "手表", "pinyin": "shǒubiǎo", "vi": "đồng hồ đeo tay" },
+    { "hanzi": "手机", "pinyin": "shǒujī", "vi": "điện thoại di động" },
+    { "hanzi": "报纸", "pinyin": "bàozhǐ", "vi": "tờ báo" },
+    { "hanzi": "铅笔", "pinyin": "qiānbǐ", "vi": "bút chì" }
+  ]
+}

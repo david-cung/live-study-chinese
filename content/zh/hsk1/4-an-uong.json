@@ -1,0 +1,19 @@
+{
+  "title": "Ăn uống và mua sắm",
+  "words": [
+    { "hanzi": "吃", "pinyin": "chī", "vi": "ăn" },
+    { "hanzi": "喝", "pinyin": "hē", "vi": "uống" },
+    { "hanzi": "水", "pinyin": "shuǐ", "vi": "nước" },
+    { "hanzi": "茶", "pinyin": "chá", "vi": "trà" },
+    { "hanzi": "米饭", "pinyin": "mǐfàn", "vi": "cơm" },
+    { "hanzi": "菜", "pinyin": "cài", "vi": "món ăn, rau" },
+    { "hanzi": "水果", "pinyin": "shuǐguǒ", "vi": "trái cây" },
+    { "hanzi": "苹果", "pinyin": "píngguǒ", "vi": "quả táo" },
+    { "hanzi": "杯子", "pinyin": "bēizi", "vi": "cái cốc" },
+    { "hanzi": "饭店", "pinyin": "fàndiàn", "vi": "nhà hàng" },
+    { "hanzi": "好吃", "pinyin": "hǎochī", "vi": "ngon" },
+    { "hanzi": "买", "pinyin": "mǎi", "vi": "mua" },
+    { "hanzi": "商店", "pinyin": "shāngdiàn", "vi": "cửa hàng" },
+    { "hanzi": "衣服", "pinyin": "yīfu", "vi": "quần áo" }
+  ]
+}

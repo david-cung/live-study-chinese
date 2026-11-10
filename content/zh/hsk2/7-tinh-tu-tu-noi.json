@@ -1,0 +1,33 @@
+{
+  "title": "Tính từ và từ nối",
+  "words": [
+    { "hanzi": "快", "pinyin": "kuài", "vi": "nhanh" },
+    { "hanzi": "慢", "pinyin": "màn", "vi": "chậm" },
+    { "hanzi": "新", "pinyin": "xīn", "vi": "mới" },
+    { "hanzi": "长", "pinyin": "cháng", "vi": "dài" },
+    { "hanzi": "高", "pinyin": "gāo", "vi": "cao" },
+    { "hanzi": "对", "pinyin": "duì", "vi": "đúng" },
+    { "hanzi": "错", "pinyin": "cuò", "vi": "sai" },
+    { "hanzi": "真", "pinyin": "zhēn", "vi": "thật, thật là" },
+    { "hanzi": "快乐", "pinyin": "kuàilè", "vi": "hạnh phúc, vui" },
+    { "hanzi": "非常", "pinyin": "fēicháng", "vi": "vô cùng, rất" },
+    { "hanzi": "最", "pinyin": "zuì", "vi": "nhất" },
+    { "hanzi": "也", "pinyin": "yě", "vi": "cũng" },
+    { "hanzi": "还", "pinyin": "hái", "vi": "vẫn, còn" },
+    { "hanzi": "再", "pinyin": "zài", "vi": "lại, nữa" },
+    { "hanzi": "别", "pinyin": "bié", "vi": "đừng" },
+    { "hanzi": "一起", "pinyin": "yìqǐ", "vi": "cùng nhau" },
+    { "hanzi": "一下", "pinyin": "yíxià", "vi": "một chút, một lát" },
+    { "hanzi": "可能", "pinyin": "kěnéng", "vi": "có lẽ" },
+    { "hanzi": "可以", "pinyin": "kěyǐ", "vi": "có thể" },
+    { "hanzi": "要", "pinyin": "yào", "vi": "cần, sẽ" },
+    { "hanzi": "因为", "pinyin": "yīnwèi", "vi": "bởi vì" },
+    { "hanzi": "所以", "pinyin": "suǒyǐ", "vi": "cho nên" },
+    { "hanzi": "但是", "pinyin": "dànshì", "vi": "nhưng" },
+    { "hanzi": "虽然", "pinyin": "suīrán", "vi": "mặc dù" },
+    { "hanzi": "为什么", "pinyin": "wèi shénme", "vi": "tại sao" },
+    { "hanzi": "比", "pinyin": "bǐ", "vi": "so với" },
+    { "hanzi": "从", "pinyin": "cóng", "vi": "từ (nơi, lúc)" },
+    { "hanzi": "到", "pinyin": "dào", "vi": "đến (nơi)" }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "title": "Chào hỏi và xưng hô",
+  "words": [
+    { "hanzi": "你好", "pinyin": "nǐ hǎo", "vi": "xin chào" },
+    { "hanzi": "谢谢", "pinyin": "xièxie", "vi": "cảm ơn" },
+    { "hanzi": "不客气", "pinyin": "bú kèqi", "vi": "không có gì" },
+    { "hanzi": "对不起", "pinyin": "duìbuqǐ", "vi": "xin lỗi" },
+    { "hanzi": "没关系", "pinyin": "méi guānxi", "vi": "không sao" },
+    { "hanzi": "再见", "pinyin": "zàijiàn", "vi": "tạm biệt" },
+    { "hanzi": "请", "pinyin": "qǐng", "vi": "xin mời" },
+    { "hanzi": "是", "pinyin": "shì", "vi": "là, phải" },
+    { "hanzi": "不", "pinyin": "bù", "vi": "không" },
+    { "hanzi": "我", "pinyin": "wǒ", "vi": "tôi" },
+    { "hanzi": "你", "pinyin": "nǐ", "vi": "bạn" },
+    { "hanzi": "他", "pinyin": "tā", "vi": "anh ấy" },
+    { "hanzi": "她", "pinyin": "tā", "vi": "cô ấy" },
+    { "hanzi": "我们", "pinyin": "wǒmen", "vi": "chúng tôi" },
+    { "hanzi": "名字", "pinyin": "míngzi", "vi": "tên" },
+    { "hanzi": "叫", "pinyin": "jiào", "vi": "gọi là, tên là" },
+    { "hanzi": "喂", "pinyin": "wèi", "vi": "a-lô" }
+  ]
+}

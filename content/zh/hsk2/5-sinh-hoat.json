@@ -1,0 +1,23 @@
+{
+  "title": "Sinh hoạt và thể thao",
+  "words": [
+    { "hanzi": "起床", "pinyin": "qǐchuáng", "vi": "thức dậy" },
+    { "hanzi": "上班", "pinyin": "shàngbān", "vi": "đi làm" },
+    { "hanzi": "休息", "pinyin": "xiūxi", "vi": "nghỉ ngơi" },
+    { "hanzi": "洗", "pinyin": "xǐ", "vi": "rửa, giặt" },
+    { "hanzi": "玩", "pinyin": "wán", "vi": "chơi" },
+    { "hanzi": "唱歌", "pinyin": "chànggē", "vi": "hát" },
+    { "hanzi": "跳舞", "pinyin": "tiàowǔ", "vi": "nhảy múa" },
+    { "hanzi": "游泳", "pinyin": "yóuyǒng", "vi": "bơi lội" },
+    { "hanzi": "跑步", "pinyin": "pǎobù", "vi": "chạy bộ" },
+    { "hanzi": "踢足球", "pinyin": "tī zúqiú", "vi": "đá bóng" },
+    { "hanzi": "打篮球", "pinyin": "dǎ lánqiú", "vi": "chơi bóng rổ" },
+    { "hanzi": "运动", "pinyin": "yùndòng", "vi": "thể thao, vận động" },
+    { "hanzi": "身体", "pinyin": "shēntǐ", "vi": "cơ thể, sức khỏe" },
+    { "hanzi": "生病", "pinyin": "shēngbìng", "vi": "bị ốm" },
+    { "hanzi": "药", "pinyin": "yào", "vi": "thuốc" },
+    { "hanzi": "眼睛", "pinyin": "yǎnjing", "vi": "mắt" },
+    { "hanzi": "累", "pinyin": "lèi", "vi": "mệt" },
+    { "hanzi": "忙", "pinyin": "máng", "vi": "bận" }
+  ]
+}

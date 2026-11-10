@@ -1,0 +1,19 @@
+{
+  "title": "Thời gian",
+  "words": [
+    { "hanzi": "今天", "pinyin": "jīntiān", "vi": "hôm nay" },
+    { "hanzi": "明天", "pinyin": "míngtiān", "vi": "ngày mai" },
+    { "hanzi": "昨天", "pinyin": "zuótiān", "vi": "hôm qua" },
+    { "hanzi": "年", "pinyin": "nián", "vi": "năm (thời gian)" },
+    { "hanzi": "月", "pinyin": "yuè", "vi": "tháng" },
+    { "hanzi": "号", "pinyin": "hào", "vi": "ngày (trong tháng)" },
+    { "hanzi": "星期", "pinyin": "xīngqī", "vi": "tuần, thứ" },
+    { "hanzi": "点", "pinyin": "diǎn", "vi": "giờ" },
+    { "hanzi": "分钟", "pinyin": "fēnzhōng", "vi": "phút" },
+    { "hanzi": "现在", "pinyin": "xiànzài", "vi": "bây giờ" },
+    { "hanzi": "时候", "pinyin": "shíhou", "vi": "lúc, khi" },
+    { "hanzi": "上午", "pinyin": "shàngwǔ", "vi": "buổi sáng" },
+    { "hanzi": "中午", "pinyin": "zhōngwǔ", "vi": "buổi trưa" },
+    { "hanzi": "下午", "pinyin": "xiàwǔ", "vi": "buổi chiều" }
+  ]
+}
