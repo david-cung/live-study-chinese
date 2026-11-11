@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from 'react';
 import type { AiState, ChatItem, LessonInfo, LiveStatus, MusicState, QuizState } from '../types';
 import { QUIZ_KINDS, QUIZ_LABELS } from '../quizModes';
 import { TEACHERS, type Teacher } from '../teacher';
+import { HSK_LEVELS } from '../examTypes';
 
 const STAGE_URL = `http://lvh.me:${location.port || 3002}/?view=stage`;
 
@@ -84,6 +85,7 @@ export default function Dashboard({
   const dot = status.isConnected ? 'bg-green-500' : status.isConnecting ? 'bg-yellow-400 animate-pulse' : 'bg-gray-500';
   const label = status.isConnected ? `Đã nối @${status.username}` : status.isConnecting ? `Đang nối @${status.username}...` : 'Chưa kết nối';
   const phaseLabel = quiz.phase === 'asking' ? `Đang hỏi câu ${quiz.question?.no}` : quiz.phase === 'reveal' ? 'Đang công bố đáp án' : 'Đang nghỉ';
+  const isExam = quiz.activity === 'exam';
 
   return (
     <div className="min-h-screen bg-[#121a16] text-white flex flex-wrap gap-6 p-6 justify-center">
@@ -144,17 +146,28 @@ export default function Dashboard({
         </Card>
 
         <Card title="3. Lớp học">
+          <div className="grid grid-cols-2 gap-2 mb-3">
+            {([['study', '📚 Học tập'], ['exam', '📝 Giải đề']] as const).map(([value, title]) => (
+              <button key={value} aria-pressed={(quiz.activity || 'study') === value}
+                className={`btn ${(quiz.activity || 'study') === value ? 'bg-[#3f7fd8]' : 'bg-white/10'}`}
+                onClick={() => run(() => control('quiz', `activity:${value}`), `Đã chuyển sang ${title}`)}>{title}</button>
+            ))}
+          </div>
           <div className="text-xs text-white/60 mb-2">
             {phaseLabel} · {quiz.running ? 'đang chạy' : 'đã dừng'}
-            {quiz.bonusPending && <span className="text-[#ffd36b]"> · câu tới là câu thưởng x3</span>}
+            {!isExam && quiz.bonusPending && <span className="text-[#ffd36b]"> · câu tới là câu thưởng x3</span>}
           </div>
-          <select aria-label="Bài học" className="input w-full mb-2" value={quiz.lessonId} onChange={(e) => run(() => control('quiz', `lesson:${e.target.value}`), 'Đã đổi bài học')}>
-            {lessons.map((l) => (
-              <option key={l.id} value={l.id}>
-                {l.title} ({l.count} từ)
-              </option>
-            ))}
+          <label className="block text-xs font-semibold text-white/70 mb-1" htmlFor="hsk-level">Cấp độ</label>
+          <select id="hsk-level" aria-label="Cấp độ HSK" className="input w-full mb-2" value={quiz.lessonId} onChange={(e) => run(() => control('quiz', `lesson:${e.target.value}`), 'Đã đổi cấp độ')}>
+            {HSK_LEVELS.map((level) => <option key={level} value={level} disabled={!isExam && !lessons.some((l) => l.id === level)}>
+              {level.toUpperCase()}{isExam ? ' · Bộ luyện 01 · 20 câu' : ` (${lessons.find((l) => l.id === level)?.count || 0} từ)`}
+            </option>)}
           </select>
+          {isExam ? <div className="rounded-lg border border-[#7ad0ff]/30 bg-[#7ad0ff]/10 p-3 text-xs leading-relaxed mb-3">
+            <b>{quiz.exam?.title}</b> · 10 câu nghe + 10 câu đọc.<br />
+            Xem mẹo → nghe hai lần → thử đáp án → chữa bài. Bấm Câu tiếp theo khi chữa xong. Có thể mở trả lời thủ công nếu chưa mở sân khấu có tiếng.
+            <p className="text-white/60 mt-1">Bộ luyện rút gọn tự biên soạn, không phải đề thi chính thức. Đổi chế độ hoặc cấp độ sẽ bắt đầu lại đề.</p>
+          </div> : <>
           <label className="block text-xs font-semibold text-white/70 mb-1" htmlFor="quiz-mode">Dạng câu hỏi</label>
           <select id="quiz-mode" className="input w-full" value={quiz.mode} onChange={(e) => run(() => control('quiz', `mode:${e.target.value}`), 'Đã chọn dạng bài cho câu tiếp theo')}>
             <option value="mixed">🎲 Xen kẽ tất cả dạng bài</option>
@@ -163,6 +176,7 @@ export default function Dashboard({
             ))}
           </select>
           <div className="text-xs text-white/50 mt-1 mb-2">Áp dụng từ câu tiếp theo. Người xem vẫn trả lời A, B, C hoặc D.</div>
+          </>}
           <div className="grid grid-cols-3 gap-2">
             {quiz.running ? (
               <button className="btn bg-[#f08a3c]" onClick={() => run(() => control('quiz', 'pause'), 'Đã tạm dừng')}>
@@ -170,14 +184,14 @@ export default function Dashboard({
               </button>
             ) : (
               <button className="btn bg-[#3fae6b]" onClick={() => run(() => control('quiz', 'start'), 'Lớp bắt đầu!')}>
-                ▶️ Bắt đầu
+                ▶️ {isExam && quiz.question ? 'Tiếp tục' : 'Bắt đầu'}
               </button>
             )}
-            <button className="btn bg-white/10" onClick={() => run(() => control('quiz', 'skip'), 'Đã sang câu mới')}>
-              ⏭ Câu mới
+            <button className="btn bg-white/10 disabled:opacity-40" disabled={isExam && (!quiz.running || !quiz.question)} onClick={() => run(() => control('quiz', 'skip'), isExam && quiz.phase === 'asking' ? 'Đang chữa bài' : 'Đã sang câu mới')}>
+              {isExam ? quiz.phase === 'asking' ? '✓ Chữa câu' : quiz.exam?.position === quiz.exam?.total ? '🏁 Kết thúc đề' : '⏭ Câu tiếp theo' : '⏭ Câu mới'}
             </button>
-            <button className="btn bg-white/10" onClick={() => confirm('Xoá toàn bộ điểm của buổi này?') && run(() => control('quiz', 'reset'), 'Đã xoá điểm')}>
-              🧹 Xoá điểm
+            <button className="btn bg-white/10" onClick={() => confirm(isExam ? 'Làm lại đề và xoá kết quả giải đề?' : 'Xoá toàn bộ điểm của buổi này?') && run(() => control('quiz', isExam ? 'restartExam' : 'reset'), isExam ? 'Đã đặt lại đề' : 'Đã xoá điểm')}>
+              {isExam ? '↻ Làm lại đề' : '🧹 Xoá điểm'}
             </button>
           </div>
           <button
@@ -187,6 +201,16 @@ export default function Dashboard({
           >
             🔊 Đọc lại gợi ý câu hỏi
           </button>
+          {isExam && quiz.running && quiz.phase === 'asking' && !quiz.question?.endsAt && <button className="btn bg-[#3fae6b] w-full mt-2"
+            onClick={() => run(() => control('quiz', `openExam:${quiz.question?.no}`), 'Đã bắt đầu tính giờ trả lời')}>⏱ Mở trả lời khi đã sẵn sàng</button>}
+          {isExam && <div className="text-xs mt-3 space-y-1">
+            <div>Tiến độ: {quiz.exam?.position || 0}/{quiz.exam?.total || 20} câu · {quiz.exam?.completed ? 'Đã hoàn thành' : 'Đang luyện'}</div>
+            <div className="text-white/60">Mỗi câu đúng = 1 điểm, không cộng tốc độ hay nhân điểm quà tặng.</div>
+            {quiz.exam?.results.slice(0, 10).map((r) => <div key={r.username} className="flex justify-between gap-2 bg-white/5 rounded px-2 py-1">
+              <span className="truncate">{r.nickname}</span><span className="shrink-0">Nghe {r.listening}/10 · Đọc {r.reading}/10 · Tổng {r.listening + r.reading}/20</span>
+            </div>)}
+          </div>}
+          {!isExam && <>
           <div className="text-xs text-white/60 mt-3 mb-1.5">Thời gian trả lời mỗi câu:</div>
           <div className="grid grid-cols-4 gap-1.5">
             {[10, 15, 20, 30].map((s) => (
@@ -198,6 +222,7 @@ export default function Dashboard({
           <div className="text-xs text-white/40 mt-2 leading-relaxed">
             Chế độ xen kẽ đổi dạng sau mỗi câu: nghe, chọn nghĩa, điền từ, pinyin và tìm chữ theo nghĩa.
           </div>
+          </>}
           <button
             className="btn bg-[#9b5de5] w-full mt-3 disabled:opacity-50"
             disabled={endingLesson}

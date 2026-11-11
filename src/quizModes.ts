@@ -20,6 +20,7 @@ const zh = (text: string): Speech => ({ text, lang: 'zh' });
 // Used both for auto-repeat and the viewer's "đọc lại" command. Reading the
 // hidden target here would give away fill/reverse/pinyin answers mid-question.
 export function repeatQuestionSpeech(q: QuizQuestion): Speech[] {
+  if (q.exam) return [vi(q.exam.instruction), vi(`Mẹo nhanh: ${q.exam.hint}`)];
   if (q.kind === 'meaning' || q.kind === 'listen') return [zh(`${q.word.hanzi}。……${q.word.hanzi}。`)];
   if (q.kind === 'reverse') return [vi(q.word.vi)];
   if (q.kind === 'fill' && q.context) return [zh(q.context.sentence.replace('___', '，……，'))];
@@ -27,6 +28,7 @@ export function repeatQuestionSpeech(q: QuizQuestion): Speech[] {
 }
 
 export function questionIntroSpeech(q: QuizQuestion): Speech[] {
+  if (q.exam) return [vi(q.exam.instruction), vi(`Mẹo nhanh: ${q.exam.hint}`)];
   const instructions: Record<QuizKind, string> = {
     meaning: 'Nghe cô đọc, chữ này nghĩa là gì?',
     listen: 'Nghe và chọn chữ đúng.',
@@ -38,6 +40,11 @@ export function questionIntroSpeech(q: QuizQuestion): Speech[] {
 }
 
 export function questionRevealSpeech(q: QuizQuestion): Speech[] {
+  if (q.exam) return [
+    ...(q.exam.transcript ? [zh(q.exam.transcript)] : []),
+    ...(q.exam.translation ? [vi(q.exam.translation)] : []),
+    ...(q.exam.explanation ? [vi(q.exam.explanation)] : []),
+  ];
   if (q.kind === 'fill' && q.context) {
     return [zh(q.context.sentence.replace('___', q.word.hanzi)), vi(q.context.vi)];
   }

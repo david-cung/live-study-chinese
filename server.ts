@@ -545,6 +545,9 @@ app.post('/api/control', (req, res) => {
       else if (clean.startsWith('lesson:')) quiz.setLesson(clean.slice(7));
       else if (clean.startsWith('seconds:')) quiz.setSeconds(Number(clean.slice(8)));
       else if (clean.startsWith('mode:')) quiz.setMode(clean.slice(5));
+      else if (clean.startsWith('activity:')) quiz.setActivity(clean.slice(9));
+      else if (clean === 'restartExam') quiz.restartExam();
+      else if (/^openExam:\d+$/.test(clean)) quiz.openExamAnswers(Number(clean.slice(9)));
       else return fail('Lệnh lớp học không hợp lệ');
       saveSettings();
       return res.json({ success: true });
@@ -602,6 +605,15 @@ app.post('/api/control', (req, res) => {
   }
   broadcast('control', { action, text: action === 'setName' ? channelName : clean.slice(0, 500), lang: lang === 'zh' ? 'zh' : 'vi' });
   res.json({ success: true, pages: sseClients.length });
+});
+
+// Only the current listening item is exposed for speech playback; the question view hides the transcript.
+app.get('/api/exam-listening/:no', (req, res) => {
+  const no = Number(req.params.no);
+  const transcript = Number.isInteger(no) ? quiz.examTranscript(no) : undefined;
+  if (!transcript) return res.status(404).json({ error: 'Không có bài nghe cho câu này' });
+  res.setHeader('Cache-Control', 'no-store');
+  res.json({ transcript });
 });
 
 // ---------- Q&A from the dashboard ----------

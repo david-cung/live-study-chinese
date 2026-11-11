@@ -66,9 +66,9 @@ const joinNames = (names: string[]) =>
 
 // Chinese characters go to the Chinese voice, everything else to the Vietnamese one
 const CJK_SPLIT = /([\u3400-\u9fff，。！？、]+)/;
-function sayMixed(text: string, urgent = false, onStart?: () => void) {
+function sayMixed(text: string, urgent = false, onStart?: () => void, onEnd?: () => void) {
   const parts = text.split(CJK_SPLIT).filter((s) => s.trim());
-  parts.forEach((s, i) => sound.say(s, urgent, i === 0 ? onStart : undefined, CJK_SPLIT.test(s) ? 'zh' : 'vi'));
+  parts.forEach((s, i) => sound.say(s, urgent, i === 0 ? onStart : undefined, CJK_SPLIT.test(s) ? 'zh' : 'vi', i === parts.length - 1 ? onEnd : undefined));
   if (parts.length === 0) onStart?.();
 }
 
@@ -164,27 +164,39 @@ export default function App() {
   const onQuiz = useCallback((next: QuizState) => {
     const prev = quizRef.current;
     quizRef.current = next;
-    sound.setQuestion(next.question?.no ?? null);
+    if (next.question?.exam && (next.phase !== prev.phase || !next.running)) sound.setQuestion(null);
+    sound.setQuestion(next.question?.exam && !next.running ? null : next.question?.no ?? null);
     setQuiz(next);
     const q = next.question;
     if (!q) return;
-    if (next.phase === 'asking' && (prev.phase !== 'asking' || prev.question?.no !== q.no)) {
+    if (next.phase === 'asking' && (prev.phase !== 'asking' || prev.question?.no !== q.no || (q.exam && !prev.running && next.running))) {
       setAnswered(new Set());
       // Fixed wording (no question number) so the server's voice cache answers instantly
       if (q.megaBonus) {
         setMegaAt(Date.now());
         sound.say('Câu thưởng lớn, nhân năm điểm!', true);
       } else if (q.bonus) sound.say('Câu thưởng, nhân ba điểm!', true);
-      for (const line of questionIntroSpeech(q)) sound.say(line.text, true, undefined, line.lang);
+      const intro = questionIntroSpeech(q);
+      intro.forEach((line, i) => {
+        const done = q.exam?.section === 'reading' && i === intro.length - 1 ? () => openCurrentExamAnswers(q.no) : undefined;
+        if (q.exam && line.lang === 'vi') sayMixed(line.text, true, undefined, done);
+        else sound.say(line.text, true, undefined, line.lang, done);
+      });
+      if (q.exam?.section === 'listening' && !q.endsAt) void playExamListening(q);
     }
     if (next.phase === 'reveal' && prev.phase === 'asking' && next.correct !== null) {
       revealStartedRef.current = Date.now();
       completedSinceReminderRef.current++;
       sound.bell();
       sound.say(`Hết giờ! Đáp án đúng là ${LETTERS[next.correct]}.`, true, () => sound.ding());
-      for (const line of questionRevealSpeech(q)) sound.say(line.text, true, undefined, line.lang);
+      for (const line of questionRevealSpeech(q)) {
+        if (q.exam && line.lang === 'vi') sayMixed(line.text, true);
+        else sound.say(line.text, true, undefined, line.lang);
+      }
       sayMixed(
-        next.winners.length
+        q.exam
+          ? next.correctUsers.length ? `Có ${next.correctUsers.length} bạn tìm ra đáp án rồi. Cả lớp cùng nhớ mẹo này nhé!` : 'Không sao, mình cùng xem cách tìm đáp án nhé. Câu sau thử lại nha!'
+          : next.winners.length
           ? `Nhanh nhất là ${joinNames(next.winners.slice(0, 2).map((n) => spokenName(n)))}. Giỏi quá!`
           : 'Câu này chưa ai đúng, không sao, câu sau cố lên nha!',
         true,
@@ -195,6 +207,29 @@ export default function App() {
       }
     }
   }, []);
+
+  function openCurrentExamAnswers(no: number) {
+    const latest = quizRef.current;
+    if (STAGE_SOUND && latest.running && latest.phase === 'asking' && latest.question?.no === no && !latest.question.endsAt) {
+      void fetch('/api/control', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'quiz', text: `openExam:${no}` }) }).catch(() => {});
+    }
+  }
+
+  async function playExamListening(q: NonNullable<QuizState['question']>) {
+    if (!STAGE_SOUND) return;
+    try {
+      const response = await fetch(`/api/exam-listening/${q.no}`);
+      if (!response.ok) return;
+      const { transcript } = await response.json();
+      const current = quizRef.current;
+      if (typeof transcript !== 'string' || !current.running || current.phase !== 'asking' || current.question?.no !== q.no) return;
+      sound.group(() => {
+        sound.say(transcript, true, undefined, 'zh');
+        sound.say(transcript, true, undefined, 'zh', () => openCurrentExamAnswers(q.no));
+      }, q.no);
+    } catch { /* The operator can use Open answers if audio is unavailable. */ }
+  }
 
   useEffect(() => {
     if (STAGE_SOUND) sound.enable();
@@ -278,7 +313,7 @@ export default function App() {
       const last = lastGiftVoiceRef.current.get(d.username) || 0;
       if (Date.now() - last > GIFT_VOICE_COOLDOWN_MS) {
         lastGiftVoiceRef.current.set(d.username, Date.now());
-        sayMixed(`${sound.channelName} cảm ơn ${spokenName(g.nickname)} đã tặng quà. Bạn được làm lớp trưởng, câu tới trả lời đúng được gấp đôi điểm!`, true);
+        sayMixed(`${sound.channelName} cảm ơn ${spokenName(g.nickname)} đã tặng quà.${quizRef.current.activity === 'exam' ? ' Cảm ơn bạn đã ủng hộ buổi giải đề!' : ' Bạn được làm lớp trưởng, câu tới trả lời đúng được gấp đôi điểm!'}`, true);
       }
     });
 
@@ -308,7 +343,7 @@ export default function App() {
           sayMixed(`nghĩa là ${p.meaning}.`, true);
         }
       }
-      sayMixed('Bạn được làm lớp trưởng, câu tới trả lời đúng được gấp đôi điểm!', true);
+      sayMixed(quizRef.current.activity === 'exam' ? 'Cảm ơn bạn đã ủng hộ buổi giải đề!' : 'Bạn được làm lớp trưởng, câu tới trả lời đúng được gấp đôi điểm!', true);
     });
 
     on<{ items: { nickname: string; kind: 'follow' | 'share' }[]; extra?: { follow: number; share: number } }>('social', ({ items, extra }) => {
@@ -320,18 +355,20 @@ export default function App() {
       if (quizRef.current.phase === 'asking') return;
       const follows = items.filter((i) => i.kind === 'follow').map((i) => i.nickname);
       const shares = items.filter((i) => i.kind === 'share').map((i) => i.nickname);
-      if (follows.length) sayMixed(`Cảm ơn ${joinNames(follows)} đã follow lớp! Được cộng năm điểm khởi đầu nha.`);
+      if (follows.length) sayMixed(`Cảm ơn ${joinNames(follows)} đã follow lớp!${quizRef.current.activity === 'exam' ? '' : ' Được cộng năm điểm khởi đầu nha.'}`);
       if (shares.length) sayMixed(`Cảm ơn ${joinNames(shares)} đã chia sẻ live!`);
-      if (extra?.follow) sound.say(`Cảm ơn ${extra.follow} bạn nữa đã follow lớp, mỗi bạn được cộng năm điểm!`);
+      if (extra?.follow) sound.say(`Cảm ơn ${extra.follow} bạn nữa đã follow lớp${quizRef.current.activity === 'exam' ? '!' : ', mỗi bạn được cộng năm điểm!'}`);
       if (extra?.share) sound.say(`Cảm ơn ${extra.share} lượt chia sẻ nữa cho lớp!`);
     });
 
     on('bonus', () => {
+      if (quizRef.current.activity === 'exam') return;
       setBonusAt(Date.now());
       sound.say('Đủ ba trăm tim rồi! Câu tiếp theo là câu thưởng, nhân ba điểm!', true);
     });
 
     on<{ kind: string; at: number; vi?: string; zh?: string }>('milestoneReward', (r) => {
+      if (quizRef.current.activity === 'exam') return;
       if (r.kind === 'mega') {
         setMegaAt(Date.now());
         sound.say(r.vi || `Đủ ${r.at} tim! Câu tiếp theo nhân năm điểm!`, true);
@@ -370,12 +407,16 @@ export default function App() {
       if (action === 'musicNext') sound.nextTrack();
       if (action === 'repeatWord') {
         const q = quizRef.current.question;
+        if (q?.exam?.section === 'listening' && quizRef.current.phase === 'asking') {
+          void playExamListening(q);
+          return;
+        }
         if (q) sound.group(() => {
           const lines = quizRef.current.phase === 'reveal' ? questionRevealSpeech(q) : repeatQuestionSpeech(q);
           for (const line of lines) sound.say(line.text, true, undefined, line.lang);
         }, q.no);
       }
-      if (action === 'autoTalk') for (const part of nextTip()) sound.say(part.text, false, undefined, part.lang);
+      if (action === 'autoTalk' && !quizRef.current.question?.exam) for (const part of nextTip()) sound.say(part.text, false, undefined, part.lang);
     });
 
     // ?demo=1 fills this page only with sample viewers, without touching other pages
@@ -402,7 +443,7 @@ export default function App() {
 
       // Wait for a completed block and a quiet reveal; never advertise during an answer window.
       const quiz = quizRef.current;
-      if (!STAGE_SOUND || !quiz.running || quiz.phase !== 'reveal' || !quiz.question ||
+      if (!STAGE_SOUND || !quiz.running || quiz.phase !== 'reveal' || !quiz.question || quiz.activity === 'exam' ||
         quiz.question.no % GIFT_REMINDER_QUESTIONS !== 0 ||
         completedSinceReminderRef.current < GIFT_REMINDER_QUESTIONS ||
         now - lastGiftReminderRef.current < GIFT_REMINDER_MS ||
@@ -421,8 +462,9 @@ export default function App() {
     const countdown = setInterval(() => {
       const q = quizRef.current;
       if (q.phase !== 'asking' || !q.question) return;
+        if (q.question.exam && !q.question.endsAt) return;
       const left = Math.ceil((q.question.endsAt - Date.now()) / 1000);
-      if (q.question.no !== repeatedNo && left <= Math.ceil(q.question.seconds / 2) && left > 3) {
+        if (!q.question.exam && q.question.no !== repeatedNo && left <= Math.ceil(q.question.seconds / 2) && left > 3) {
         repeatedNo = q.question.no;
         sound.group(() => {
           for (const line of repeatQuestionSpeech(q.question!)) sound.say(line.text, true, undefined, line.lang);

@@ -1,0 +1,17 @@
+{
+  "title": "Luyện điền từ HSK5",
+  "cloze": [
+    { "sentence": "改进工作方法可以提高___。", "vi": "Cải tiến cách làm việc có thể nâng cao hiệu suất.", "answer": "效率", "options": ["效率", "负担", "成本", "矛盾"] },
+    { "sentence": "这一结论还需要更多___来支持。", "vi": "Kết luận này cần thêm bằng chứng để chứng minh.", "answer": "证据", "options": ["证据", "利润", "规模", "成本"] },
+    { "sentence": "请不要___这些看起来很小的问题。", "vi": "Xin đừng xem nhẹ những vấn đề tưởng chừng nhỏ này.", "answer": "忽视", "options": ["忽视", "扩大", "推广", "承担"] },
+    { "sentence": "我们需要根据实际情况___计划。", "vi": "Chúng ta cần điều chỉnh kế hoạch theo tình hình thực tế.", "answer": "调整", "options": ["调整", "避免", "反映", "承担"] },
+    { "sentence": "公司决定___生产规模，增加工厂数量。", "vi": "Công ty quyết định mở rộng quy mô sản xuất, tăng số nhà máy.", "answer": "扩大", "options": ["扩大", "缩小", "避免", "忽视"] },
+    { "sentence": "作为负责人，他必须___这次事故的责任。", "vi": "Là người phụ trách, anh ấy phải gánh trách nhiệm về sự cố này.", "answer": "承担", "options": ["承担", "避免", "推广", "反映"] },
+    { "sentence": "增加休息时间有助于减轻员工的___。", "vi": "Tăng thời gian nghỉ giúp giảm gánh nặng của nhân viên.", "answer": "负担", "options": ["负担", "优势", "利润", "质量"] },
+    { "sentence": "传统文化也可以通过___获得新的生命力。", "vi": "Văn hóa truyền thống cũng có thể có sức sống mới nhờ đổi mới sáng tạo.", "answer": "创新", "options": ["创新", "忽视", "成本", "规模"] },
+    { "sentence": "在作出决定前，我们应该认真___各种因素。", "vi": "Trước khi quyết định, chúng ta nên phân tích kỹ các yếu tố.", "answer": "分析", "options": ["分析", "推广", "承担", "扩大"] },
+    { "sentence": "他的意见很___，大家都认为有道理。", "vi": "Ý kiến của anh ấy rất hợp lý, mọi người đều thấy có lý.", "answer": "合理", "options": ["合理", "逐渐", "充分", "稳定"] },
+    { "sentence": "这个调查___了消费者的真实需求。", "vi": "Khảo sát này phản ánh nhu cầu thực của người tiêu dùng.", "answer": "反映", "options": ["反映", "承担", "推广", "避免"] },
+    { "sentence": "随着练习次数增加，他___不再害怕发言。", "vi": "Khi số lần luyện tập tăng, anh ấy dần không còn sợ phát biểu.", "answer": "逐渐", "options": ["逐渐", "充分", "稳定", "明确"] }
+  ]
+}

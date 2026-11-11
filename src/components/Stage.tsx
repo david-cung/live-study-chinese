@@ -73,7 +73,7 @@ export default function Stage(p: StageProps) {
       <div className="absolute left-0 right-0 top-0 px-3 pt-3 flex items-start justify-between z-[1000]">
         <div className="max-w-[62%]">
           <div className="text-[#ffd36b] text-[21px] font-black leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] truncate">{p.channelName}</div>
-          <div className="text-white/85 text-[12px] font-semibold truncate">Học tiếng Trung qua live mỗi ngày</div>
+          <div className="text-white/85 text-[12px] font-semibold truncate">{p.quiz.activity === 'exam' ? `Luyện giải đề · ${p.quiz.exam?.level.toUpperCase()}` : 'Học tiếng Trung qua live mỗi ngày'}</div>
         </div>
         <div className="flex flex-col items-end gap-1">
           <div className="bg-black/55 text-white text-[12px] font-bold rounded-full px-2 py-0.5">👀 {p.viewerCount} đang xem</div>
@@ -84,7 +84,7 @@ export default function Stage(p: StageProps) {
       {/* Like bar + session milestone */}
       <div className="absolute left-3 right-3 top-[8.6%] z-[1000]">
         <div className="flex justify-between text-[11px] font-bold text-white/90 mb-0.5 drop-shadow">
-          <span>❤️ Đủ {p.likeGoal} tim: câu tiếp theo x3 điểm</span>
+          <span>{p.quiz.activity === 'exam' ? '📝 Giải đề · Mỗi câu đúng = 1 điểm' : `❤️ Đủ ${p.likeGoal} tim: câu tiếp theo x3 điểm`}</span>
           <span>
             {Math.round(p.likeProgress * p.likeGoal)}/{p.likeGoal}
           </span>
@@ -93,15 +93,15 @@ export default function Stage(p: StageProps) {
           <div className="h-full bg-gradient-to-r from-[#ff8fb1] to-[#ff3d6e] transition-all duration-500" style={{ width: `${Math.min(100, p.likeProgress * 100)}%` }} />
         </div>
         <div className="mt-0.5 text-[10px] font-semibold text-white/80 drop-shadow truncate">
-          🏁 Còn {Math.max(0, p.milestone.nextAt - p.milestone.total)} tim nữa mở: {p.milestone.label}
+          {p.quiz.activity === 'exam' ? '10 câu nghe · 10 câu đọc · Chữa từng câu' : `🏁 Còn ${Math.max(0, p.milestone.nextAt - p.milestone.total)} tim nữa mở: ${p.milestone.label}`}
         </div>
       </div>
 
-      <Teacher speaking={p.speaking} pointing={p.quiz.phase === 'asking'} teacher={p.teacher ?? 'female'} />
+      <Teacher speaking={p.speaking} pointing={p.quiz.phase === 'asking'} teacher={p.teacher ?? 'female'} compact={p.quiz.activity === 'exam'} />
 
       {/* Leaderboard under the board; the teacher stands to its right */}
-      <div className="absolute left-[3%] top-[47.6%] z-[1000] w-[60%] bg-[#2a1d12]/90 rounded-md px-2 py-1 border-2 border-[#8a5a32] shadow-lg">
-        <div className="text-[11px] font-black text-[#ffd36b]">🏆 BẢNG VÀNG</div>
+      <div style={{ top: p.quiz.activity === 'exam' ? '72%' : '47.6%' }} className="absolute left-[3%] z-[1000] w-[60%] bg-[#2a1d12]/90 rounded-md px-2 py-1 border-2 border-[#8a5a32] shadow-lg">
+        <div className="text-[11px] font-black text-[#ffd36b]">{p.quiz.activity === 'exam' ? '🏆 SỐ CÂU ĐÚNG' : '🏆 BẢNG VÀNG'}</div>
         {p.top.length === 0 && <div className="text-[11px] text-white/60 leading-[1.4]">Trả lời đúng để lên bảng</div>}
         {p.top.slice(0, 3).map((t, i) => (
           <div key={t.username} className="flex justify-between gap-1 text-[11px] text-white leading-[1.35]">
@@ -113,7 +113,7 @@ export default function Stage(p: StageProps) {
         ))}
       </div>
       {/* Viewer Q&A card */}
-      {showQa && p.qa && <QaCard key={p.qa.id} qa={p.qa} />}
+      {showQa && p.qa && p.quiz.activity !== 'exam' && <QaCard key={p.qa.id} qa={p.qa} />}
 
       {/* Caption of what the teacher is saying, for viewers watching muted */}
       {p.speaking && (
@@ -124,7 +124,7 @@ export default function Stage(p: StageProps) {
               p.speaking.lang === 'zh' ? 'text-[20px] zh-font text-[#ffe9a8]' : 'text-[13px]'
             }`}
           >
-            {p.speaking.text}
+            {p.quiz.question?.exam?.section === 'listening' && p.quiz.phase === 'asking' && p.speaking.lang === 'zh' ? '🔊 Đang phát bài nghe · Lời thoại hiện khi chữa bài' : p.speaking.text}
           </div>
         </div>
       )}
@@ -151,7 +151,7 @@ export default function Stage(p: StageProps) {
             <div className="text-white leading-tight">
               <div className="text-[13px] font-black max-w-[200px] truncate">👑 {p.banner.nickname}</div>
               <div className="text-[12px] font-semibold">
-                tặng {p.banner.giftName} x{p.banner.count} · lớp trưởng x2 điểm
+                tặng {p.banner.giftName} x{p.banner.count} · {p.quiz.activity === 'exam' ? 'cảm ơn bạn!' : 'lớp trưởng x2 điểm'}
               </div>
             </div>
           </div>
@@ -159,10 +159,10 @@ export default function Stage(p: StageProps) {
       )}
 
       {/* Chinese name gift reward */}
-      {p.hanCard && <HanNameOverlay card={p.hanCard} />}
+      {p.hanCard && <HanNameOverlay card={p.hanCard} isExam={p.quiz.activity === 'exam'} />}
 
       {/* Bonus question announcement */}
-      {now - p.bonusAt < BONUS_MS && now - p.megaAt >= BONUS_MS && (
+      {p.quiz.activity !== 'exam' && now - p.bonusAt < BONUS_MS && now - p.megaAt >= BONUS_MS && (
         <div className="absolute inset-0 z-[1200] flex items-center justify-center pointer-events-none bg-black/30">
           <div className="text-center bonus-pop">
             <div className="text-[54px] leading-none">⭐</div>
@@ -171,7 +171,7 @@ export default function Stage(p: StageProps) {
           </div>
         </div>
       )}
-      {now - p.megaAt < BONUS_MS && (
+      {p.quiz.activity !== 'exam' && now - p.megaAt < BONUS_MS && (
         <div className="absolute inset-0 z-[1200] flex items-center justify-center pointer-events-none bg-black/30">
           <div className="text-center bonus-pop">
             <div className="text-[54px] leading-none">🌟</div>
@@ -186,8 +186,10 @@ export default function Stage(p: StageProps) {
         <div className="marquee whitespace-nowrap text-[12px] text-white/90 font-semibold">
           {[0, 1].map((copy) => (
             <span key={copy}>
-              <span className="text-[#ffd36b] font-black">🎁 {GIFT_PROMOTION_TEXT}</span>
-              {' · ✍️ Gõ A, B, C hoặc D để trả lời · 🔁 Gõ "đọc lại" để nghe lại gợi ý · 🔊 Gõ "đọc" + từ để nghe phát âm · 📖 Gõ "dịch" + từ tiếng Việt · 🏆 Gõ "điểm" để xem hạng · ❤️ Đủ 300 tim có câu thưởng x3 ·\u00a0\u00a0\u00a0'}
+              {p.quiz.activity === 'exam' ? <span>📝 Chọn đáp án bằng A/B/C/D theo lựa chọn trên bảng · Bài nghe phát hai lần · Chờ mở trả lời rồi bình luận · Mỗi câu đúng = 1 điểm · Cùng xem lời giải sau mỗi câu ·\u00a0\u00a0\u00a0</span> : <>
+                <span className="text-[#ffd36b] font-black">🎁 {GIFT_PROMOTION_TEXT}</span>
+                {' · ✍️ Gõ A, B, C hoặc D để trả lời · 🔁 Gõ "đọc lại" để nghe lại gợi ý · 🔊 Gõ "đọc" + từ để nghe phát âm · 📖 Gõ "dịch" + từ tiếng Việt · 🏆 Gõ "điểm" để xem hạng · ❤️ Đủ 300 tim có câu thưởng x3 ·\u00a0\u00a0\u00a0'}
+              </>}
             </span>
           ))}
         </div>
@@ -197,6 +199,7 @@ export default function Stage(p: StageProps) {
 }
 
 export function Board({ quiz, now }: { quiz: QuizState; now: number }) {
+  if (quiz.activity === 'exam') return <ExamBoard quiz={quiz} now={now} />;
   const q = quiz.question;
   const reveal = quiz.phase === 'reveal';
   const left = q ? Math.max(0, Math.ceil((q.endsAt - now) / 1000)) : 0;
@@ -275,6 +278,59 @@ export function Board({ quiz, now }: { quiz: QuizState; now: number }) {
   );
 }
 
+export function ExamBoard({ quiz, now }: { quiz: QuizState; now: number }) {
+  const q = quiz.question;
+  const exam = quiz.exam;
+  const item = q?.exam;
+  const reveal = quiz.phase === 'reveal';
+  const left = q?.endsAt ? Math.max(0, Math.ceil((q.endsAt - now) / 1000)) : null;
+  const answer = q && quiz.correct !== null ? q.options[quiz.correct] : '';
+  return <div className="absolute left-[3%] right-[3%] top-[12.6%] h-[58%] z-[900] board-frame rounded-lg p-[6px]">
+    <div className="w-full h-full rounded board text-white p-3 flex flex-col overflow-hidden">
+      <div className="text-[10px] font-black tracking-wider text-[#ffd36b]">LUYỆN GIẢI ĐỀ · {exam?.level.toUpperCase()}</div>
+      {!q || !item ? <div className="flex-1 flex flex-col justify-center gap-3 text-center">
+        <div className="text-[26px] font-black chalk">{exam?.completed ? 'Hoàn thành!' : 'Cùng giải đề'}</div>
+        <div className="text-[13px] font-bold">{exam?.title}</div>
+        <div className="text-[11px] text-white/75 leading-relaxed">{exam?.completed ? 'Đã cùng học xong 20 câu! Xem mình làm tốt phần nào nhé.' : 'Xem mẹo → tìm từ khóa → thử một đáp án. Sai cũng học được cách làm mới!'}</div>
+        {exam?.completed ? <div className="space-y-2">
+          {!exam.results.length && <p className="text-[12px]">Chưa có lượt trả lời. Cùng thử lại đề nhé!</p>}
+          {exam.results.slice(0, 5).map((r, i) => <div key={r.username} className="rounded-lg bg-white/10 p-2 text-[12px]">
+            <div className="font-bold truncate">{i + 1}. {r.nickname} · {r.listening + r.reading}/{exam.total}</div>
+            <div className="text-[10px] text-[#ffe9a8]">Nghe {r.listening}/10 · Đọc {r.reading}/10 · Đã trả lời {r.answered}/{exam.total}</div>
+          </div>)}
+        </div> : <div className="text-[11px] text-[#9fe8b8]">10 câu nghe · 10 câu đọc<br />Bộ luyện tự biên soạn</div>}
+      </div> : <>
+        <div className="flex justify-between items-center text-[11px] font-bold mt-1">
+          <span>{item.section === 'listening' ? '🔊 NGHE' : '📖 ĐỌC'} · {item.position}/{item.total}</span>
+          <span className={`rounded-full px-2 py-1 ${reveal ? 'bg-[#3fae6b]' : 'bg-white/15'}`}>{reveal ? 'Chữa bài' : !quiz.running ? 'Tạm dừng' : left === null ? item.section === 'listening' ? 'Đang nghe' : 'Xem mẹo' : `${left}s`}</span>
+        </div>
+        <div className="text-[11px] text-[#ffe9a8] leading-snug mt-2">{item.instruction}</div>
+        <div className="flex-1 min-h-0 overflow-y-auto mt-2 pr-1 space-y-2">
+          {!reveal && <div className="rounded-lg border border-[#ffd36b]/50 bg-[#ffd36b]/10 p-2 text-[12px] leading-snug text-[#ffe9a8]">
+            <span className="font-black">💡 Mẹo nhanh: </span>{item.hint}
+          </div>}
+          {!reveal && <div className="text-[18px] font-bold zh-font leading-relaxed break-words">{item.prompt}</div>}
+          {reveal ? <>
+            <div className="rounded-lg bg-[#3fae6b]/30 border border-[#9fe8b8] p-2 text-[14px] font-bold zh-font">✓ {LETTERS[quiz.correct!]} · {answer}</div>
+            <div className="text-[14px] zh-font leading-relaxed"><span className="text-[10px] text-[#ffe9a8]">{item.transcript ? 'Lời thoại: ' : 'Đề bài: '}</span>{item.transcript || item.prompt}</div>
+            <div className="text-[11px] leading-relaxed text-white/80">{item.translation}</div>
+            <div className="text-[12px] font-bold text-[#9fe8b8]">Từ khóa: {item.keyword}</div>
+            <div className="text-[12px] leading-relaxed bg-black/20 p-2 rounded-lg"><span className="font-bold text-[#ffe9a8]">Cách tìm đáp án: </span>{item.explanation}</div>
+          </> : <div className="space-y-2">
+            {q.options.map((option, i) => <div key={i} className="flex gap-2 rounded-lg border border-white/30 bg-black/20 p-2">
+              <span className="text-[12px] font-black text-[#ffd36b]">{LETTERS[i]}</span>
+              <span className="text-[15px] zh-font font-semibold leading-snug break-words">{option}</span>
+            </div>)}
+          </div>}
+        </div>
+        <div className="text-[10px] mt-2 text-center text-[#ffe9a8]">
+          {reveal ? `${quiz.correctUsers.length}/${quiz.answeredCount} bạn đúng · Cùng nhớ mẹo cho câu sau nhé!` : left === null ? item.section === 'listening' ? 'Nghe hai lần, không cần hiểu từng chữ nhé!' : 'Đọc mẹo trước, rồi cùng thử một đáp án nhé!' : `Thử ${q.options.map((_, i) => LETTERS[i]).join('/')} nhé · ${quiz.answeredCount} bạn đã trả lời`}
+        </div>
+      </>}
+    </div>
+  </div>;
+}
+
 export function QuestionPrompt({ question: q, reveal }: { question: QuizQuestion; reveal: boolean }) {
   return (
     <>
@@ -318,7 +374,7 @@ export function QuestionPrompt({ question: q, reveal }: { question: QuizQuestion
 const TEACHER_H = 318;
 const TEACHER_W = Math.round((TEACHER_H * 395) / 900);
 
-function HanNameOverlay({ card }: { card: HanNameCard }) {
+function HanNameOverlay({ card, isExam = false }: { card: HanNameCard; isExam?: boolean }) {
   return (
     <div key={card.id} className="absolute left-1/2 top-[12%] z-[1180] banner-in w-[88%] pointer-events-none">
       <div
@@ -336,13 +392,13 @@ function HanNameOverlay({ card }: { card: HanNameCard }) {
             </span>
           ))}
         </div>
-        <div className="text-[11px] font-bold text-[#7a4a00] mt-1.5">{card.fancy ? '🎁 Quà lớn · lớp trưởng x2 điểm' : '👑 Lớp trưởng · câu tới x2 điểm'}</div>
+        <div className="text-[11px] font-bold text-[#7a4a00] mt-1.5">{isExam ? '🎁 Cảm ơn bạn đã ủng hộ lớp!' : card.fancy ? '🎁 Quà lớn · lớp trưởng x2 điểm' : '👑 Lớp trưởng · câu tới x2 điểm'}</div>
       </div>
     </div>
   );
 }
 
-export function Teacher({ speaking, pointing, teacher }: { speaking: Speaking | null; pointing: boolean; teacher: TeacherChoice }) {
+export function Teacher({ speaking, pointing, teacher, compact = false }: { speaking: Speaking | null; pointing: boolean; teacher: TeacherChoice; compact?: boolean }) {
   const character = TEACHERS[teacher];
   const [open, setOpen] = useState(false);
   useEffect(() => {
@@ -360,7 +416,7 @@ export function Teacher({ speaking, pointing, teacher }: { speaking: Speaking | 
   }, [speaking]);
 
   return (
-    <div className="absolute z-[950] pointer-events-none" style={{ right: -6, top: '11%', width: TEACHER_W, height: TEACHER_H }}>
+    <div className="absolute z-[950] pointer-events-none" style={{ right: -6, top: compact ? '72%' : '11%', width: compact ? 86 : TEACHER_W, height: compact ? 180 : TEACHER_H }}>
       <div className="absolute left-1/2 -translate-x-1/2 rounded-[50%] bg-black/35 blur-[4px]" style={{ bottom: -4, width: TEACHER_W * 0.75, height: 14 }} />
       <div className={`relative w-full h-full ${speaking ? 'teacher-talk' : pointing ? 'teacher-point' : 'teacher-idle'}`}>
         <img src={character.idle} alt={character.label} draggable={false} className="absolute inset-0 w-full h-full object-contain" style={{ opacity: open ? 0 : 1 }} />

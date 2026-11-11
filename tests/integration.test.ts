@@ -120,6 +120,38 @@ test('production serves built stage, bounds event bursts, releases SSE clients, 
   const settings = JSON.parse(await readFile(path.join(dir, 'settings.json'), 'utf8'));
   assert.equal(settings.ai.enabled, false);
   assert.equal(settings.quiz.mode, 'reverse');
+  const command = async (text: string, expectedStatus = 200) => {
+    const response = await fetch(`${base}/api/control`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'quiz', text }) });
+    assert.equal(response.status, expectedStatus);
+    await response.body?.cancel();
+  };
+  await command('activity:exam');
+  for (const level of ['hsk1', 'hsk2', 'hsk3', 'hsk4', 'hsk5']) {
+    await command(`lesson:${level}`);
+    await command('start');
+    let state = await snapshotQuiz();
+    assert.equal(state.activity, 'exam');
+    assert.equal(state.exam?.level, level);
+    assert.equal(state.question?.endsAt, 0);
+    assert.equal(state.question?.exam?.transcript, undefined);
+    const audio = await (await fetch(`${base}/api/exam-listening/${state.question!.no}`)).json();
+    assert.ok(audio.transcript.length > 0);
+    await command(`openExam:${state.question!.no}`);
+    state = await snapshotQuiz();
+    assert.ok(state.question!.endsAt > Date.now());
+    await command('skip');
+    state = await snapshotQuiz();
+    assert.equal(state.phase, 'reveal');
+    assert.ok(state.question?.exam?.explanation);
+    assert.equal(state.question?.exam?.transcript, audio.transcript);
+  }
+  await command('lesson:../other', 400);
+  await command('activity:invalid', 400);
+  const examSettings = JSON.parse(await readFile(path.join(dir, 'settings.json'), 'utf8'));
+  assert.equal(examSettings.quiz.activity, 'exam');
+  assert.equal(examSettings.quiz.examLevel, 'hsk5');
+  await command('activity:study');
+  assert.equal((await snapshotQuiz()).activity, 'study');
   child.kill('SIGTERM');
   const [code, signal] = await exited;
   // Windows terminates the process directly; POSIX delivers SIGTERM to the shutdown handler.

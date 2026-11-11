@@ -191,13 +191,13 @@ export class SoundEngine {
     if (!this.building) this.next();
   }
 
-  say(text: string, urgent = false, onStart?: () => void, lang: Lang = 'vi') {
+  say(text: string, urgent = false, onStart?: () => void, lang: Lang = 'vi', onEnd?: () => void) {
     if (!this.enabled || !text.trim()) {
       onStart?.();
       if (text.trim()) this.mimic({ text, lang });
       return;
     }
-    const line: SpeechLine = { text, onStart, lang };
+    const line: SpeechLine = { text, onStart, onEnd, lang };
     if (this.building) {
       this.building.lines.push(line);
       this.building.urgent ||= urgent;
@@ -266,9 +266,10 @@ export class SoundEngine {
     const finish = () => {
       if (done) return;
       cleanup();
+      line.onEnd?.();
       this.next();
     };
-    const guard = setTimeout(finish, 30000);
+    const guard = setTimeout(finish, line.lang === 'zh' ? Math.max(30000, Math.min(120000, 10000 + line.text.length * 450)) : 30000);
     this.cancelCurrent = cleanup;
     el.addEventListener('playing', start);
     el.addEventListener('ended', finish);

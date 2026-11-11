@@ -1,0 +1,356 @@
+{
+  "id": "hsk4-luyen-01",
+  "level": "hsk4",
+  "title": "HSK4 · Bộ luyện 01",
+  "description": "Bộ luyện nhẹ nhàng cho lớp live: 10 câu nghe, 10 câu đọc, có mẹo tìm đáp án. Tự biên soạn, không phải đề thi chính thức.",
+  "questions": [
+    {
+      "id": "hsk4-01",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "经理建议先做什么？",
+      "translation": "Nữ: Báo cáo chưa xong, mai phải nộp rồi. Nam: Trước hết sắp xếp nội dung chính, chi tiết chiều cùng bổ sung.",
+      "options": [
+        "下午再开始",
+        "整理主要内容",
+        "取消报告"
+      ],
+      "answer": 1,
+      "explanation": "先 chỉ hành động ưu tiên: 整理主要内容. Chi tiết được bổ sung sau.",
+      "keyword": "先、主要内容",
+      "seconds": 45,
+      "transcript": "女：报告还没写完，明天就要交了。男：先把主要内容整理出来，细节我们下午一起补充。",
+      "hint": "先 đánh dấu việc làm trước; chi tiết có thể để làm sau."
+    },
+    {
+      "id": "hsk4-02",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "男的为什么换工作？",
+      "translation": "Nữ: Nghe nói bạn đổi việc, vì lương à? Nam: Không, tôi muốn có thêm cơ hội học kỹ thuật mới.",
+      "options": [
+        "提高工资",
+        "离家更近",
+        "学习新技术"
+      ],
+      "answer": 2,
+      "explanation": "不是 phủ định giả thiết về lương; lý do thật là có cơ hội học công nghệ mới.",
+      "keyword": "更多机会学习",
+      "seconds": 45,
+      "transcript": "女：听说你换工作了，是因为工资吗？男：不是，我想有更多机会学习新的技术。",
+      "hint": "Nghe phần sau 不是; đó mới là lý do đổi việc."
+    },
+    {
+      "id": "hsk4-03",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "活动为什么推迟？",
+      "translation": "Hoạt động ngoài trời dự kiến thứ bảy được hoãn sang tuần sau vì thời tiết, địa điểm không đổi.",
+      "options": [
+        "人数不够",
+        "地点太远",
+        "天气原因"
+      ],
+      "answer": 2,
+      "explanation": "因为天气原因 nêu nguyên nhân trực tiếp. 地点不变 loại suy đoán thay địa điểm.",
+      "keyword": "天气原因、推迟",
+      "seconds": 45,
+      "transcript": "原定周六的户外活动，因为天气原因推迟到下周举行，地点不变。",
+      "hint": "Câu hỏi hỏi nguyên nhân, không hỏi ngày hay địa điểm mới."
+    },
+    {
+      "id": "hsk4-04",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "她对这次面试怎么看？",
+      "translation": "Tuy trả lời hai câu chưa tốt nhưng nhìn chung thể hiện khá ổn, tôi nghĩ vẫn có hy vọng.",
+      "options": [
+        "已经失败",
+        "仍有希望",
+        "完全没准备"
+      ],
+      "answer": 1,
+      "explanation": "但…整体表现还可以 chuyển từ hạn chế sang đánh giá tích cực.",
+      "keyword": "还是有希望",
+      "seconds": 45,
+      "transcript": "虽然有两个问题回答得不够好，但整体表现还可以，我觉得还是有希望的。",
+      "hint": "Sau 但 thường là đánh giá chính; đừng dừng ở phần chê đầu câu."
+    },
+    {
+      "id": "hsk4-05",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "顾客需要什么帮助？",
+      "translation": "Nữ: Máy tính mới mua đã không bật được. Nam: Xin mang hóa đơn, chúng tôi kiểm tra rồi quyết định sửa hay đổi.",
+      "options": [
+        "购买发票",
+        "学习打字",
+        "处理电脑故障"
+      ],
+      "answer": 2,
+      "explanation": "不能开机 là lỗi máy tính; nhân viên đề nghị kiểm tra để sửa hoặc đổi.",
+      "keyword": "不能开机",
+      "seconds": 45,
+      "transcript": "女：这台电脑刚买就不能开机了。男：请带上发票，我们先检查一下，再决定修理还是更换。",
+      "hint": "Tìm món đồ gặp lỗi và việc khách muốn cửa hàng xử lý."
+    },
+    {
+      "id": "hsk4-06",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "他们最后决定怎样安排？",
+      "translation": "Nam: Ăn trước rồi tham quan bảo tàng nhé. Nữ: Bảo tàng đóng lúc năm giờ, nên tham quan trước. Nam: Có lý.",
+      "options": [
+        "先吃饭",
+        "先参观",
+        "不去博物馆"
+      ],
+      "answer": 1,
+      "explanation": "有道理 thể hiện đồng ý đổi thứ tự: tham quan trước vì giờ đóng cửa.",
+      "keyword": "还是先参观",
+      "seconds": 45,
+      "transcript": "男：我们先去吃饭，再参观博物馆吧。女：博物馆五点关门，还是先参观吧。男：有道理。",
+      "hint": "Đề nghị ban đầu có thể đổi; nghe ý được đồng ý sau cùng."
+    },
+    {
+      "id": "hsk4-07",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "这段话主要提醒什么？",
+      "translation": "Học không thể chỉ nhớ đáp án. Hiểu vì sao chọn mới có thể phán đoán đúng khi gặp câu mới.",
+      "options": [
+        "只记答案",
+        "重视理解原因",
+        "避免做新题"
+      ],
+      "answer": 1,
+      "explanation": "Trọng tâm là hiểu nguyên nhân, khác với chỉ ghi nhớ đáp án.",
+      "keyword": "理解为什么",
+      "seconds": 45,
+      "transcript": "学习不能只靠记住答案。理解为什么选这个答案，才能在遇到新题时作出正确判断。",
+      "hint": "So sánh 'nhớ đáp án' với 'hiểu lý do': người nói khuyên điều nào?"
+    },
+    {
+      "id": "hsk4-08",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "女的为什么没有直接接受邀请？",
+      "translation": "Nam: Cuối tuần leo núi nhé. Nữ: Tôi phải xem lịch làm việc, nếu không tăng ca thì đi.",
+      "options": [
+        "已经买了车票",
+        "还不确定是否加班",
+        "不喜欢运动"
+      ],
+      "answer": 1,
+      "explanation": "Câu trả lời có điều kiện 如果不用加班, nên chưa thể nhận lời ngay.",
+      "keyword": "先看看工作安排",
+      "seconds": 45,
+      "transcript": "男：周末一起去爬山吧。女：我得先看看工作安排，如果不用加班就去。",
+      "hint": "Nếu câu trả lời có 如果, việc nhận lời còn phụ thuộc một điều kiện."
+    },
+    {
+      "id": "hsk4-09",
+      "section": "listening",
+      "instruction": "Nghe và xác định nhận định trên bảng đúng hay sai.",
+      "prompt": "判断：公司决定降低产品质量。",
+      "translation": "Để giảm chi phí, công ty cải tiến sản xuất và yêu cầu chất lượng không được giảm.",
+      "options": [
+        "对",
+        "错"
+      ],
+      "answer": 1,
+      "explanation": "Giảm 成本 là chi phí, không phải giảm 质量. 不能下降 khẳng định điều này.",
+      "keyword": "质量不能下降",
+      "seconds": 45,
+      "transcript": "为了降低成本，公司改进了生产方法，同时要求产品质量不能下降。",
+      "hint": "Phân biệt giảm chi phí với giảm chất lượng, hai ý không giống nhau."
+    },
+    {
+      "id": "hsk4-10",
+      "section": "listening",
+      "instruction": "Nghe và xác định nhận định trên bảng đúng hay sai.",
+      "prompt": "判断：说话人认为失败也有价值。",
+      "translation": "Một lần thất bại không có nghĩa thiếu năng lực. Phân tích nguyên nhân giúp thất bại trở thành kinh nghiệm quý.",
+      "options": [
+        "对",
+        "错"
+      ],
+      "answer": 0,
+      "explanation": "成为宝贵的经验 cho thấy thất bại có thể đem lại giá trị học hỏi.",
+      "keyword": "宝贵的经验",
+      "seconds": 45,
+      "transcript": "一次失败并不代表你没有能力。认真分析原因，失败也能成为宝贵的经验。",
+      "hint": "Tìm xem trải nghiệm thất bại có giúp ích cho lần sau không."
+    },
+    {
+      "id": "hsk4-11",
+      "section": "reading",
+      "instruction": "Chọn từ phù hợp điền vào chỗ trống.",
+      "prompt": "这项任务很复杂，需要大家互相___。",
+      "translation": "Nhiệm vụ phức tạp, cần mọi người hợp tác với nhau.",
+      "options": [
+        "配合",
+        "浪费",
+        "拒绝"
+      ],
+      "answer": 0,
+      "explanation": "互相配合 là phối hợp lẫn nhau để hoàn thành việc phức tạp. 拒绝 và 浪费 không hợp ngữ cảnh.",
+      "keyword": "互相配合",
+      "seconds": 45,
+      "hint": "互相 nghĩa là lẫn nhau; công việc khó cần mọi người làm gì cùng nhau?"
+    },
+    {
+      "id": "hsk4-12",
+      "section": "reading",
+      "instruction": "Chọn từ phù hợp điền vào chỗ trống.",
+      "prompt": "他提前查好了路线，___当天找不到地方。",
+      "translation": "Anh ấy tra trước đường đi để tránh hôm đó không tìm được địa điểm.",
+      "options": [
+        "尽管",
+        "以免",
+        "由于"
+      ],
+      "answer": 1,
+      "explanation": "以免 dẫn kết quả không mong muốn cần phòng tránh. 由于 dẫn nguyên nhân đã xảy ra.",
+      "keyword": "提前、以免",
+      "seconds": 45,
+      "hint": "Vế sau là điều không mong muốn. Tìm từ nối mang nghĩa 'để tránh'."
+    },
+    {
+      "id": "hsk4-13",
+      "section": "reading",
+      "instruction": "Chọn từ phù hợp điền vào chỗ trống.",
+      "prompt": "___遇到什么困难，我们都应该先冷静下来。",
+      "translation": "Dù gặp khó khăn gì, chúng ta cũng nên bình tĩnh trước.",
+      "options": [
+        "既然",
+        "无论",
+        "除了"
+      ],
+      "answer": 1,
+      "explanation": "无论…都… diễn tả kết luận đúng trong mọi trường hợp.",
+      "keyword": "无论、都",
+      "seconds": 45,
+      "hint": "Thấy 都 ở vế sau: tìm từ mang nghĩa 'dù bất cứ…'."
+    },
+    {
+      "id": "hsk4-14",
+      "section": "reading",
+      "instruction": "Đọc kỹ nội dung và chọn đáp án đúng.",
+      "prompt": "这家店价格不低，但服务周到，很多顾客愿意再来。顾客愿意再来的主要原因是什么？",
+      "translation": "Cửa hàng giá không thấp nhưng phục vụ chu đáo nên nhiều khách muốn quay lại. Lý do chính là gì?",
+      "options": [
+        "距离近",
+        "价格最低",
+        "服务好"
+      ],
+      "answer": 2,
+      "explanation": "但 chuyển trọng tâm sang ưu điểm 服务周到. Bài không nói giá thấp nhất hay khoảng cách.",
+      "keyword": "服务周到",
+      "seconds": 45,
+      "hint": "Đọc sau 但 để tìm điểm tốt khiến khách quay lại."
+    },
+    {
+      "id": "hsk4-15",
+      "section": "reading",
+      "instruction": "Chọn từ phù hợp điền vào chỗ trống.",
+      "prompt": "听完解释，他终于___了我的意思。",
+      "translation": "Nghe giải thích xong, cuối cùng anh ấy hiểu ý tôi.",
+      "options": [
+        "支持",
+        "理解",
+        "申请"
+      ],
+      "answer": 1,
+      "explanation": "理解意思 là hiểu ý. 支持 là ủng hộ, 申请 là đăng ký hoặc xin.",
+      "keyword": "理解意思",
+      "seconds": 45,
+      "hint": "解释 là giải thích; sau khi nghe, người ta nắm được điều gì?"
+    },
+    {
+      "id": "hsk4-16",
+      "section": "reading",
+      "instruction": "Đọc kỹ nội dung và chọn đáp án đúng.",
+      "prompt": "他曾经害怕当众发言。经过多次练习，现在能自然地表达想法了。这段话强调什么？",
+      "translation": "Anh ấy từng sợ phát biểu trước đám đông. Sau nhiều lần luyện tập, nay đã diễn đạt tự nhiên. Đoạn này nhấn mạnh điều gì?",
+      "options": [
+        "他拒绝发言",
+        "练习带来了进步",
+        "练习没有帮助"
+      ],
+      "answer": 1,
+      "explanation": "曾经…现在… thể hiện sự thay đổi nhờ 经过多次练习.",
+      "keyword": "经过多次练习",
+      "seconds": 45,
+      "hint": "So sánh 曾经 với 现在 để thấy sự thay đổi nhờ luyện tập."
+    },
+    {
+      "id": "hsk4-17",
+      "section": "reading",
+      "instruction": "Chọn từ phù hợp điền vào chỗ trống.",
+      "prompt": "与其一直抱怨，___想办法解决问题。",
+      "translation": "Thay vì cứ than phiền, chi bằng tìm cách giải quyết.",
+      "options": [
+        "否则",
+        "不仅",
+        "不如"
+      ],
+      "answer": 2,
+      "explanation": "与其…不如… so sánh hai lựa chọn và khuyên chọn cách thứ hai.",
+      "keyword": "与其、不如",
+      "seconds": 45,
+      "hint": "与其 thường đi với từ nối đưa ra lựa chọn tốt hơn ở vế sau."
+    },
+    {
+      "id": "hsk4-18",
+      "section": "reading",
+      "instruction": "Đọc kỹ nội dung và chọn đáp án đúng.",
+      "prompt": "图书馆周一闭馆，其余时间正常开放。小陈周一下午想去借书。他应该怎么办？",
+      "translation": "Thư viện đóng thứ hai, ngày khác mở bình thường. Tiểu Trần muốn mượn chiều thứ hai. Bạn ấy nên làm gì?",
+      "options": [
+        "周一晚上去",
+        "改天去",
+        "周一上午去"
+      ],
+      "answer": 1,
+      "explanation": "周一闭馆 là đóng cả ngày thứ hai, đổi buổi trong ngày vẫn không được.",
+      "keyword": "周一闭馆",
+      "seconds": 45,
+      "hint": "闭馆 là đóng cửa cả ngày; đổi sáng sang tối có giải quyết được không?"
+    },
+    {
+      "id": "hsk4-19",
+      "section": "reading",
+      "instruction": "Chọn từ phù hợp điền vào chỗ trống.",
+      "prompt": "这次调查的结果与我们原来的___不太一样。",
+      "translation": "Kết quả khảo sát lần này không giống dự đoán ban đầu của chúng tôi.",
+      "options": [
+        "估计",
+        "礼貌",
+        "温度"
+      ],
+      "answer": 0,
+      "explanation": "调查结果 có thể khác với 估计, tức dự đoán. 温度 và 礼貌 không phù hợp quan hệ này.",
+      "keyword": "原来的估计",
+      "seconds": 45,
+      "hint": "Kết quả khảo sát có thể khác với điều ta đoán trước."
+    },
+    {
+      "id": "hsk4-20",
+      "section": "reading",
+      "instruction": "Đọc kỹ nội dung và chọn đáp án đúng.",
+      "prompt": "为了让员工有时间休息，公司规定午休时尽量不安排会议。这项规定的目的是什么？",
+      "translation": "Để nhân viên có thời gian nghỉ, công ty quy định hạn chế họp giờ nghỉ trưa. Mục đích là gì?",
+      "options": [
+        "增加工作量",
+        "延长会议",
+        "保证休息"
+      ],
+      "answer": 2,
+      "explanation": "为了… chỉ rõ mục đích là cho nhân viên nghỉ, không phải kéo dài họp.",
+      "keyword": "有时间休息",
+      "seconds": 45,
+      "hint": "为了 mở đầu mục đích; tìm lợi ích mà quy định muốn đem lại."
+    }
+  ]
+}

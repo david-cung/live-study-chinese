@@ -1,3 +1,5 @@
+import type { Activity, ExamProgress, ExamQuestionView } from './examTypes';
+
 export type LiveStatus = {
   isConnected: boolean;
   isConnecting: boolean;
@@ -45,6 +47,7 @@ export type QuizQuestion = {
   bonus: boolean;
   // Session milestone reward: five times normal points
   megaBonus?: boolean;
+  exam?: ExamQuestionView;
 };
 
 export type HanNamePart = { vi: string; hanzi: string; pinyin: string; meaning: string };
@@ -68,6 +71,8 @@ export type MilestoneProgress = {
 };
 
 export type QuizState = {
+  activity?: Activity;
+  exam?: ExamProgress;
   running: boolean;
   mode: QuizMode;
   availableKinds: QuizKind[];

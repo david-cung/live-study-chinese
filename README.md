@@ -29,6 +29,39 @@ Lựa chọn được lưu trong `settings.json` và khôi phục khi mở lại
 
 ## Dạng câu hỏi trên live
 
+Trong **3. Lớp học**, chọn **Học tập** hoặc **Giải đề**, rồi chọn cấp độ
+**HSK1–HSK5**. Chế độ Học tập giữ cách luyện từ vựng xen kẽ như trước;
+HSK4 và HSK5 mỗi cấp có thêm 40 từ và 12 câu điền từ.
+
+**Giải đề** có 5 bộ luyện rút gọn tự biên soạn trong `content/exams/hsk1.json`
+đến `hsk5.json`, mỗi bộ gồm 10 câu nghe và 10 câu đọc. Đây là bài luyện cho
+live, không phải đề thi chính thức hoặc mô phỏng đầy đủ một phiên bản thi HSK.
+
+- Mỗi câu có **Mẹo nhanh** riêng, hiện trên bảng và được thầy/cô đọc trước:
+  tập trung vào từ khóa, từ phủ định, phần sau từ chuyển ý hoặc cách loại đáp án.
+  Khi chữa bài có mục **Cách tìm đáp án** để nhớ cách làm cho câu sau.
+- Bài đọc chỉ tính giờ sau khi đọc xong mẹo, để người xem có đủ thời gian trả lời.
+- Bấm **Bắt đầu**. Bài nghe phát hai lần trên sân khấu có tiếng; đồng hồ chỉ
+  chạy sau lần nghe thứ hai. Nếu chưa có âm thanh, dùng **Mở trả lời khi đã sẵn sàng**.
+- Người xem bình luận A/B/C/D theo các lựa chọn hiện trên bảng; câu đúng/sai
+  chỉ có hai lựa chọn. Bình luận trước khi mở trả lời không được tính.
+- Hết giờ hoặc bấm **Chữa câu**, bảng hiện đáp án, lời thoại, bản dịch, từ khóa
+  và giải thích. Thầy/cô đọc lời giải, chờ người điều khiển bấm **Câu tiếp theo**.
+- Sau câu 20, bấm **Kết thúc đề** để xem kết quả nghe, đọc và tổng số câu đúng
+  của từng người. Mỗi câu đúng là 1 điểm, không cộng tốc độ hay nhân điểm quà tặng.
+- Nội dung ưu tiên câu ngắn, dễ theo dõi trên TikTok. Thời gian trả lời HSK1–2
+  là 30 giây, HSK3 là 40 giây, HSK4–5 là 45 giây; phản hồi khuyến khích thử lại khi sai.
+- **Tạm dừng** giữ câu hiện tại; khi tiếp tục, câu nghe được phát lại và có
+  đủ thời gian trả lời. **Làm lại đề**, đổi cấp hoặc đổi chế độ sẽ đặt lại tiến độ đề.
+
+Chế độ và cấp đề được lưu trong `settings.json`; tiến độ và kết quả của đề đang
+làm nằm trong bộ nhớ, khởi động lại server sẽ bắt đầu lại đề. Điểm của chế độ học
+được giữ riêng khi chuyển qua lại hai chế độ. Giải đề không tự lặp lại khi hoàn thành.
+
+Mỗi câu đề có `section`, `instruction`, `hint`, `prompt`, `options` (2–4 lựa chọn),
+`answer` (chỉ số bắt đầu từ 0), `translation`, `explanation`, `keyword`, `seconds`;
+câu nghe cần thêm `transcript`. Bộ đề chạy đúng thứ tự trong file.
+
 Trong **3. Lớp học → Dạng câu hỏi**, chọn xen kẽ hoặc luyện riêng một dạng:
 
 - **Chọn nghĩa đúng**: nhìn chữ Hán và chọn nghĩa tiếng Việt.
@@ -48,9 +81,10 @@ khi đã đọc xong đáp án, lời khen và còn ít nhất 8 giây trước 
 Lời mời cách nhau ít nhất 5 phút và tạm hoãn 2 phút sau khi nhận quà;
 nếu đang có lời đọc khác thì bỏ qua khoảng nghỉ đó. Không nhắc quà khi đang trả lời.
 
-Có sẵn **104 câu điền từ**: HSK1 và HSK2 mỗi cấp 36 câu, HSK3 có 32 câu,
+Có sẵn **128 câu điền từ**: HSK1 và HSK2 mỗi cấp 36 câu, HSK3 có 32 câu,
+HSK4 và HSK5 mỗi cấp 12 câu. Nội dung nằm
 trong `content/zh/hsk1/0-dien-tu.json`, `content/zh/hsk2/0-dien-tu.json`
-và `content/zh/hsk3/0-dien-tu.json`. HSK3 có thêm 80 từ vựng theo năm chủ đề:
+và các file `0-dien-tu.json` tương ứng của HSK3–HSK5. HSK3 có 80 từ vựng theo năm chủ đề:
 học tập và công việc, đi lại và đời sống, sức khỏe và cảm xúc, hoạt động và kế hoạch,
 miêu tả và từ nối. Thư mục cấp học được tự động nạp vào danh sách chọn bài.
 Muốn thêm câu, bổ sung vào mảng `cloze`:

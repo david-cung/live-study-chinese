@@ -1,0 +1,356 @@
+{
+  "id": "hsk5-luyen-01",
+  "level": "hsk5",
+  "title": "HSK5 · Bộ luyện 01",
+  "description": "Bộ luyện nhẹ nhàng cho lớp live: 10 câu nghe, 10 câu đọc, có mẹo tìm đáp án. Tự biên soạn, không phải đề thi chính thức.",
+  "questions": [
+    {
+      "id": "hsk5-01",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "说话人认为提高效率的关键是什么？",
+      "translation": "Khi làm việc, nên làm việc quan trọng nhất trước. Đừng dành hết thời gian cho việc nhỏ; như vậy mới nâng hiệu suất.",
+      "options": [
+        "先做重要的事",
+        "先做最简单的事",
+        "同时做很多事"
+      ],
+      "answer": 0,
+      "explanation": "Nghe mẫu 先做… để bắt việc cần ưu tiên. Mẹo: câu hỏi về cách làm thì tìm lời khuyên, không cần dịch từng chữ.",
+      "keyword": "先做最重要的事",
+      "seconds": 45,
+      "transcript": "工作时，应该先做最重要的事。不要把时间都用在小事上，这样才能提高效率。",
+      "hint": "Câu hỏi hỏi cách làm việc hiệu quả. Chú ý việc cần làm trước."
+    },
+    {
+      "id": "hsk5-02",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "这位顾客对什么不满意？",
+      "translation": "Sản phẩm dùng tốt, giao hàng nhanh. Tuy nhiên sách hướng dẫn quá đơn giản, có chức năng tôi không biết dùng.",
+      "options": [
+        "送货太慢",
+        "产品不能使用",
+        "说明书不够详细"
+      ],
+      "answer": 2,
+      "explanation": "Hai ý đầu là lời khen; sau 不过 mới là điều chưa hài lòng. Mẹo: nghe từ chuyển ý rồi tập trung vào vế sau.",
+      "keyword": "不过、说明书太简单",
+      "seconds": 45,
+      "transcript": "这个产品很好用，送货也快。不过，说明书太简单，有些功能我不知道怎么用。",
+      "hint": "Khi nghe 不过 hoặc 就是, chú ý điểm chưa hài lòng phía sau."
+    },
+    {
+      "id": "hsk5-03",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "他们为什么暂时不扩大规模？",
+      "translation": "Nữ: Đơn hàng tăng rồi, có mở rộng sản xuất không? Nam: Chờ đã, nhu cầu tháng sau chưa rõ, hãy quan sát thêm.",
+      "options": [
+        "机器坏了",
+        "需求还不确定",
+        "没有钱了"
+      ],
+      "answer": 1,
+      "explanation": "还不清楚 là chưa rõ. Công ty muốn quan sát thêm vì chưa chắc nhu cầu; bài không nói hỏng máy hay hết tiền.",
+      "keyword": "需求还不清楚",
+      "seconds": 45,
+      "transcript": "女：订单多了，要扩大生产吗？男：先等等，下个月的需求还不清楚，再观察一下吧。",
+      "hint": "Tìm điều công ty còn chưa biết chắc, không tự đoán về tiền hay máy móc."
+    },
+    {
+      "id": "hsk5-04",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "说话人对网络学习持什么态度？",
+      "translation": "Học trực tuyến rất tiện nhưng cũng cần mục tiêu và luyện mỗi ngày. Chỉ lưu khóa học mà không học nghiêm túc thì khó tiến bộ.",
+      "options": [
+        "课程越多越好",
+        "完全没有用",
+        "方便，但也需要练习"
+      ],
+      "answer": 2,
+      "explanation": "Người nói khen tiện lợi rồi thêm điều kiện bằng 但. Mẹo: chọn đáp án giữ đủ hai ý, tránh các từ tuyệt đối như 完全.",
+      "keyword": "但、每天练习",
+      "seconds": 45,
+      "transcript": "网上学习很方便，但也要有目标，每天练习。只收藏课程，不认真学习，很难进步。",
+      "hint": "Đừng chọn ý tuyệt đối. Người nói vừa công nhận tiện lợi, vừa nhắc cách học."
+    },
+    {
+      "id": "hsk5-05",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "这次修改方案的主要依据是什么？",
+      "translation": "Thiết kế ban đầu đẹp nhưng người dùng thử nói thao tác bất tiện. Vì vậy chúng tôi quyết định cải thiện trải nghiệm sử dụng trước.",
+      "options": [
+        "试用者的意见",
+        "设计师的爱好",
+        "其他产品的价格"
+      ],
+      "answer": 0,
+      "explanation": "试用的人说 nêu người đưa ra phản hồi. Mẹo: khi hỏi căn cứ thay đổi, tìm ý kiến hoặc vấn đề đứng trước 所以.",
+      "keyword": "试用的人说",
+      "seconds": 45,
+      "transcript": "原来的设计很好看，但试用的人说操作不方便。所以我们决定先改善使用体验。",
+      "hint": "Tìm ai đã phản ánh vấn đề sau khi dùng thử sản phẩm."
+    },
+    {
+      "id": "hsk5-06",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "作者为什么提到自己的经历？",
+      "translation": "Trước đây bị phê bình là tôi vội giải thích. Sau đó nhận ra nghe hết ý kiến trước sẽ dễ biết cần sửa gì hơn.",
+      "options": [
+        "先听意见有助于改进",
+        "应该马上反驳",
+        "所有批评都不合理"
+      ],
+      "answer": 0,
+      "explanation": "So sánh 以前 với 后来 để thấy bài học: nghe ý kiến trước giúp cải thiện. Không cần chọn câu phủ nhận mọi lời phê bình.",
+      "keyword": "先听完意见",
+      "seconds": 45,
+      "transcript": "以前别人批评我，我总是急着解释。后来发现，先听完意见，更容易知道自己该怎么改。",
+      "hint": "So sánh thói quen trước đây với cách làm tốt hơn mà người nói rút ra."
+    },
+    {
+      "id": "hsk5-07",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "公司希望这项措施产生什么效果？",
+      "translation": "Công ty bố trí đào tạo trong giờ làm, mong giảm gánh nặng cho nhân viên và giúp mọi người sẵn lòng tham gia hơn.",
+      "options": [
+        "延长工作时间",
+        "取消所有培训",
+        "减轻负担，鼓励参加"
+      ],
+      "answer": 2,
+      "explanation": "Sau 希望 là mục tiêu: giảm gánh nặng và khuyến khích tham gia. Mẹo: gặp câu hỏi mục đích thì bắt 希望 hoặc 为了.",
+      "keyword": "希望、减轻负担",
+      "seconds": 45,
+      "transcript": "公司把培训安排在上班时间，希望减轻员工的负担，让大家更愿意参加。",
+      "hint": "希望 dẫn vào kết quả công ty mong muốn."
+    },
+    {
+      "id": "hsk5-08",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "男的为什么建议先试行？",
+      "translation": "Nữ: Cách này hay, triển khai ngay chứ? Nam: Thử ở một bộ phận trước, phát hiện vấn đề rồi điều chỉnh sẽ chắc chắn hơn.",
+      "options": [
+        "因为已经失败了",
+        "永远不实行",
+        "先发现问题再调整"
+      ],
+      "answer": 2,
+      "explanation": "先…再… cho thấy thứ tự thử trước, điều chỉnh sau. Mục đích là giảm rủi ro trước khi triển khai rộng, không phải bỏ hẳn cách làm.",
+      "keyword": "先试试、再调整",
+      "seconds": 45,
+      "transcript": "女：这个办法不错，马上推广吗？男：先在一个部门试试，发现问题后再调整，这样更稳妥。",
+      "hint": "先…试试 là thử trước. Tìm lợi ích của việc thử ở quy mô nhỏ."
+    },
+    {
+      "id": "hsk5-09",
+      "section": "listening",
+      "instruction": "Nghe và xác định nhận định trên bảng đúng hay sai.",
+      "prompt": "判断：说话人认为传统与创新不能共存。",
+      "translation": "Bảo vệ truyền thống không phải từ chối thay đổi. Chúng ta có thể giữ truyền thống tốt và đồng thời thêm ý tưởng mới.",
+      "options": [
+        "对",
+        "错"
+      ],
+      "answer": 1,
+      "explanation": "同时 nghĩa là đồng thời: hai việc có thể cùng tồn tại. Nhận định cho rằng không thể kết hợp nên sai.",
+      "keyword": "同时",
+      "seconds": 45,
+      "transcript": "保护传统，不是拒绝变化。我们可以保留好的传统，同时加入新的想法。",
+      "hint": "Nghe xem truyền thống và đổi mới có thể cùng tồn tại hay không."
+    },
+    {
+      "id": "hsk5-10",
+      "section": "listening",
+      "instruction": "Nghe và xác định nhận định trên bảng đúng hay sai.",
+      "prompt": "判断：睡眠好只和运动有关。",
+      "translation": "Người vận động thường ngủ tốt hơn. Tuy nhiên ngủ tốt cũng có thể liên quan đến ăn uống và tâm trạng.",
+      "options": [
+        "对",
+        "错"
+      ],
+      "answer": 1,
+      "explanation": "Nhận định có 只, tức là chỉ. Bài nghe còn nhắc ăn uống và tâm trạng nên nhận định quá tuyệt đối, phải chọn sai.",
+      "keyword": "也可能和饮食、心情有关",
+      "seconds": 45,
+      "transcript": "经常运动的人一般睡得比较好。不过，睡得好也可能和饮食、心情有关。",
+      "hint": "Nhận định có chữ 只: kiểm tra xem còn yếu tố nào khác không."
+    },
+    {
+      "id": "hsk5-11",
+      "section": "reading",
+      "instruction": "Chọn từ phù hợp điền vào chỗ trống.",
+      "prompt": "企业不能只追求短期利润，还应___长期发展。",
+      "translation": "Doanh nghiệp không thể chỉ theo lợi nhuận ngắn hạn mà cần tính đến phát triển lâu dài.",
+      "options": [
+        "兼顾",
+        "消耗",
+        "模仿"
+      ],
+      "answer": 0,
+      "explanation": "兼顾 là đồng thời quan tâm nhiều mặt, phù hợp cân bằng ngắn hạn với dài hạn.",
+      "keyword": "兼顾长期发展",
+      "seconds": 45,
+      "hint": "短期 đối lập với 长期; chọn từ nói quan tâm được cả hai phía."
+    },
+    {
+      "id": "hsk5-12",
+      "section": "reading",
+      "instruction": "Chọn từ phù hợp điền vào chỗ trống.",
+      "prompt": "这项结论缺乏充分的证据，目前还不能___。",
+      "translation": "Kết luận này thiếu bằng chứng đầy đủ, hiện chưa thể đứng vững.",
+      "options": [
+        "成立",
+        "承担",
+        "延续"
+      ],
+      "answer": 0,
+      "explanation": "结论成立 nghĩa là kết luận có cơ sở, đứng vững. 承担 thường đi với trách nhiệm hoặc chi phí.",
+      "keyword": "结论成立",
+      "seconds": 45,
+      "hint": "Thiếu bằng chứng thì kết luận chưa có cơ sở vững chắc."
+    },
+    {
+      "id": "hsk5-13",
+      "section": "reading",
+      "instruction": "Chọn từ phù hợp điền vào chỗ trống.",
+      "prompt": "___把问题归结为个人能力，不如检查一下工作流程是否合理。",
+      "translation": "Thay vì quy vấn đề về năng lực cá nhân, chi bằng xem quy trình có hợp lý không.",
+      "options": [
+        "与其",
+        "尽管",
+        "除非"
+      ],
+      "answer": 0,
+      "explanation": "与其…不如… nêu hai cách tiếp cận và ưu tiên cách thứ hai.",
+      "keyword": "与其、不如",
+      "seconds": 45,
+      "hint": "Vế sau có 不如; tìm từ mở đầu mẫu 'thay vì…chi bằng…'."
+    },
+    {
+      "id": "hsk5-14",
+      "section": "reading",
+      "instruction": "Đọc kỹ nội dung và chọn đáp án đúng.",
+      "prompt": "公交车多了，但乘客说换车还是不方便。改善交通还要注意什么？",
+      "translation": "Xe buýt nhiều hơn nhưng hành khách nói chuyển xe vẫn bất tiện. Cải thiện giao thông còn cần chú ý gì?",
+      "options": [
+        "只增加车辆",
+        "取消所有公交车",
+        "线路之间的衔接"
+      ],
+      "answer": 2,
+      "explanation": "Vấn đề còn lại là đổi tuyến bất tiện. 衔接 là sự kết nối; nối các tuyến tốt hơn mới giải quyết đúng vấn đề.",
+      "keyword": "换车不方便",
+      "seconds": 45,
+      "hint": "Xe đã nhiều hơn. Tìm vấn đề mà người đi xe vẫn gặp."
+    },
+    {
+      "id": "hsk5-15",
+      "section": "reading",
+      "instruction": "Chọn từ phù hợp điền vào chỗ trống.",
+      "prompt": "面对不同意见，他没有急于反驳，而是先___对方的理由。",
+      "translation": "Trước ý kiến khác, anh ấy không vội phản bác mà trước hết tìm hiểu lý do của đối phương.",
+      "options": [
+        "了解",
+        "限制",
+        "忽略"
+      ],
+      "answer": 0,
+      "explanation": "没有急于反驳…而是先… thể hiện tiếp nhận và hiểu trước. 忽略 là bỏ qua, không hợp với hành động lắng nghe.",
+      "keyword": "了解理由",
+      "seconds": 45,
+      "hint": "Không vội phản bác: người nói làm gì để hiểu lý do trước?"
+    },
+    {
+      "id": "hsk5-16",
+      "section": "reading",
+      "instruction": "Đọc kỹ nội dung và chọn đáp án đúng.",
+      "prompt": "有人把阅读量当作学习成果，却忽视了理解和运用。作者更重视什么？",
+      "translation": "Có người coi lượng đọc là thành quả học nhưng bỏ qua hiểu và vận dụng. Tác giả coi trọng gì hơn?",
+      "options": [
+        "知识的理解与运用",
+        "书本的价格",
+        "阅读速度"
+      ],
+      "answer": 0,
+      "explanation": "却忽视了 đưa ra điều tác giả muốn nhấn mạnh: hiểu và dùng được kiến thức.",
+      "keyword": "理解和运用",
+      "seconds": 45,
+      "hint": "却忽视了 chỉ điều bị bỏ qua; đó thường là ý tác giả muốn nhấn mạnh."
+    },
+    {
+      "id": "hsk5-17",
+      "section": "reading",
+      "instruction": "Chọn từ phù hợp điền vào chỗ trống.",
+      "prompt": "只有建立有效的反馈机制，问题___能及时被发现。",
+      "translation": "Chỉ khi xây dựng cơ chế phản hồi hiệu quả thì vấn đề mới có thể được phát hiện kịp thời.",
+      "options": [
+        "却",
+        "才",
+        "就"
+      ],
+      "answer": 1,
+      "explanation": "Mẫu 只有…才… biểu thị điều kiện cần, khác với 只要…就….",
+      "keyword": "只有、才",
+      "seconds": 45,
+      "hint": "只有 là điều kiện cần; tìm từ thường đi với nó ở vế sau."
+    },
+    {
+      "id": "hsk5-18",
+      "section": "reading",
+      "instruction": "Đọc kỹ nội dung và chọn đáp án đúng.",
+      "prompt": "书店举办读书活动后，来的人多了，但卖出的书没有明显增加。哪项正确？",
+      "translation": "Sau hoạt động đọc sách, nhà sách có nhiều người đến hơn nhưng số sách bán không tăng rõ. Nhận định nào đúng?",
+      "options": [
+        "人多了，销量没明显增加",
+        "销量大幅增加",
+        "完全没有人来"
+      ],
+      "answer": 0,
+      "explanation": "Tách hai thông tin: nhiều người đến hơn, nhưng sách bán chưa tăng rõ. Chọn đáp án khớp cả hai, đừng chỉ nhìn một nửa câu.",
+      "keyword": "人多了、销量没增加",
+      "seconds": 45,
+      "hint": "Phân biệt số người đến cửa hàng với số sách bán được."
+    },
+    {
+      "id": "hsk5-19",
+      "section": "reading",
+      "instruction": "Chọn từ phù hợp điền vào chỗ trống.",
+      "prompt": "随着讨论的深入，双方逐渐___了分歧，最终达成一致。",
+      "translation": "Khi thảo luận sâu hơn, hai bên dần xóa bỏ bất đồng và cuối cùng đạt nhất trí.",
+      "options": [
+        "制造",
+        "消除",
+        "扩大"
+      ],
+      "answer": 1,
+      "explanation": "消除分歧 là xóa bỏ bất đồng, phù hợp với kết quả 达成一致.",
+      "keyword": "消除分歧",
+      "seconds": 45,
+      "hint": "Cuối câu là 达成一致: chọn động từ giúp bất đồng giảm đi."
+    },
+    {
+      "id": "hsk5-20",
+      "section": "reading",
+      "instruction": "Đọc kỹ nội dung và chọn đáp án đúng.",
+      "prompt": "新规定刚实施，大家还不熟悉，效率暂时下降了。现在应该怎么办？",
+      "translation": "Quy định mới vừa áp dụng, mọi người chưa quen nên hiệu suất tạm giảm. Bây giờ nên làm gì?",
+      "options": [
+        "不允许员工学习",
+        "马上认定完全失败",
+        "给大家时间适应，再观察"
+      ],
+      "answer": 2,
+      "explanation": "刚 và 暂时 cho thấy đây mới là giai đoạn đầu. Mẹo: khi còn đang làm quen, không kết luận hoàn toàn thất bại chỉ từ kết quả tạm thời.",
+      "keyword": "刚、还不熟悉、暂时",
+      "seconds": 45,
+      "hint": "Mọi người còn cần thời gian làm quen. Đừng kết luận vội từ lúc đầu."
+    }
+  ]
+}

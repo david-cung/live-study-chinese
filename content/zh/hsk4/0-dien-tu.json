@@ -1,0 +1,17 @@
+{
+  "title": "Luyện điền từ HSK4",
+  "cloze": [
+    { "sentence": "请你___一下明天的会议时间。", "vi": "Hãy sắp xếp thời gian họp ngày mai.", "answer": "安排", "options": ["安排", "拒绝", "保护", "浪费"] },
+    { "sentence": "他有十年的工作___。", "vi": "Anh ấy có mười năm kinh nghiệm làm việc.", "answer": "经验", "options": ["经验", "原因", "结果", "印象"] },
+    { "sentence": "请___一下你为什么迟到。", "vi": "Hãy giải thích vì sao bạn đến muộn.", "answer": "解释", "options": ["解释", "保护", "节约", "拒绝"] },
+    { "sentence": "我们应该___环境，不乱扔垃圾。", "vi": "Chúng ta nên bảo vệ môi trường, không vứt rác bừa bãi.", "answer": "保护", "options": ["保护", "浪费", "放弃", "反对"] },
+    { "sentence": "关灯可以___电。", "vi": "Tắt đèn có thể tiết kiệm điện.", "answer": "节约", "options": ["节约", "浪费", "拒绝", "调查"] },
+    { "sentence": "虽然很难，他还是___每天练习。", "vi": "Tuy rất khó, anh ấy vẫn kiên trì luyện tập mỗi ngày.", "answer": "坚持", "options": ["坚持", "放弃", "拒绝", "反对"] },
+    { "sentence": "搬到新城市后，我需要时间___这里的生活。", "vi": "Sau khi chuyển đến thành phố mới, tôi cần thời gian thích nghi với cuộc sống ở đây.", "answer": "适应", "options": ["适应", "申请", "节约", "拒绝"] },
+    { "sentence": "他没有___邀请，而是高兴地答应了。", "vi": "Anh ấy không từ chối lời mời mà vui vẻ nhận lời.", "answer": "拒绝", "options": ["拒绝", "同意", "理解", "表示"] },
+    { "sentence": "请大家一起___这个问题。", "vi": "Mời mọi người cùng thảo luận vấn đề này.", "answer": "讨论", "options": ["讨论", "节约", "放弃", "保护"] },
+    { "sentence": "这道题很___，一步就能做出来。", "vi": "Câu này rất đơn giản, chỉ một bước là giải được.", "answer": "简单", "options": ["简单", "复杂", "及时", "耐心"] },
+    { "sentence": "请你___一点儿，孩子还在学习。", "vi": "Hãy kiên nhẫn một chút, đứa trẻ vẫn đang học.", "answer": "耐心", "options": ["耐心", "及时", "复杂", "准确"] },
+    { "sentence": "别___时间了，我们开始工作吧。", "vi": "Đừng lãng phí thời gian nữa, chúng ta bắt đầu làm việc thôi.", "answer": "浪费", "options": ["浪费", "节约", "理解", "表示"] }
+  ]
+}

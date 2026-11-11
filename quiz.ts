@@ -4,6 +4,8 @@ import path from 'path';
 import type { ClozeExercise, LessonInfo, QuizKind, QuizMode, QuizQuestion, QuizState, TopEntry, Word } from './src/types';
 import { QUIZ_KINDS, QUIZ_LABELS, questionAnswer } from './src/quizModes';
 import { availableQuestionKinds, clozeQuestion, shuffle, validClozeExercises, wordQuestion } from './questions';
+import { isHskLevel, loadExams } from './exams';
+import type { Activity, ExamExercise, ExamResult, HskLevel } from './src/examTypes';
 
 const CONTENT_DIR = path.join(process.cwd(), 'content', 'zh');
 export const ANSWER_SECONDS = [10, 15, 20, 30];
@@ -97,22 +99,32 @@ export class Quiz {
   private vipNext = new Set<string>();
   private bonusPending = false;
   private megaBonus = false;
+  private activity: Activity = 'study';
+  private papers = loadExams();
+  private examLevel: HskLevel = 'hsk1';
+  private examCursor = 0;
+  private examCompleted = false;
+  private examResults = new Map<string, ExamResult>();
 
   constructor(
     private emit: (event: string, data: unknown) => void,
-    opts: { lessonId?: string; seconds?: number; mode?: QuizMode },
+    opts: { lessonId?: string; seconds?: number; mode?: QuizMode; activity?: Activity; examLevel?: HskLevel },
   ) {
     this.lessonId = this.lessons.some((l) => l.id === opts.lessonId) ? opts.lessonId! : this.lessons[0]?.id || '';
     this.seconds = ANSWER_SECONDS.includes(opts.seconds!) ? opts.seconds! : 15;
     this.mode = opts.mode && (opts.mode === 'mixed' || this.availableKinds.includes(opts.mode)) ? opts.mode : 'mixed';
+    if (isHskLevel(opts.examLevel)) this.examLevel = opts.examLevel;
+    if (opts.activity === 'exam' && this.paper) this.activity = 'exam';
   }
 
   get settings() {
-    return { lessonId: this.lessonId, seconds: this.seconds, mode: this.mode };
+    return { lessonId: this.lessonId, seconds: this.seconds, mode: this.mode, activity: this.activity, examLevel: this.examLevel };
   }
+  private get paper() { return this.papers.find((paper) => paper.level === this.examLevel); }
+  private get exercise(): ExamExercise | undefined { return this.paper?.questions[this.examCursor - 1]; }
   private get availableKinds() { return this.lesson ? availableQuestionKinds(this.lesson.words, this.lesson.cloze) : []; }
   get isAsking() {
-    return this.phase === 'asking';
+    return this.phase === 'asking' && this.running;
   }
   lessonList(): LessonInfo[] {
     this.lessons = loadLessons();
@@ -126,15 +138,26 @@ export class Quiz {
   }
 
   state(): QuizState {
+    let question = this.question;
+    if (question?.exam && this.phase === 'reveal' && this.exercise) {
+      const { transcript, translation, explanation, keyword } = this.exercise;
+      question = { ...question, exam: { ...question.exam, transcript, translation, explanation, keyword } };
+    }
     return {
+      activity: this.activity,
+      exam: this.activity === 'exam' && this.paper ? {
+        id: this.paper.id, level: this.examLevel, title: this.paper.title, description: this.paper.description,
+        position: this.examCursor, total: this.paper.questions.length, completed: this.examCompleted,
+        results: [...this.examResults.values()].sort((a, b) => b.listening + b.reading - a.listening - a.reading),
+      } : undefined,
       running: this.running,
       mode: this.mode,
       availableKinds: this.availableKinds,
       phase: this.phase,
-      lessonId: this.lesson?.id || '',
-      lessonTitle: this.lesson?.title || 'Chưa có bài học',
+      lessonId: this.activity === 'exam' ? this.examLevel : this.lesson?.id || '',
+      lessonTitle: this.activity === 'exam' ? this.paper?.title || 'Chưa có bộ đề' : this.lesson?.title || 'Chưa có bài học',
       seconds: this.seconds,
-      question: this.question,
+      question,
       answeredCount: this.answers.size,
       correct: this.phase === 'reveal' ? this.correct : null,
       correctUsers: this.phase === 'reveal' ? this.correctUsers : [],
@@ -146,15 +169,27 @@ export class Quiz {
     this.emit('quiz', this.state());
   }
   top(n = 5) {
+    if (this.activity === 'exam') return [...this.examResults.values()]
+      .map((result) => ({ username: result.username, nickname: result.nickname, points: result.listening + result.reading }))
+      .sort((a, b) => b.points - a.points).slice(0, n);
     return [...this.scores.values()].sort((a, b) => b.points - a.points).slice(0, n);
   }
   rankOf(username: string) {
-    const all = [...this.scores.values()].sort((a, b) => b.points - a.points);
+    const all = this.activity === 'exam' ? this.top(this.examResults.size) : [...this.scores.values()].sort((a, b) => b.points - a.points);
     const i = all.findIndex((s) => s.username === username);
     return i < 0 ? null : { rank: i + 1, points: all[i].points, total: all.length };
   }
 
   start() {
+    if (this.activity === 'exam') {
+      if (!this.paper) throw new Error('Chưa có bộ đề cho cấp độ này');
+      if (this.running) return;
+      if (this.examCompleted) { this.resetExam(); this.emit('score', { top: [] }); }
+      this.running = true;
+      if (!this.question) this.nextExam();
+      else this.push();
+      return;
+    }
     if (!this.lesson) throw new Error('Chưa có bài học nào trong content/zh');
     this.running = true;
     if (this.phase === 'idle') this.next();
@@ -163,6 +198,12 @@ export class Quiz {
   // Pausing mid-question drops that question; mid-reveal the answer stays up until its timer ends
   pause() {
     this.running = false;
+    if (this.activity === 'exam') {
+      this.clear();
+      if (this.question && this.phase === 'asking') this.question = { ...this.question, endsAt: 0 };
+      this.push();
+      return;
+    }
     if (this.phase === 'asking') {
       this.clear();
       this.phase = 'idle';
@@ -172,10 +213,24 @@ export class Quiz {
     this.push();
   }
   skip() {
+    if (this.activity === 'exam') {
+      if (!this.running) throw new Error('Bấm Bắt đầu hoặc Tiếp tục trước');
+      if (this.phase === 'asking') this.reveal();
+      else this.nextExam();
+      return;
+    }
     if (!this.lesson) throw new Error('Chưa có bài học nào trong content/zh');
     this.next();
   }
   setLesson(id: string) {
+    if (this.activity === 'exam') {
+      if (!isHskLevel(id) || !this.papers.some((paper) => paper.level === id)) throw new Error('Không tìm thấy bộ đề');
+      this.examLevel = id;
+      this.resetExam();
+      this.push();
+      this.emit('score', { top: this.top() });
+      return;
+    }
     this.lessons = loadLessons();
     if (!this.lessons.some((l) => l.id === id)) throw new Error('Không tìm thấy bài học');
     this.lessonId = id;
@@ -198,6 +253,7 @@ export class Quiz {
     this.push();
   }
   resetScores() {
+    if (this.activity === 'exam') throw new Error('Dùng Làm lại đề để đặt lại kết quả giải đề');
     this.scores.clear();
     this.emit('score', { top: [] });
   }
@@ -234,7 +290,8 @@ export class Quiz {
   tryAnswer(u: User, text: string) {
     const choice = parseAnswer(text);
     if (choice === null) return false;
-    if (this.phase !== 'asking' || this.answers.has(u.username)) return true;
+    if (!this.isAsking || !this.question || choice >= this.question.options.length || this.answers.has(u.username)) return true;
+    if (this.activity === 'exam' && (!this.question.endsAt || Date.now() >= this.question.endsAt)) return true;
     this.answers.set(u.username, { choice, at: Date.now(), nickname: u.nickname });
     this.emit('answered', { username: u.username, count: this.answers.size });
     return true;
@@ -296,10 +353,20 @@ export class Quiz {
 
   private reveal() {
     this.clear();
+    if (!this.question || this.phase !== 'asking') return;
     const q = this.question!;
     const startedAt = q.endsAt - q.seconds * 1000;
     const right = [...this.answers.entries()].filter(([, a]) => a.choice === this.correct).sort((a, b) => a[1].at - b[1].at);
-    for (const [username, a] of right) {
+    if (this.activity === 'exam' && this.exercise) {
+      for (const [username, answer] of this.answers) {
+        const result = this.examResults.get(username) || { username, nickname: answer.nickname, answered: 0, listening: 0, reading: 0 };
+        result.nickname = answer.nickname;
+        result.answered++;
+        if (answer.choice === this.correct) result[this.exercise.section]++;
+        this.examResults.set(username, result);
+      }
+    }
+    for (const [username, a] of this.activity === 'exam' ? [] : right) {
       // Faster answers earn up to double the base points
       const speed = Math.max(0, 1 - (a.at - startedAt) / (q.seconds * 1000));
       let pts = Math.round(BASE_POINTS * (1 + speed));
@@ -316,6 +383,7 @@ export class Quiz {
     this.phase = 'reveal';
     this.push();
     this.emit('score', { top: this.top() });
+    if (this.activity === 'exam') return; // The operator advances after the explanation has finished.
     this.timer = setTimeout(() => {
       if (this.running) this.next();
       else {
@@ -328,5 +396,74 @@ export class Quiz {
 
   letter(i: number) {
     return LETTERS[i] || '?';
+  }
+
+  setActivity(value: string) {
+    if (value !== 'study' && value !== 'exam') throw new Error('Chế độ không hợp lệ');
+    if (value === this.activity) return;
+    if (value === 'exam' && !this.paper) throw new Error('Chưa có bộ đề');
+    this.resetExam();
+    this.activity = value;
+    this.push();
+    this.emit('score', { top: this.top() });
+  }
+
+  private resetExam() {
+    this.clear();
+    this.running = false;
+    this.phase = 'idle';
+    this.question = null;
+    this.correct = null;
+    this.answers.clear();
+    this.correctUsers = [];
+    this.winners = [];
+    this.examCursor = 0;
+    this.examCompleted = false;
+    this.examResults.clear();
+  }
+
+  restartExam() {
+    if (this.activity !== 'exam') throw new Error('Chỉ dùng trong chế độ giải đề');
+    this.resetExam();
+    this.push();
+    this.emit('score', { top: [] });
+  }
+
+  // A question number prevents a late audio callback from opening a different question.
+  openExamAnswers(no: number) {
+    if (this.activity !== 'exam' || !this.running || this.phase !== 'asking' || this.question?.no !== no || this.question.endsAt) return;
+    this.question = { ...this.question, endsAt: Date.now() + this.question.seconds * 1000 };
+    this.push();
+    this.timer = setTimeout(() => this.reveal(), this.question.seconds * 1000);
+  }
+
+  examTranscript(no: number) {
+    return this.activity === 'exam' && this.question?.no === no ? this.exercise?.transcript : undefined;
+  }
+
+  private nextExam() {
+    this.clear();
+    const paper = this.paper!;
+    if (this.examCursor >= paper.questions.length) {
+      this.running = false;
+      this.phase = 'idle';
+      this.question = null;
+      this.examCompleted = true;
+      this.push();
+      return;
+    }
+    const exercise = paper.questions[this.examCursor++];
+    this.answers.clear();
+    this.correct = exercise.answer;
+    this.correctUsers = [];
+    this.winners = [];
+    this.question = {
+      no: ++this.no, kind: 'reverse', word: { hanzi: '', pinyin: '', vi: '' }, options: exercise.options,
+      seconds: exercise.seconds, endsAt: 0, bonus: false,
+      exam: { id: exercise.id, position: this.examCursor, total: paper.questions.length,
+        section: exercise.section, instruction: exercise.instruction, hint: exercise.hint, prompt: exercise.prompt },
+    };
+    this.phase = 'asking';
+    this.push();
   }
 }

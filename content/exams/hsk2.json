@@ -1,0 +1,356 @@
+{
+  "id": "hsk2-luyen-01",
+  "level": "hsk2",
+  "title": "HSK2 · Bộ luyện 01",
+  "description": "Bộ luyện nhẹ nhàng cho lớp live: 10 câu nghe, 10 câu đọc, có mẹo tìm đáp án. Tự biên soạn, không phải đề thi chính thức.",
+  "questions": [
+    {
+      "id": "hsk2-01",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "他怎么去上班？",
+      "translation": "Ngày nào tôi cũng đi xe buýt đến công ty, hôm nay muốn đi bộ.",
+      "options": [
+        "今天坐飞机",
+        "今天坐公共汽车",
+        "今天走路"
+      ],
+      "answer": 2,
+      "explanation": "Câu hỏi chọn cách đi hôm nay. 今天想走路去 khác với thói quen 每天坐公共汽车.",
+      "keyword": "今天、走路",
+      "seconds": 30,
+      "transcript": "我每天坐公共汽车去公司，今天想走路去。",
+      "hint": "Phân biệt thói quen 每天 với kế hoạch 今天."
+    },
+    {
+      "id": "hsk2-02",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "这件衣服多少钱？",
+      "translation": "Nữ: Chiếc áo này bao nhiêu tiền? Nam: Hôm qua tám mươi, hôm nay sáu mươi.",
+      "options": [
+        "六十块",
+        "二十块",
+        "八十块"
+      ],
+      "answer": 0,
+      "explanation": "Giá hiện tại là 六十. 八十 là giá hôm qua.",
+      "keyword": "今天六十",
+      "seconds": 30,
+      "transcript": "女：这件衣服多少钱？男：昨天八十，今天六十。",
+      "hint": "Cần giá hôm nay; nghe kỹ từ 今天 trước con số."
+    },
+    {
+      "id": "hsk2-03",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "他们什么时候见面？",
+      "translation": "Nam: Chín giờ gặp nhé? Nữ: Chín giờ tôi có tiết, mười giờ nhé. Nam: Được.",
+      "options": [
+        "十点",
+        "八点",
+        "九点"
+      ],
+      "answer": 0,
+      "explanation": "Giờ thống nhất cuối cùng là 十点; 九点 chỉ là đề nghị ban đầu.",
+      "keyword": "十点吧、好",
+      "seconds": 30,
+      "transcript": "男：我们九点见，好吗？女：我九点有课，十点吧。男：好。",
+      "hint": "Đừng chốt giờ đầu tiên. Nghe giờ mà cả hai đồng ý sau cùng."
+    },
+    {
+      "id": "hsk2-04",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "她为什么没去跑步？",
+      "translation": "Hôm nay trời mưa nên tôi không đi chạy bộ, ở nhà nghỉ ngơi.",
+      "options": [
+        "因为生病",
+        "因为下雨",
+        "因为上班"
+      ],
+      "answer": 1,
+      "explanation": "下雨 là nguyên nhân, được nối với kết quả bằng 所以.",
+      "keyword": "下雨、所以",
+      "seconds": 30,
+      "transcript": "今天下雨了，所以我没去跑步，在家休息。",
+      "hint": "Câu hỏi hỏi vì sao. Tìm nguyên nhân trước 所以."
+    },
+    {
+      "id": "hsk2-05",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "谁比他高？",
+      "translation": "Tôi cao hơn em trai, nhưng anh trai cao hơn tôi.",
+      "options": [
+        "哥哥",
+        "孩子",
+        "弟弟"
+      ],
+      "answer": 0,
+      "explanation": "哥哥比我高 nghĩa là anh trai cao hơn tôi; đừng đảo chiều so sánh.",
+      "keyword": "哥哥比我高",
+      "seconds": 30,
+      "transcript": "我比弟弟高，但是哥哥比我高。",
+      "hint": "Với A比B高, A là người cao hơn. Đừng đảo hai người."
+    },
+    {
+      "id": "hsk2-06",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "她找什么？",
+      "translation": "Nữ: Bạn thấy điện thoại của tôi không? Nam: Ở trên bàn, cạnh đồng hồ.",
+      "options": [
+        "手机",
+        "铅笔",
+        "手表"
+      ],
+      "answer": 0,
+      "explanation": "Vật đang tìm là 手机. 手表 chỉ là vật ở bên cạnh.",
+      "keyword": "我的手机",
+      "seconds": 30,
+      "transcript": "女：你看见我的手机了吗？男：在桌子上，手表旁边。",
+      "hint": "Tìm vật đang bị hỏi tìm; vật bên cạnh chỉ giúp xác định vị trí."
+    },
+    {
+      "id": "hsk2-07",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "他觉得考试怎么样？",
+      "translation": "Bài thi hôm nay không khó lắm, tôi đã làm hết.",
+      "options": [
+        "非常难",
+        "不太难",
+        "没做完"
+      ],
+      "answer": 1,
+      "explanation": "不太难 là không khó lắm; 都做完了 loại phương án chưa làm xong.",
+      "keyword": "不太难",
+      "seconds": 30,
+      "transcript": "今天的考试不太难，我都做完了。",
+      "hint": "Chú ý 不太: nó làm mức độ nhẹ hơn, không có nghĩa là rất."
+    },
+    {
+      "id": "hsk2-08",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "他已经学了多长时间汉语？",
+      "translation": "Nữ: Bạn học tiếng Trung bao lâu rồi? Nam: Từ năm ngoái đến nay đã một năm.",
+      "options": [
+        "一个月",
+        "一年",
+        "两年"
+      ],
+      "answer": 1,
+      "explanation": "一年 nêu trực tiếp khoảng thời gian học, không phải tuổi của người nói.",
+      "keyword": "已经一年",
+      "seconds": 30,
+      "transcript": "女：你学汉语多久了？男：从去年到现在，已经一年了。",
+      "hint": "Nghe số đi cùng 年, không nhầm với 月."
+    },
+    {
+      "id": "hsk2-09",
+      "section": "listening",
+      "instruction": "Nghe và xác định nhận định trên bảng đúng hay sai.",
+      "prompt": "判断：她今天想吃面条。",
+      "translation": "Hôm qua tôi ăn mì, hôm nay muốn ăn cơm.",
+      "options": [
+        "对",
+        "错"
+      ],
+      "answer": 1,
+      "explanation": "Nhận định nhầm hôm qua với hôm nay. Hôm nay người nói muốn ăn 米饭.",
+      "keyword": "昨天、今天",
+      "seconds": 30,
+      "transcript": "我昨天吃了面条，今天想吃米饭。",
+      "hint": "Phân biệt món ăn 昨天 với món muốn ăn 今天."
+    },
+    {
+      "id": "hsk2-10",
+      "section": "listening",
+      "instruction": "Nghe và xác định nhận định trên bảng đúng hay sai.",
+      "prompt": "判断：他觉得这本书很有意思。",
+      "translation": "Quyển sách này thật thú vị, tôi còn muốn đọc lại một lần.",
+      "options": [
+        "对",
+        "错"
+      ],
+      "answer": 0,
+      "explanation": "真有意思 xác nhận nhận định; 再看一次 cho biết muốn đọc lại.",
+      "keyword": "真有意思",
+      "seconds": 30,
+      "transcript": "这本书真有意思，我还想再看一次。",
+      "hint": "再看一次 nghĩa là muốn xem lại; thử đoán thái độ của người nói."
+    },
+    {
+      "id": "hsk2-11",
+      "section": "reading",
+      "instruction": "Chọn từ phù hợp điền vào chỗ trống.",
+      "prompt": "他___我大三岁。",
+      "translation": "Anh ấy hơn tôi ba tuổi.",
+      "options": [
+        "到",
+        "从",
+        "比"
+      ],
+      "answer": 2,
+      "explanation": "Mẫu so sánh tuổi là A比B大 + số tuổi chênh lệch.",
+      "keyword": "比我大",
+      "seconds": 30,
+      "hint": "So sánh hai người thường có mẫu A比B…"
+    },
+    {
+      "id": "hsk2-12",
+      "section": "reading",
+      "instruction": "Chọn từ phù hợp điền vào chỗ trống.",
+      "prompt": "___下雨了，所以我们不去踢足球。",
+      "translation": "Vì trời mưa nên chúng tôi không đi đá bóng.",
+      "options": [
+        "但是",
+        "因为",
+        "虽然"
+      ],
+      "answer": 1,
+      "explanation": "Vế sau có 所以; cần 因为 để nêu nguyên nhân.",
+      "keyword": "因为、所以",
+      "seconds": 30,
+      "hint": "Thấy 所以 ở vế sau, tìm từ mở đầu nêu nguyên nhân."
+    },
+    {
+      "id": "hsk2-13",
+      "section": "reading",
+      "instruction": "Chọn từ phù hợp điền vào chỗ trống.",
+      "prompt": "这件衣服太贵了，我想买一件___的。",
+      "translation": "Chiếc áo này đắt quá, tôi muốn mua một chiếc rẻ.",
+      "options": [
+        "远",
+        "便宜",
+        "忙"
+      ],
+      "answer": 1,
+      "explanation": "贵 và 便宜 là hai mức giá đối lập. 忙 là bận, 远 là xa.",
+      "keyword": "贵、便宜",
+      "seconds": 30,
+      "hint": "Người nói chê giá cao, nên tìm từ chỉ mức giá ngược lại."
+    },
+    {
+      "id": "hsk2-14",
+      "section": "reading",
+      "instruction": "Đọc kỹ nội dung và chọn đáp án đúng.",
+      "prompt": "我家离学校很近，走路五分钟就到了。他怎么去学校最方便？",
+      "translation": "Nhà tôi rất gần trường, đi bộ năm phút là đến. Đi thế nào tiện nhất?",
+      "options": [
+        "走路",
+        "坐飞机",
+        "坐船"
+      ],
+      "answer": 0,
+      "explanation": "Khoảng cách gần và chỉ cần đi bộ năm phút là căn cứ chọn 走路.",
+      "keyword": "走路五分钟",
+      "seconds": 30,
+      "hint": "Đường chỉ mất năm phút: chọn cách đi phù hợp với quãng gần."
+    },
+    {
+      "id": "hsk2-15",
+      "section": "reading",
+      "instruction": "Chọn từ phù hợp điền vào chỗ trống.",
+      "prompt": "请等一下，我___看书呢。",
+      "translation": "Xin đợi một lát, tôi đang đọc sách.",
+      "options": [
+        "正在",
+        "再",
+        "已经"
+      ],
+      "answer": 0,
+      "explanation": "正在…呢 diễn tả hành động đang xảy ra. 已经 thiên về đã xảy ra.",
+      "keyword": "正在看书呢",
+      "seconds": 30,
+      "hint": "Hành động đang diễn ra và có 呢 cuối câu: tìm dấu hiệu 'đang'."
+    },
+    {
+      "id": "hsk2-16",
+      "section": "reading",
+      "instruction": "Đọc kỹ nội dung và chọn đáp án đúng.",
+      "prompt": "妈妈让我买十个鸡蛋，我已经买了六个，还要买几个？",
+      "translation": "Mẹ bảo mua mười quả trứng, tôi đã mua sáu quả, cần mua thêm mấy quả?",
+      "options": [
+        "四个",
+        "六个",
+        "十个"
+      ],
+      "answer": 0,
+      "explanation": "Còn thiếu mười trừ sáu bằng bốn quả. 还要 hỏi phần còn lại.",
+      "keyword": "十个、六个",
+      "seconds": 30,
+      "hint": "Cần mua mười, đã mua sáu; tính phần còn thiếu thôi."
+    },
+    {
+      "id": "hsk2-17",
+      "section": "reading",
+      "instruction": "Chọn từ phù hợp điền vào chỗ trống.",
+      "prompt": "虽然他很忙，___每天都运动。",
+      "translation": "Mặc dù rất bận nhưng ngày nào anh ấy cũng vận động.",
+      "options": [
+        "但是",
+        "因为",
+        "所以"
+      ],
+      "answer": 0,
+      "explanation": "虽然…但是… diễn đạt nhượng bộ, hai vế có sự tương phản.",
+      "keyword": "虽然、但是",
+      "seconds": 30,
+      "hint": "虽然 ở đầu câu thường đi với từ nối mang nghĩa 'nhưng'."
+    },
+    {
+      "id": "hsk2-18",
+      "section": "reading",
+      "instruction": "Chọn từ phù hợp điền vào chỗ trống.",
+      "prompt": "我没听___，请再说一次。",
+      "translation": "Tôi nghe chưa hiểu, xin nói lại một lần.",
+      "options": [
+        "完",
+        "懂",
+        "错"
+      ],
+      "answer": 1,
+      "explanation": "听懂 là nghe hiểu; 没听懂 giải thích vì sao cần nói lại.",
+      "keyword": "听懂",
+      "seconds": 30,
+      "hint": "Nghe mà chưa hiểu thì cần nói lại. Chọn từ chỉ hiểu."
+    },
+    {
+      "id": "hsk2-19",
+      "section": "reading",
+      "instruction": "Đọc kỹ nội dung và chọn đáp án đúng.",
+      "prompt": "小王生病了，今天没来上课。他为什么没来？",
+      "translation": "Tiểu Vương bị ốm, hôm nay không đến lớp. Vì sao bạn ấy không đến?",
+      "options": [
+        "生病了",
+        "没时间",
+        "不喜欢学习"
+      ],
+      "answer": 0,
+      "explanation": "Nguyên nhân được nêu rõ là 生病了, không phải không thích học.",
+      "keyword": "生病了",
+      "seconds": 30,
+      "hint": "Tìm lý do được nêu ngay trước 今天没来."
+    },
+    {
+      "id": "hsk2-20",
+      "section": "reading",
+      "instruction": "Đọc kỹ nội dung và chọn đáp án đúng.",
+      "prompt": "姐姐喜欢唱歌，妹妹喜欢跳舞。谁喜欢跳舞？",
+      "translation": "Chị gái thích hát, em gái thích múa. Ai thích múa?",
+      "options": [
+        "姐姐",
+        "妹妹",
+        "哥哥"
+      ],
+      "answer": 1,
+      "explanation": "Cần ghép đúng người với hoạt động: 妹妹 đi cùng 跳舞.",
+      "keyword": "妹妹喜欢跳舞",
+      "seconds": 30,
+      "hint": "Chia thành hai cặp người–sở thích, rồi tìm người thích múa."
+    }
+  ]
+}

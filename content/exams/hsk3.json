@@ -1,0 +1,356 @@
+{
+  "id": "hsk3-luyen-01",
+  "level": "hsk3",
+  "title": "HSK3 · Bộ luyện 01",
+  "description": "Bộ luyện nhẹ nhàng cho lớp live: 10 câu nghe, 10 câu đọc, có mẹo tìm đáp án. Tự biên soạn, không phải đề thi chính thức.",
+  "questions": [
+    {
+      "id": "hsk3-01",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "他准备在哪里等朋友？",
+      "translation": "Nữ: Bạn đợi tôi ở ga tàu điện nhé. Nam: Ở đó đông quá, tôi đợi ở cửa ngân hàng gần đó.",
+      "options": [
+        "图书馆里",
+        "银行门口",
+        "地铁站里"
+      ],
+      "answer": 1,
+      "explanation": "Người nam thay địa điểm hẹn sang 银行门口; địa điểm đầu bị từ chối.",
+      "keyword": "银行门口",
+      "seconds": 40,
+      "transcript": "女：你在地铁站等我吧。男：那里人太多，我在附近的银行门口等你。",
+      "hint": "Đừng chọn địa điểm đề nghị đầu tiên; nghe chỗ hẹn cuối cùng."
+    },
+    {
+      "id": "hsk3-02",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "她为什么去图书馆？",
+      "translation": "Mai có bài thi, ở nhà ồn quá nên tôi muốn đến thư viện ôn tập.",
+      "options": [
+        "参加会议",
+        "借地图",
+        "复习考试"
+      ],
+      "answer": 2,
+      "explanation": "复习 là mục đích. 家里太吵 giải thích vì sao chọn thư viện.",
+      "keyword": "去图书馆复习",
+      "seconds": 40,
+      "transcript": "明天有考试，家里太吵了，我想去图书馆复习。",
+      "hint": "Câu hỏi hỏi mục đích đến thư viện. Nghe động từ sau 去."
+    },
+    {
+      "id": "hsk3-03",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "会议改到几点？",
+      "translation": "Nam: Cuộc họp vẫn bắt đầu lúc hai giờ chứ? Nữ: Quản lý chưa đến, đã đổi sang ba giờ rưỡi.",
+      "options": [
+        "三点半",
+        "两点",
+        "三点"
+      ],
+      "answer": 0,
+      "explanation": "改到 đánh dấu thời gian mới là 三点半, thay cho 两点.",
+      "keyword": "改到三点半",
+      "seconds": 40,
+      "transcript": "男：会议还是两点开始吗？女：经理还没到，改到三点半了。",
+      "hint": "改到 báo hiệu đổi lịch; chú ý giờ đứng ngay sau nó."
+    },
+    {
+      "id": "hsk3-04",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "她怎么了？",
+      "translation": "Tôi hơi sốt, bác sĩ bảo nghỉ nhiều nên hôm nay không thể tham gia thi đấu.",
+      "options": [
+        "迟到了",
+        "搬家了",
+        "发烧了"
+      ],
+      "answer": 2,
+      "explanation": "发烧 là tình trạng sức khỏe; không tham gia thi đấu là kết quả.",
+      "keyword": "发烧",
+      "seconds": 40,
+      "transcript": "我有点儿发烧，医生让我多休息，今天不能参加比赛了。",
+      "hint": "Tìm triệu chứng sức khỏe, không nhầm với hoạt động bị hủy."
+    },
+    {
+      "id": "hsk3-05",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "男的把书放在哪儿了？",
+      "translation": "Nữ: Sách tôi cho bạn mượn đâu? Nam: Tôi trả bạn rồi, ở trên bàn trong văn phòng của bạn.",
+      "options": [
+        "办公室的桌子上",
+        "厨房里",
+        "图书馆"
+      ],
+      "answer": 0,
+      "explanation": "已经还给你了 nói đã trả; vị trí cụ thể là trên bàn văn phòng.",
+      "keyword": "办公室的桌子上",
+      "seconds": 40,
+      "transcript": "女：我借给你的书呢？男：已经还给你了，在你办公室的桌子上。",
+      "hint": "借 là mượn, 还 là trả. Nghe tiếp để tìm nơi đặt sách."
+    },
+    {
+      "id": "hsk3-06",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "他们最后选择了什么？",
+      "translation": "Nữ: Đi máy bay đắt quá, đi tàu hỏa thì sao? Nam: Được, còn có thể ngắm cảnh dọc đường.",
+      "options": [
+        "出租车",
+        "飞机",
+        "火车"
+      ],
+      "answer": 2,
+      "explanation": "Người nam đồng ý đề nghị 坐火车. Máy bay là phương án bị loại vì đắt.",
+      "keyword": "坐火车、好",
+      "seconds": 40,
+      "transcript": "女：坐飞机太贵了，坐火车怎么样？男：好，还可以看看路上的风景。",
+      "hint": "Nghe đề nghị được trả lời 好; đó là phương án đã thống nhất."
+    },
+    {
+      "id": "hsk3-07",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "她对新工作感觉怎么样？",
+      "translation": "Công việc mới tuy hơi xa nhà nhưng đồng nghiệp nhiệt tình, tôi rất hài lòng.",
+      "options": [
+        "很生气",
+        "很害怕",
+        "很满意"
+      ],
+      "answer": 2,
+      "explanation": "很满意 là đánh giá cuối cùng; xa nhà không đồng nghĩa không hài lòng.",
+      "keyword": "但是、很满意",
+      "seconds": 40,
+      "transcript": "新工作虽然离家有点儿远，但是同事们很热情，我很满意。",
+      "hint": "虽然 nêu điểm bất tiện; 但是 dẫn ý đánh giá phía sau."
+    },
+    {
+      "id": "hsk3-08",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "男的为什么着急？",
+      "translation": "Nam: Đi nhanh thôi, mười phút nữa tàu chạy rồi. Nữ: Đừng sốt ruột, chúng ta sắp đến ga rồi.",
+      "options": [
+        "找不到护照",
+        "忘带手机",
+        "火车快开了"
+      ],
+      "answer": 2,
+      "explanation": "火车十分钟以后就开了 cho biết thời gian gấp, là lý do sốt ruột.",
+      "keyword": "十分钟以后就开",
+      "seconds": 40,
+      "transcript": "男：快走吧，火车十分钟以后就开了。女：别着急，我们马上就到车站了。",
+      "hint": "Chú ý còn bao nhiêu phút trước khi tàu chạy."
+    },
+    {
+      "id": "hsk3-09",
+      "section": "listening",
+      "instruction": "Nghe và xác định nhận định trên bảng đúng hay sai.",
+      "prompt": "判断：他已经完成作业了。",
+      "translation": "Bài tập còn hai câu chưa làm xong, làm xong tôi mới ra ngoài.",
+      "options": [
+        "对",
+        "错"
+      ],
+      "answer": 1,
+      "explanation": "还有…没做完 chứng tỏ bài tập chưa hoàn thành.",
+      "keyword": "没做完",
+      "seconds": 40,
+      "transcript": "作业还有两道题没做完，我做完以后再出去。",
+      "hint": "Chỉ một cụm 没做完 cũng có thể giúp kiểm tra nhận định 'đã xong'."
+    },
+    {
+      "id": "hsk3-10",
+      "section": "listening",
+      "instruction": "Nghe và xác định nhận định trên bảng đúng hay sai.",
+      "prompt": "判断：她建议多练习。",
+      "translation": "Muốn nâng cao tiếng Trung, chỉ đọc sách chưa đủ, cần nghe, nói và luyện tập nhiều.",
+      "options": [
+        "对",
+        "错"
+      ],
+      "answer": 0,
+      "explanation": "还要多听、多说、多练习 là lời khuyên tăng luyện tập.",
+      "keyword": "多练习",
+      "seconds": 40,
+      "transcript": "想提高汉语水平，只看书不够，还要多听、多说、多练习。",
+      "hint": "只…不够 nghĩa là chỉ làm thế chưa đủ; nghe lời khuyên tiếp theo."
+    },
+    {
+      "id": "hsk3-11",
+      "section": "reading",
+      "instruction": "Chọn từ phù hợp điền vào chỗ trống.",
+      "prompt": "我把护照___在家里了，现在得回去拿。",
+      "translation": "Tôi quên hộ chiếu ở nhà, bây giờ phải quay về lấy.",
+      "options": [
+        "借",
+        "忘",
+        "换"
+      ],
+      "answer": 1,
+      "explanation": "把…忘在… diễn tả để quên đồ tại một nơi. 回去拿 xác nhận phải về lấy.",
+      "keyword": "忘在家里",
+      "seconds": 40,
+      "hint": "回去拿 là quay về lấy đồ. Tìm động từ diễn tả để quên."
+    },
+    {
+      "id": "hsk3-12",
+      "section": "reading",
+      "instruction": "Chọn từ phù hợp điền vào chỗ trống.",
+      "prompt": "只要每天坚持练习，汉语水平就会慢慢___。",
+      "translation": "Chỉ cần kiên trì luyện mỗi ngày, trình độ tiếng Trung sẽ dần nâng cao.",
+      "options": [
+        "参加",
+        "离开",
+        "提高"
+      ],
+      "answer": 2,
+      "explanation": "水平 đi với 提高 để nói trình độ được nâng cao.",
+      "keyword": "水平提高",
+      "seconds": 40,
+      "hint": "水平 là trình độ; chọn động từ nói trình độ tốt hơn."
+    },
+    {
+      "id": "hsk3-13",
+      "section": "reading",
+      "instruction": "Chọn từ phù hợp điền vào chỗ trống.",
+      "prompt": "___明天下雨，比赛就改到下个星期。",
+      "translation": "Nếu mai trời mưa thì trận đấu chuyển sang tuần sau.",
+      "options": [
+        "虽然",
+        "如果",
+        "而且"
+      ],
+      "answer": 1,
+      "explanation": "如果…就… biểu thị điều kiện và kết quả.",
+      "keyword": "如果、就",
+      "seconds": 40,
+      "hint": "Vế sau có 就; vế đầu đang đặt giả thiết về thời tiết."
+    },
+    {
+      "id": "hsk3-14",
+      "section": "reading",
+      "instruction": "Chọn từ phù hợp điền vào chỗ trống.",
+      "prompt": "这家超市离我家很近，买东西很___。",
+      "translation": "Siêu thị này gần nhà tôi, mua đồ rất tiện.",
+      "options": [
+        "安静",
+        "认真",
+        "方便"
+      ],
+      "answer": 2,
+      "explanation": "Vị trí gần khiến mua sắm thuận tiện: 方便. 安静 là yên tĩnh.",
+      "keyword": "离家近、方便",
+      "seconds": 40,
+      "hint": "Nhà gần siêu thị: tìm tính từ nói việc mua sắm dễ dàng hơn."
+    },
+    {
+      "id": "hsk3-15",
+      "section": "reading",
+      "instruction": "Đọc kỹ nội dung và chọn đáp án đúng.",
+      "prompt": "小李本来想买红色的，但红色的卖完了，最后买了蓝色的。他买了什么颜色？",
+      "translation": "Tiểu Lý vốn muốn mua màu đỏ nhưng hết hàng, cuối cùng mua màu xanh lam. Anh ấy mua màu gì?",
+      "options": [
+        "红色",
+        "白色",
+        "蓝色"
+      ],
+      "answer": 2,
+      "explanation": "最后 đánh dấu kết quả thực tế là 蓝色, khác với ý định ban đầu.",
+      "keyword": "最后买了蓝色",
+      "seconds": 40,
+      "hint": "本来 là ý định cũ; 最后 mới cho biết thứ thực sự mua."
+    },
+    {
+      "id": "hsk3-16",
+      "section": "reading",
+      "instruction": "Chọn từ phù hợp điền vào chỗ trống.",
+      "prompt": "这件事很___，请你一定记得。",
+      "translation": "Việc này rất quan trọng, bạn nhất định phải nhớ.",
+      "options": [
+        "干净",
+        "新鲜",
+        "重要"
+      ],
+      "answer": 2,
+      "explanation": "一定记得 nhấn mạnh mức độ cần ghi nhớ, phù hợp với 重要.",
+      "keyword": "很重要",
+      "seconds": 40,
+      "hint": "一定记得 là nhất định phải nhớ; điều đó có ý nghĩa thế nào?"
+    },
+    {
+      "id": "hsk3-17",
+      "section": "reading",
+      "instruction": "Đọc kỹ nội dung và chọn đáp án đúng.",
+      "prompt": "她每天坐地铁上班，因为地铁不会受路上堵车的影响。她为什么坐地铁？",
+      "translation": "Cô ấy đi tàu điện ngầm vì không bị ảnh hưởng bởi tắc đường. Vì sao cô ấy chọn cách này?",
+      "options": [
+        "不用担心堵车",
+        "她不会走路",
+        "地铁票免费"
+      ],
+      "answer": 0,
+      "explanation": "Lý do được nêu trực tiếp là tránh ảnh hưởng của tắc đường.",
+      "keyword": "不会受堵车影响",
+      "seconds": 40,
+      "hint": "Tìm nguyên nhân sau 因为, không tự thêm lý do khác."
+    },
+    {
+      "id": "hsk3-18",
+      "section": "reading",
+      "instruction": "Chọn từ phù hợp điền vào chỗ trống.",
+      "prompt": "我___到银行门口，就发现钱包没带。",
+      "translation": "Tôi vừa đến cửa ngân hàng thì phát hiện chưa mang ví.",
+      "options": [
+        "刚",
+        "从来",
+        "再"
+      ],
+      "answer": 0,
+      "explanation": "刚…就… diễn tả một việc vừa xảy ra thì việc khác tiếp nối. 再 và 从来 không phù hợp với cấu trúc thời gian này.",
+      "keyword": "刚、就",
+      "seconds": 40,
+      "hint": "Để ý mẫu 'vừa…thì…': hai việc xảy ra nối sát nhau."
+    },
+    {
+      "id": "hsk3-19",
+      "section": "reading",
+      "instruction": "Đọc kỹ nội dung và chọn đáp án đúng.",
+      "prompt": "把牛奶放进冰箱吧，不然明天可能就不能喝了。这样做是为了什么？",
+      "translation": "Hãy cho sữa vào tủ lạnh, nếu không ngày mai có thể không uống được. Làm vậy để làm gì?",
+      "options": [
+        "把牛奶喝完",
+        "保存牛奶",
+        "让牛奶变贵"
+      ],
+      "answer": 1,
+      "explanation": "Cho vào tủ lạnh để bảo quản, tránh sữa hỏng vào hôm sau.",
+      "keyword": "冰箱、不然",
+      "seconds": 40,
+      "hint": "Tự hỏi điều gì sẽ xảy ra nếu không cho sữa vào tủ lạnh."
+    },
+    {
+      "id": "hsk3-20",
+      "section": "reading",
+      "instruction": "Chọn từ phù hợp điền vào chỗ trống.",
+      "prompt": "他不但会说汉语，___会写汉字。",
+      "translation": "Anh ấy không chỉ biết nói tiếng Trung mà còn biết viết chữ Hán.",
+      "options": [
+        "而且",
+        "所以",
+        "或者"
+      ],
+      "answer": 0,
+      "explanation": "不但…而且… bổ sung một khả năng khác, không phải quan hệ lựa chọn hay kết quả.",
+      "keyword": "不但、而且",
+      "seconds": 40,
+      "hint": "不但 mở đầu ý 'không chỉ'; tìm từ nối bổ sung khả năng thứ hai."
+    }
+  ]
+}

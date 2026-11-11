@@ -1,6 +1,6 @@
 import type { Lang } from './types';
 
-export type SpeechLine = { text: string; onStart?: () => void; lang: Lang };
+export type SpeechLine = { text: string; onStart?: () => void; onEnd?: () => void; lang: Lang };
 export type SpeechGroup = { lines: SpeechLine[]; urgent: boolean; question?: number };
 
 // Text only. Overload eviction applies to whole messages that haven't started.

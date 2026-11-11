@@ -1,0 +1,356 @@
+{
+  "id": "hsk1-luyen-01",
+  "level": "hsk1",
+  "title": "HSK1 · Bộ luyện 01",
+  "description": "Bộ luyện nhẹ nhàng cho lớp live: 10 câu nghe, 10 câu đọc, có mẹo tìm đáp án. Tự biên soạn, không phải đề thi chính thức.",
+  "questions": [
+    {
+      "id": "hsk1-01",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "他喝什么？",
+      "translation": "Tôi không uống trà, tôi uống nước.",
+      "options": [
+        "水",
+        "牛奶",
+        "茶"
+      ],
+      "answer": 0,
+      "explanation": "Người nói phủ định uống trà rồi khẳng định uống nước. Chọn 水.",
+      "keyword": "喝水",
+      "seconds": 30,
+      "transcript": "我不喝茶，我喝水。",
+      "hint": "Nghe từ đứng sau 喝, đừng vội chọn từ đứng sau 不喝."
+    },
+    {
+      "id": "hsk1-02",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "她去哪儿？",
+      "translation": "Tôi đến trường học tiếng Trung.",
+      "options": [
+        "医院",
+        "商店",
+        "学校"
+      ],
+      "answer": 2,
+      "explanation": "学校 là trường học; 学习汉语 cho biết mục đích đến đó.",
+      "keyword": "学校",
+      "seconds": 30,
+      "transcript": "我去学校学习汉语。",
+      "hint": "Nghe tên địa điểm sau 去, không cần hiểu hết câu."
+    },
+    {
+      "id": "hsk1-03",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "现在几点？",
+      "translation": "Bây giờ là ba giờ chiều.",
+      "options": [
+        "上午三点",
+        "下午两点",
+        "下午三点"
+      ],
+      "answer": 2,
+      "explanation": "Chú ý cả buổi 下午 và số giờ 三点, không chỉ nghe số ba.",
+      "keyword": "下午三点",
+      "seconds": 30,
+      "transcript": "现在是下午三点。",
+      "hint": "Nghe cả buổi sáng hay chiều và con số chỉ giờ."
+    },
+    {
+      "id": "hsk1-04",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "她想买什么？",
+      "translation": "Nữ: Tôi muốn mua táo. Nam: Bạn muốn mua mấy quả? Nữ: Ba quả.",
+      "options": [
+        "米饭",
+        "苹果",
+        "茶"
+      ],
+      "answer": 1,
+      "explanation": "Câu hỏi hỏi mua gì, không hỏi số lượng. 苹果 là táo.",
+      "keyword": "买苹果",
+      "seconds": 30,
+      "transcript": "女：我想买苹果。男：你想买几个？女：三个。",
+      "hint": "Câu hỏi hỏi mua gì, không hỏi mua mấy cái."
+    },
+    {
+      "id": "hsk1-05",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "他在哪儿工作？",
+      "translation": "Nam: Mẹ tôi là giáo viên. Nữ: Còn bố bạn? Nam: Bố là bác sĩ, làm ở bệnh viện.",
+      "options": [
+        "学校",
+        "商店",
+        "医院"
+      ],
+      "answer": 2,
+      "explanation": "Cần nghe thông tin của bố, không nhầm với nghề của mẹ.",
+      "keyword": "爸爸、医院",
+      "seconds": 30,
+      "transcript": "男：我妈妈是老师。女：你爸爸呢？男：他是医生，在医院工作。",
+      "hint": "Theo dõi thông tin về bố; đừng nhầm với nghề của mẹ."
+    },
+    {
+      "id": "hsk1-06",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "今天的天气怎么样？",
+      "translation": "Hôm nay rất nóng, tôi muốn uống nước.",
+      "options": [
+        "很热",
+        "很冷",
+        "下雨"
+      ],
+      "answer": 0,
+      "explanation": "热 nghĩa là nóng. Muốn uống nước là thông tin bổ sung.",
+      "keyword": "很热",
+      "seconds": 30,
+      "transcript": "今天很热，我想喝水。",
+      "hint": "Tìm từ nói nóng hay lạnh sau 今天."
+    },
+    {
+      "id": "hsk1-07",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "她有几个孩子？",
+      "translation": "Tôi có hai con, một con trai và một con gái.",
+      "options": [
+        "两个",
+        "一个",
+        "三个"
+      ],
+      "answer": 0,
+      "explanation": "两个孩子 nêu trực tiếp tổng số hai người con.",
+      "keyword": "两个孩子",
+      "seconds": 30,
+      "transcript": "我有两个孩子，一个儿子，一个女儿。",
+      "hint": "Nghe số đi cùng 孩子, nghĩa là con."
+    },
+    {
+      "id": "hsk1-08",
+      "section": "listening",
+      "instruction": "Nghe hai lần, rồi chọn đáp án đúng.",
+      "prompt": "他明天做什么？",
+      "translation": "Nữ: Hôm nay bạn đi xem phim à? Nam: Không, mai tôi đi.",
+      "options": [
+        "买衣服",
+        "打电话",
+        "看电影"
+      ],
+      "answer": 2,
+      "explanation": "Người nam đổi ngày sang ngày mai, hoạt động vẫn là xem phim.",
+      "keyword": "明天去",
+      "seconds": 30,
+      "transcript": "女：你今天去看电影吗？男：不，我明天去。",
+      "hint": "Hoạt động có thể giữ nguyên, nhưng ngày đi đã đổi."
+    },
+    {
+      "id": "hsk1-09",
+      "section": "listening",
+      "instruction": "Nghe và xác định nhận định trên bảng đúng hay sai.",
+      "prompt": "判断：她喜欢猫。",
+      "translation": "Tôi thích chó, không thích mèo.",
+      "options": [
+        "对",
+        "错"
+      ],
+      "answer": 1,
+      "explanation": "Nhận định nói thích mèo, nhưng bài nghe có 不喜欢猫 nên sai.",
+      "keyword": "不喜欢猫",
+      "seconds": 30,
+      "transcript": "我喜欢狗，不喜欢猫。",
+      "hint": "Chú ý 不: thêm từ này là ý thích có thể bị đảo ngược."
+    },
+    {
+      "id": "hsk1-10",
+      "section": "listening",
+      "instruction": "Nghe và xác định nhận định trên bảng đúng hay sai.",
+      "prompt": "判断：书在桌子上。",
+      "translation": "Sách của tôi ở trên bàn.",
+      "options": [
+        "对",
+        "错"
+      ],
+      "answer": 0,
+      "explanation": "Bài nghe và nhận định đều nói sách ở trên bàn.",
+      "keyword": "桌子上",
+      "seconds": 30,
+      "transcript": "我的书在桌子上。",
+      "hint": "Nghe xem sách ở trên hay dưới bàn."
+    },
+    {
+      "id": "hsk1-11",
+      "section": "reading",
+      "instruction": "Chọn từ phù hợp điền vào chỗ trống.",
+      "prompt": "我___学生。",
+      "translation": "Tôi là học sinh.",
+      "options": [
+        "有",
+        "是",
+        "在"
+      ],
+      "answer": 1,
+      "explanation": "Dùng 是 để xác định thân phận: 我是学生. 有 là có, 在 là ở.",
+      "keyword": "是学生",
+      "seconds": 30,
+      "hint": "Đứng trước danh từ chỉ thân phận thường cần từ nghĩa là 'là'."
+    },
+    {
+      "id": "hsk1-12",
+      "section": "reading",
+      "instruction": "Chọn từ phù hợp điền vào chỗ trống.",
+      "prompt": "我想___水。",
+      "translation": "Tôi muốn uống nước.",
+      "options": [
+        "喝",
+        "吃",
+        "看"
+      ],
+      "answer": 0,
+      "explanation": "Động từ đi với nước là 喝: uống. 吃 dùng cho ăn.",
+      "keyword": "喝水",
+      "seconds": 30,
+      "hint": "Với nước, chọn động từ chỉ uống, không phải ăn."
+    },
+    {
+      "id": "hsk1-13",
+      "section": "reading",
+      "instruction": "Chọn từ phù hợp điền vào chỗ trống.",
+      "prompt": "今天星期一，明天星期___。",
+      "translation": "Hôm nay thứ hai, ngày mai thứ ba.",
+      "options": [
+        "日",
+        "三",
+        "二"
+      ],
+      "answer": 2,
+      "explanation": "星期一 là thứ hai; ngày tiếp theo là 星期二, tức thứ ba.",
+      "keyword": "明天、星期二",
+      "seconds": 30,
+      "hint": "星期一 là thứ hai; chỉ cần đếm thêm một ngày."
+    },
+    {
+      "id": "hsk1-14",
+      "section": "reading",
+      "instruction": "Đọc kỹ nội dung và chọn đáp án đúng.",
+      "prompt": "他在学校学习。他在哪儿？",
+      "translation": "Anh ấy học ở trường. Anh ấy ở đâu?",
+      "options": [
+        "医院",
+        "北京",
+        "学校"
+      ],
+      "answer": 2,
+      "explanation": "Địa điểm được nêu trực tiếp sau 在 là 学校.",
+      "keyword": "在学校",
+      "seconds": 30,
+      "hint": "Câu hỏi hỏi ở đâu. Tìm tên nơi chốn sau 在."
+    },
+    {
+      "id": "hsk1-15",
+      "section": "reading",
+      "instruction": "Đọc kỹ nội dung và chọn đáp án đúng.",
+      "prompt": "这本书是我的。书是谁的？",
+      "translation": "Quyển sách này là của tôi. Sách của ai?",
+      "options": [
+        "老师的",
+        "我的",
+        "妈妈的"
+      ],
+      "answer": 1,
+      "explanation": "我的 biểu thị của tôi. 的 được dùng để nói quan hệ sở hữu.",
+      "keyword": "我的",
+      "seconds": 30,
+      "hint": "Tìm người đứng trước 的 để biết sách thuộc về ai."
+    },
+    {
+      "id": "hsk1-16",
+      "section": "reading",
+      "instruction": "Đọc kỹ nội dung và chọn đáp án đúng.",
+      "prompt": "一杯茶三块钱，两杯茶多少钱？",
+      "translation": "Một cốc trà ba tệ, hai cốc trà bao nhiêu tiền?",
+      "options": [
+        "六块",
+        "五块",
+        "三块"
+      ],
+      "answer": 0,
+      "explanation": "Hai cốc, mỗi cốc ba tệ: hai nhân ba bằng sáu tệ.",
+      "keyword": "两杯、三块",
+      "seconds": 30,
+      "hint": "Lấy giá một cốc nhân với hai, đừng chỉ chọn con số đầu tiên."
+    },
+    {
+      "id": "hsk1-17",
+      "section": "reading",
+      "instruction": "Đọc kỹ nội dung và chọn đáp án đúng.",
+      "prompt": "我妈妈是医生。她在医院工作。谁是医生？",
+      "translation": "Mẹ tôi là bác sĩ. Mẹ làm ở bệnh viện. Ai là bác sĩ?",
+      "options": [
+        "妈妈",
+        "爸爸",
+        "老师"
+      ],
+      "answer": 0,
+      "explanation": "Chủ ngữ của câu đầu là 我妈妈. 她 ở câu sau cũng chỉ mẹ.",
+      "keyword": "妈妈是医生",
+      "seconds": 30,
+      "hint": "Tìm ai được nhắc ngay trước 是医生."
+    },
+    {
+      "id": "hsk1-18",
+      "section": "reading",
+      "instruction": "Chọn từ phù hợp điền vào chỗ trống.",
+      "prompt": "现在很冷，我不想喝___水。",
+      "translation": "Bây giờ rất lạnh, tôi không muốn uống nước lạnh.",
+      "options": [
+        "冷",
+        "热",
+        "小"
+      ],
+      "answer": 0,
+      "explanation": "冷 đứng trước 水 để nói nước lạnh; 小 không mô tả nhiệt độ.",
+      "keyword": "冷水",
+      "seconds": 30,
+      "hint": "Đọc cả 不想: người nói không muốn uống loại nước nào?"
+    },
+    {
+      "id": "hsk1-19",
+      "section": "reading",
+      "instruction": "Chọn từ phù hợp điền vào chỗ trống.",
+      "prompt": "你叫什么___？",
+      "translation": "Bạn tên là gì?",
+      "options": [
+        "电影",
+        "名字",
+        "天气"
+      ],
+      "answer": 1,
+      "explanation": "Cụm hỏi tên là 叫什么名字, không dùng 天气 hay 电影.",
+      "keyword": "叫什么名字",
+      "seconds": 30,
+      "hint": "叫什么 là câu hỏi về tên; tìm danh từ đi với cụm này."
+    },
+    {
+      "id": "hsk1-20",
+      "section": "reading",
+      "instruction": "Đọc kỹ nội dung và chọn đáp án đúng.",
+      "prompt": "我上午学习，下午看电影。我什么时候看电影？",
+      "translation": "Tôi học buổi sáng, xem phim buổi chiều. Tôi xem phim lúc nào?",
+      "options": [
+        "中午",
+        "下午",
+        "上午"
+      ],
+      "answer": 1,
+      "explanation": "下午 gắn với hoạt động 看电影; 上午 gắn với 学习.",
+      "keyword": "下午看电影",
+      "seconds": 30,
+      "hint": "Ghép từng buổi với từng hoạt động, rồi tìm lúc xem phim."
+    }
+  ]
+}

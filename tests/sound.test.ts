@@ -10,6 +10,29 @@ function enable(engine: SoundEngine) {
   engine['becomeHolder']();
 }
 
+test('listening completion runs only after playback and never after question cancellation', (t) => {
+  const engine = new SoundEngine();
+  t.after(() => engine.shutdown());
+  installMedia(t);
+  enable(engine);
+  let completed = 0;
+  engine.setQuestion(1);
+  engine.group(() => {
+    engine.say('listen once', true, undefined, 'zh');
+    engine.say('listen twice', true, undefined, 'zh', () => completed++);
+  }, 1);
+  assert.equal(completed, 0);
+  MockAudio.playing!.end();
+  assert.equal(completed, 0);
+  MockAudio.playing!.end();
+  assert.equal(completed, 1);
+  engine.group(() => engine.say('old listening', true, undefined, 'zh', () => completed++), 1);
+  const oldAudio = MockAudio.playing!;
+  engine.setQuestion(2);
+  oldAudio.end();
+  assert.equal(completed, 1);
+});
+
 test('voice burst uses at most two media resources and frees all listeners on completion/shutdown', (t) => {
   const engine = new SoundEngine();
   t.after(() => engine.shutdown());
