@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { SEATS } from './layout';
+import { DEFAULT_VOICE_SETTINGS, type VoiceState } from './voiceSettings';
 import { isTeacher, type Teacher } from './teacher';
 import { sound, type Speaking } from './sound';
 import type {
@@ -86,6 +87,8 @@ export default function App() {
   });
   const [channelName, setChannelName] = useState(sound.channelName);
   const [teacher, setTeacher] = useState<Teacher>('female');
+  const [voice, setVoice] = useState<VoiceState>({ settings: { ...DEFAULT_VOICE_SETTINGS }, status: 'unchecked', voices: [], message: 'Mở bộ giọng Việt rồi kiểm tra kết nối.', revision: 0 });
+  useEffect(() => sound.setVoiceRevision(JSON.stringify([teacher, voice.settings, voice.revision])), [teacher, voice.settings.provider, voice.settings.femaleVoice, voice.settings.maleVoice, voice.revision]);
   const [guests, setGuests] = useState<Guest[]>([]);
   const [banner, setBanner] = useState<GiftBanner | null>(null);
   const [top, setTop] = useState<TopEntry[]>([]);
@@ -271,6 +274,7 @@ export default function App() {
       setMusic(m);
       sound.setMusic(m);
     });
+    on<VoiceState>('voice', setVoice);
     on<{ w: number; h: number }>('stageInfo', setStageInfo);
     on<{ minutes: number }>('autoTalk', ({ minutes }) => setAutoTalkMinutes(minutes));
 
@@ -546,6 +550,7 @@ export default function App() {
       status={status}
       channelName={channelName}
       teacher={teacher}
+      voice={voice}
       guestCount={guests.length}
       music={music}
       autoTalkMinutes={autoTalkMinutes}

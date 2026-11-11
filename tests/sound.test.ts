@@ -10,6 +10,22 @@ function enable(engine: SoundEngine) {
   engine['becomeHolder']();
 }
 
+test('changing voice discards the prefetched voice while the current sentence finishes', (t) => {
+  const engine = new SoundEngine();
+  t.after(() => engine.shutdown());
+  installMedia(t);
+  enable(engine);
+  engine.setVoiceRevision('female');
+  engine.group(() => { engine.say('first', true); engine.say('second', true); });
+  const first = MockAudio.playing!;
+  const previousPreload = engine['preloaded']!.el;
+  engine.setVoiceRevision('male');
+  assert.equal(first.paused, false);
+  assert.equal(previousPreload.src, '');
+  first.end();
+  assert.ok(MockAudio.playing!.src.includes('v=male'));
+});
+
 test('listening completion runs only after playback and never after question cancellation', (t) => {
   const engine = new SoundEngine();
   t.after(() => engine.shutdown());

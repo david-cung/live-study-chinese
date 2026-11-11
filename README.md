@@ -23,6 +23,18 @@ Bảng điều khiển: `http://localhost:3002`. Link sân khấu:
 Giữ một sân khấu có tiếng, hạn chế mở thêm nguồn Link trùng nhau.
 Chế độ phát triển vẫn dùng `npm run dev`.
 
+## Giọng Việt tự nhiên bằng VieNeu
+
+Mở **BAT-GIONG-VIET.bat** (Windows) hoặc **BAT-GIONG-VIET.command** (Mac) để
+cài và mở bộ giọng Việt trên máy. Lần đầu cần tải thư viện/model; chờ thông báo
+`VieNeu is ready` rồi vào **6. Đọc một câu trên live** để kiểm tra kết nối,
+chọn giọng thầy/cô, lưu và nghe thử. Giữ cửa sổ giọng Việt mở suốt buổi live.
+
+Có thể chạy thủ công `npm run voice:setup` rồi `npm run voice:start`. VieNeu
+đọc lời giảng tiếng Việt; bài nghe và phát âm tiếng Trung dùng giọng Trung.
+Nếu VieNeu lỗi, app tự chuyển giọng dự phòng và hiện trạng thái trên dashboard.
+Xem [hướng dẫn cài đặt và xử lý lỗi](docs/vieneu.md).
+
 Trong **5. Tên kênh → Nhân vật giảng dạy**, chọn **Thầy giáo** hoặc **Cô giáo**.
 Sân khấu và bản xem trước đổi nhân vật ngay, có hình đứng yên và hình đang nói.
 Lựa chọn được lưu trong `settings.json` và khôi phục khi mở lại.

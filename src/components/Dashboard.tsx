@@ -3,6 +3,8 @@ import type { AiState, ChatItem, LessonInfo, LiveStatus, MusicState, QuizState }
 import { QUIZ_KINDS, QUIZ_LABELS } from '../quizModes';
 import { TEACHERS, type Teacher } from '../teacher';
 import { HSK_LEVELS } from '../examTypes';
+import VoiceControls from './VoiceControls';
+import type { VoiceState } from '../voiceSettings';
 
 const STAGE_URL = `http://lvh.me:${location.port || 3002}/?view=stage`;
 
@@ -25,6 +27,7 @@ export default function Dashboard({
   status,
   channelName,
   teacher,
+  voice,
   guestCount,
   music,
   autoTalkMinutes,
@@ -38,6 +41,7 @@ export default function Dashboard({
   status: LiveStatus;
   channelName: string;
   teacher: Teacher;
+  voice: VoiceState;
   guestCount: number;
   music: MusicState;
   autoTalkMinutes: number;
@@ -263,6 +267,7 @@ export default function Dashboard({
         </Card>
 
         <Card title="6. Đọc một câu trên live">
+          <VoiceControls voice={voice} run={run} />
           <textarea className="input w-full h-16 resize-none" placeholder="Nhập câu muốn đọc..." value={speech} onChange={(e) => setSpeech(e.target.value)} />
           <div className="grid grid-cols-3 gap-2 mt-2">
             <button className={`btn ${speechLang === 'vi' ? 'bg-[#3f7fd8]' : 'bg-white/10'}`} onClick={() => setSpeechLang('vi')}>

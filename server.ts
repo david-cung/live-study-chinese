@@ -9,7 +9,8 @@ import { safeName } from './moderation';
 import { hanNameFor } from './hanName';
 import { spokenName } from './src/spokenName';
 import type { AiState, Lang } from './src/types';
-import { TtsService, TtsBusyError } from './ttsCache';
+import { TtsBusyError } from './ttsCache';
+import { VoiceEngine } from './voiceEngine';
 import { SocialBuffer, pruneCooldowns } from './retention';
 import { LiveSession } from './liveSession';
 import { aiProcessStats, stopAiProcess } from './aiProcess';
@@ -86,7 +87,7 @@ const saveSettings = () => {
   try {
     fs.writeFileSync(
       SETTINGS_FILE,
-      JSON.stringify({ channelName, teacher, tiktokUser, music, autoTalkMinutes, quiz: quiz.settings, ai: router.settings }, null, 2),
+      JSON.stringify({ channelName, teacher, voice: voiceEngine.state().settings, tiktokUser, music, autoTalkMinutes, quiz: quiz.settings, ai: router.settings }, null, 2),
     );
   } catch (err) {
     console.error('Could not save settings.json:', err);
@@ -236,6 +237,7 @@ app.get('/api/events', (req, res) => {
   if (channelName) send('control', { action: 'setName', text: channelName });
   send('control', { action: 'setTeacher', text: teacher });
   send('music', music);
+  send('voice', voiceEngine.state());
   send('autoTalk', { minutes: autoTalkMinutes });
   send('quiz', quiz.state());
   send('score', { top: quiz.top() });
@@ -650,14 +652,15 @@ const VOICES: Record<Lang, { voice: string; rate: string; google: string }> = {
 };
 const escapeXml = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-async function edgeTts(text: string, lang: Lang): Promise<Buffer> {
+async function edgeTts(text: string, lang: Lang, character: Teacher): Promise<Buffer> {
   const tts = new MsEdgeTTS({ connectionTimeoutMs: 10000, synthesisTimeoutMs: 20000 });
   let stopped = false;
   let stream: ReturnType<MsEdgeTTS['toStream']>['audioStream'] | undefined;
   let timer: ReturnType<typeof setTimeout> | undefined;
   try {
     const read = async () => {
-      await tts.setMetadata(VOICES[lang].voice, OUTPUT_FORMAT.AUDIO_24KHZ_96KBITRATE_MONO_MP3);
+      const voice = character === 'male' ? lang === 'vi' ? 'vi-VN-NamMinhNeural' : 'zh-CN-YunxiNeural' : VOICES[lang].voice;
+      await tts.setMetadata(voice, OUTPUT_FORMAT.AUDIO_24KHZ_96KBITRATE_MONO_MP3);
       if (stopped) throw new Error('Edge TTS cancelled');
       const { audioStream } = tts.toStream(escapeXml(text), { rate: VOICES[lang].rate });
       stream = audioStream;
@@ -709,22 +712,40 @@ async function googleTts(text: string, lang: Lang): Promise<Buffer> {
   return Buffer.concat(parts);
 }
 
-const ttsService = new TtsService();
+const voiceEngine = new VoiceEngine(saved.voice, {
+  baseUrl: process.env.VIENEU_BASE_URL,
+  apiKey: process.env.VIENEU_API_KEY,
+  timeoutMs: process.env.VIENEU_TIMEOUT_MS ? Number(process.env.VIENEU_TIMEOUT_MS) : undefined,
+  changed: (state) => broadcast('voice', state),
+  legacy: async (text, lang, character) => {
+    try { return await edgeTts(text, lang, character); }
+    catch {
+      console.warn('Edge TTS unavailable, trying Google.');
+      return googleTts(text, lang);
+    }
+  },
+});
+app.get('/api/voice', async (req, res) => {
+  if (req.query.refresh === '1') await voiceEngine.refresh();
+  res.json(voiceEngine.state());
+});
+app.post('/api/voice', (req, res) => {
+  try {
+    voiceEngine.update(req.body);
+    saveSettings();
+    res.json(voiceEngine.state());
+  } catch { res.status(400).json({ error: 'Cài đặt giọng không hợp lệ' }); }
+});
 app.get('/api/tts', async (req, res) => {
   const text = String(req.query.text || '').trim().slice(0, 800);
   const lang: Lang = req.query.lang === 'zh' ? 'zh' : 'vi';
   if (!text) return res.status(400).send('Missing text');
-  const key = `${lang}|${text}`;
   try {
-    const audio = await ttsService.get(key, async () => {
-      try { return await edgeTts(text, lang); }
-      catch (err) {
-        console.warn('Edge TTS failed, falling back to Google:', err instanceof Error ? err.message : err);
-        return await googleTts(text, lang);
-      }
-    });
+    const { audio, contentType, provider } = await voiceEngine.synthesize(text, lang, teacher);
     if (res.destroyed) return;
-    res.setHeader('Content-Type', 'audio/mpeg');
+    res.setHeader('Content-Type', contentType);
+    res.setHeader('Cache-Control', 'no-store');
+    res.setHeader('X-TTS-Provider', provider);
     res.send(audio);
   } catch (err) {
     if (res.destroyed) return;
@@ -738,7 +759,7 @@ app.get('/api/tts', async (req, res) => {
 if (process.env.MEMORY_DIAGNOSTICS === '1') {
   const snapshot = () => ({
     at: new Date().toISOString(), pid: process.pid, uptimeSeconds: Math.round(process.uptime()),
-    memory: process.memoryUsage(), tts: ttsService.stats(), ai: aiProcessStats(),
+    memory: process.memoryUsage(), tts: voiceEngine.stats(), ai: aiProcessStats(),
     sseClients: sseClients.length, comments: router.stats(), social: socialQueue.stats(),
     cooldowns: { likeThanks: likeThankedAt.size, likeTally: likeTally.size },
     session: { named: namedThisSession.size, followed: followedThisSession.size, ...quiz.memoryStats() },

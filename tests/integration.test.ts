@@ -3,6 +3,7 @@ import { test } from 'node:test';
 import { spawn } from 'node:child_process';
 import { once } from 'node:events';
 import { createServer } from 'node:net';
+import { createServer as createHttpServer } from 'node:http';
 import { mkdtemp, cp, rm, writeFile, readFile } from 'node:fs/promises';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import path from 'node:path';
@@ -24,8 +25,33 @@ test('production serves built stage, bounds event bursts, releases SSE clients, 
   await once(listener, 'listening');
   const port = (listener.address() as { port: number }).port;
   await new Promise<void>((resolve) => listener.close(() => resolve()));
+  let generated = 0;
+  const requestedVoices: string[] = [];
+  const speechServer = createHttpServer(async (req, res) => {
+    assert.equal(req.headers.authorization, 'Bearer fixture-key');
+    if (req.url === '/v1/voices') {
+      res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify({ data: [{ id: 'female', name: 'Nữ', gender: 'female' }, { id: 'male', name: 'Nam', gender: 'male' }] }));
+      return;
+    }
+    const chunks = [];
+    for await (const chunk of req) chunks.push(chunk);
+    const body = JSON.parse(Buffer.concat(chunks).toString());
+    requestedVoices.push(body.voice);
+    generated++;
+    const audio = Buffer.alloc(48);
+    audio.write('RIFF'); audio.writeUInt32LE(40, 4); audio.write('WAVEfmt ', 8);
+    audio.writeUInt32LE(16, 16); audio.writeUInt16LE(1, 20); audio.writeUInt16LE(1, 22);
+    audio.writeUInt32LE(48000, 24); audio.writeUInt32LE(96000, 28); audio.writeUInt16LE(2, 32); audio.writeUInt16LE(16, 34);
+    audio.write('data', 36); audio.writeUInt32LE(4, 40);
+    res.setHeader('Content-Type', 'audio/wav'); res.end(audio);
+  });
+  speechServer.listen(0, '127.0.0.1');
+  await once(speechServer, 'listening');
+  t.after(() => new Promise<void>((resolve) => speechServer.close(() => resolve())));
+  const speechPort = (speechServer.address() as { port: number }).port;
   const child = spawn(process.execPath, ['--import', pathToFileURL(path.join(root, 'node_modules/tsx/dist/loader.mjs')).href, path.join(root, 'scripts/start.ts')], {
-    cwd: dir, env: { ...process.env, PORT: String(port), MEMORY_DIAGNOSTICS: '1' }, stdio: ['ignore', 'pipe', 'pipe'],
+    cwd: dir, env: { ...process.env, PORT: String(port), MEMORY_DIAGNOSTICS: '1', VIENEU_BASE_URL: `http://127.0.0.1:${speechPort}/v1`, VIENEU_API_KEY: 'fixture-key' }, stdio: ['ignore', 'pipe', 'pipe'],
   });
   let log = '';
   child.stdout.on('data', (d) => { log = (log + d).slice(-4000); });
@@ -78,6 +104,24 @@ test('production serves built stage, bounds event bursts, releases SSE clients, 
   const invalidTeacher = await fetch(`${base}/api/control`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'setTeacher', text: '../other' }) });
   assert.equal(invalidTeacher.status, 400);
   assert.equal(JSON.parse(await readFile(path.join(dir, 'settings.json'), 'utf8')).teacher, 'male');
+  const voices = await (await fetch(`${base}/api/voice?refresh=1`)).json();
+  assert.equal(voices.status, 'ready');
+  assert.equal(voices.voices.length, 2);
+  assert.ok(!JSON.stringify(voices).includes('fixture-key'));
+  const saveVoice = await fetch(`${base}/api/voice`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ provider: 'vieneu', maleVoice: 'male', femaleVoice: 'female' }) });
+  assert.equal(saveVoice.status, 200);
+  assert.equal(JSON.parse(await readFile(path.join(dir, 'settings.json'), 'utf8')).voice.maleVoice, 'male');
+  const badVoice = await fetch(`${base}/api/voice`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ provider: 'bad' }) });
+  assert.equal(badVoice.status, 400);
+  for (let i = 0; i < 2; i++) {
+    const audio = await fetch(`${base}/api/tts?lang=vi&text=Xin%20chao`);
+    assert.ok(audio.headers.get('content-type')?.startsWith('audio/wav'));
+    assert.equal(audio.headers.get('x-tts-provider'), 'vieneu');
+    assert.equal(audio.headers.get('cache-control'), 'no-store');
+    assert.equal((await audio.arrayBuffer()).byteLength, 48);
+  }
+  assert.equal(generated, 1);
+  assert.deepEqual(requestedVoices, ['male']);
   for (let attempt = 0; ; attempt++) {
     const clients = (await (await fetch(`${base}/api/diagnostics`)).json()).sseClients;
     if (!clients) break;

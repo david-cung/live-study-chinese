@@ -10,6 +10,8 @@
     "lint": "tsc --noEmit",
     "test": "tsx --test tests/*.test.ts",
     "test:soak": "tsx --test tests/soak.ts",
+    "voice:setup": "tsx scripts/vieneu.ts setup",
+    "voice:start": "tsx scripts/vieneu.ts start",
     "pretest": "npm run build"
   },
   "dependencies": {

@@ -2,3 +2,5 @@ node_modules
 dist
 settings.json
 .DS_Store
+.vieneu/
+__pycache__/

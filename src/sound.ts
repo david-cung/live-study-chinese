@@ -14,6 +14,14 @@ export class SoundEngine {
   private playing = false;
   private ctx: AudioContext | null = null;
   channelName = 'Lớp Tiếng Trung Online';
+  private voiceRevision = '';
+
+  setVoiceRevision(revision: string) {
+    if (this.voiceRevision === revision) return;
+    this.voiceRevision = revision;
+    this.dropPreload();
+    this.refreshPreload();
+  }
 
   private music: MusicState = { on: true, volume: 0.1, style: 'files' };
   private musicGain: GainNode | null = null;
@@ -219,7 +227,7 @@ export class SoundEngine {
   }
 
   private makeAudio(line: SpeechLine) {
-    const el = new Audio(`/api/tts?lang=${line.lang}&text=${encodeURIComponent(line.text)}`);
+    const el = new Audio(`/api/tts?lang=${line.lang}&text=${encodeURIComponent(line.text)}&v=${encodeURIComponent(this.voiceRevision)}`);
     el.preload = 'auto';
     return el;
   }
@@ -269,7 +277,7 @@ export class SoundEngine {
       line.onEnd?.();
       this.next();
     };
-    const guard = setTimeout(finish, line.lang === 'zh' ? Math.max(30000, Math.min(120000, 10000 + line.text.length * 450)) : 30000);
+    const guard = setTimeout(finish, Math.max(30000, Math.min(150000, 10000 + line.text.length * (line.lang === 'zh' ? 450 : 200))));
     this.cancelCurrent = cleanup;
     el.addEventListener('playing', start);
     el.addEventListener('ended', finish);
