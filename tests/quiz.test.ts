@@ -5,12 +5,12 @@ import { availableQuestionKinds, clozeQuestion, pronunciationKey, validClozeExer
 import { QUIZ_KINDS, questionAnswer, questionIntroSpeech, questionRevealSpeech, repeatQuestionSpeech } from '../src/quizModes';
 import type { QuizKind, QuizQuestion } from '../src/types';
 
-test('HSK1/HSK2 each include 24 valid cloze sentences with four distinct choices', () => {
+test('HSK1/HSK2/HSK3 include their full cloze banks with four distinct choices', () => {
   const lessons = loadLessons();
-  for (const level of ['hsk1', 'hsk2']) {
+  for (const [level, count] of [['hsk1', 36], ['hsk2', 36], ['hsk3', 32]] as const) {
     const lesson = lessons.find((lesson) => lesson.id === level)!;
-    assert.equal(lesson.cloze.length, 24);
-    assert.equal(new Set(lesson.cloze.map((item) => item.sentence)).size, 24);
+    assert.equal(lesson.cloze.length, count);
+    assert.equal(new Set(lesson.cloze.map((item) => item.sentence)).size, count);
     assert.deepEqual(availableQuestionKinds(lesson.words, lesson.cloze), QUIZ_KINDS);
     for (const exercise of lesson.cloze) {
       const q = clozeQuestion(exercise, lesson.words);
@@ -47,7 +47,7 @@ test('all words generate four choices without duplicate meanings/pinyin or homop
 });
 
 test('mixed mode covers each format once per cycle and never repeats formats across cycle boundaries', () => {
-  for (const lessonId of ['hsk1', 'hsk2']) {
+  for (const lessonId of ['hsk1', 'hsk2', 'hsk3']) {
     const quiz = new Quiz(() => {}, { lessonId });
     const kinds: QuizKind[] = [];
     try {

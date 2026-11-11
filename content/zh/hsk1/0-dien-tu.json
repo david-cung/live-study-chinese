@@ -264,6 +264,138 @@
         "喝",
         "写"
       ]
+    },
+    {
+      "sentence": "我在___看医生。",
+      "vi": "Tôi khám bác sĩ ở bệnh viện.",
+      "answer": "医院",
+      "options": [
+        "医院",
+        "学校",
+        "北京",
+        "商店"
+      ]
+    },
+    {
+      "sentence": "我在学校___汉语。",
+      "vi": "Tôi học tiếng Trung ở trường.",
+      "answer": "学习",
+      "options": [
+        "学习",
+        "睡觉",
+        "喝",
+        "吃"
+      ]
+    },
+    {
+      "sentence": "我用电脑___电影。",
+      "vi": "Tôi dùng máy tính xem phim.",
+      "answer": "看",
+      "options": [
+        "看",
+        "听",
+        "写",
+        "喝"
+      ]
+    },
+    {
+      "sentence": "这本___是我的。",
+      "vi": "Quyển sách này là của tôi.",
+      "answer": "书",
+      "options": [
+        "书",
+        "水",
+        "茶",
+        "钱"
+      ]
+    },
+    {
+      "sentence": "我喜欢吃___，不喜欢吃苹果。",
+      "vi": "Tôi thích ăn cơm, không thích ăn táo.",
+      "answer": "米饭",
+      "options": [
+        "米饭",
+        "茶",
+        "水",
+        "电脑"
+      ]
+    },
+    {
+      "sentence": "爸爸坐___去北京。",
+      "vi": "Bố đi máy bay đến Bắc Kinh.",
+      "answer": "飞机",
+      "options": [
+        "飞机",
+        "椅子",
+        "桌子",
+        "电视"
+      ]
+    },
+    {
+      "sentence": "今天很冷，我想喝___水。",
+      "vi": "Hôm nay rất lạnh, tôi muốn uống nước nóng.",
+      "answer": "热",
+      "options": [
+        "热",
+        "冷",
+        "大",
+        "小"
+      ]
+    },
+    {
+      "sentence": "现在是___十二点。",
+      "vi": "Bây giờ là mười hai giờ trưa.",
+      "answer": "中午",
+      "options": [
+        "中午",
+        "上午",
+        "下午",
+        "昨天"
+      ]
+    },
+    {
+      "sentence": "我的书在桌子___。",
+      "vi": "Sách của tôi ở trên bàn.",
+      "answer": "上",
+      "options": [
+        "上",
+        "下",
+        "里",
+        "后面"
+      ]
+    },
+    {
+      "sentence": "请在这里写你的___。",
+      "vi": "Hãy viết tên của bạn ở đây.",
+      "answer": "名字",
+      "options": [
+        "名字",
+        "天气",
+        "米饭",
+        "电影"
+      ]
+    },
+    {
+      "sentence": "我每天晚上十点___。",
+      "vi": "Tối nào tôi cũng đi ngủ lúc mười giờ.",
+      "answer": "睡觉",
+      "options": [
+        "睡觉",
+        "下雨",
+        "打电话",
+        "工作"
+      ]
+    },
+    {
+      "sentence": "这件衣服很___，我很喜欢。",
+      "vi": "Bộ quần áo này rất đẹp, tôi rất thích.",
+      "answer": "漂亮",
+      "options": [
+        "漂亮",
+        "冷",
+        "热",
+        "少"
+      ]
     }
   ]
 }

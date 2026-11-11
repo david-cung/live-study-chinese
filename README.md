@@ -39,8 +39,12 @@ Người xem vẫn bình luận **A/B/C/D** (hoặc 1/2/3/4); điểm, VIP, câu
 và bảng xếp hạng dùng chung. Lệnh **đọc lại** nhắc gợi ý phù hợp với dạng bài;
 đáp án và câu hoàn chỉnh chỉ được đọc sau khi hết giờ.
 
-Có sẵn **48 câu điền từ**, chia đều HSK1/HSK2, trong `content/zh/hsk1/0-dien-tu.json`
-và `content/zh/hsk2/0-dien-tu.json`. Muốn thêm câu, bổ sung vào mảng `cloze`:
+Có sẵn **104 câu điền từ**: HSK1 và HSK2 mỗi cấp 36 câu, HSK3 có 32 câu,
+trong `content/zh/hsk1/0-dien-tu.json`, `content/zh/hsk2/0-dien-tu.json`
+và `content/zh/hsk3/0-dien-tu.json`. HSK3 có thêm 80 từ vựng theo năm chủ đề:
+học tập và công việc, đi lại và đời sống, sức khỏe và cảm xúc, hoạt động và kế hoạch,
+miêu tả và từ nối. Thư mục cấp học được tự động nạp vào danh sách chọn bài.
+Muốn thêm câu, bổ sung vào mảng `cloze`:
 
 ```json
 {

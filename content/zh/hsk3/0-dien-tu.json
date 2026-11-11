@@ -1,0 +1,357 @@
+{
+  "title": "Luyện điền từ vào câu",
+  "cloze": [
+    {
+      "sentence": "请把牛奶放进___，这样明天还能喝。",
+      "vi": "Hãy cho sữa vào tủ lạnh để ngày mai vẫn uống được.",
+      "answer": "冰箱",
+      "options": [
+        "冰箱",
+        "空调",
+        "电梯",
+        "地图"
+      ]
+    },
+    {
+      "sentence": "我去___取钱。",
+      "vi": "Tôi đến ngân hàng rút tiền.",
+      "answer": "银行",
+      "options": [
+        "银行",
+        "厨房",
+        "图书馆",
+        "洗手间"
+      ]
+    },
+    {
+      "sentence": "坐___去上班，不用担心路上车太多。",
+      "vi": "Đi tàu điện ngầm đến chỗ làm thì không phải lo đường đông xe.",
+      "answer": "地铁",
+      "options": [
+        "地铁",
+        "电梯",
+        "冰箱",
+        "空调"
+      ]
+    },
+    {
+      "sentence": "出国以前，请检查有没有带___。",
+      "vi": "Trước khi ra nước ngoài, hãy kiểm tra xem đã mang hộ chiếu chưa.",
+      "answer": "护照",
+      "options": [
+        "护照",
+        "地图",
+        "作业",
+        "成绩"
+      ]
+    },
+    {
+      "sentence": "我们在___开会。",
+      "vi": "Chúng tôi họp trong văn phòng.",
+      "answer": "办公室",
+      "options": [
+        "办公室",
+        "厨房",
+        "洗手间",
+        "银行"
+      ]
+    },
+    {
+      "sentence": "老师让我们回家先___今天学的生词。",
+      "vi": "Thầy cô bảo chúng tôi về nhà ôn lại từ mới đã học hôm nay.",
+      "answer": "复习",
+      "options": [
+        "复习",
+        "离开",
+        "搬",
+        "还"
+      ]
+    },
+    {
+      "sentence": "我已经___了今天的作业。",
+      "vi": "Tôi đã hoàn thành bài tập hôm nay.",
+      "answer": "完成",
+      "options": [
+        "完成",
+        "参加",
+        "迟到",
+        "经过"
+      ]
+    },
+    {
+      "sentence": "他学习很___，上课从来不玩手机。",
+      "vi": "Anh ấy học rất nghiêm túc, trong giờ học không bao giờ chơi điện thoại.",
+      "answer": "认真",
+      "options": [
+        "认真",
+        "新鲜",
+        "干净",
+        "方便"
+      ]
+    },
+    {
+      "sentence": "这次考试的___比上次好。",
+      "vi": "Điểm thi lần này tốt hơn lần trước.",
+      "answer": "成绩",
+      "options": [
+        "成绩",
+        "会议",
+        "作业",
+        "要求"
+      ]
+    },
+    {
+      "sentence": "每天练习可以___汉语水平。",
+      "vi": "Luyện tập mỗi ngày có thể nâng cao trình độ tiếng Trung.",
+      "answer": "提高",
+      "options": [
+        "提高",
+        "忘记",
+        "借",
+        "搬"
+      ]
+    },
+    {
+      "sentence": "我___了，医生说要多喝水。",
+      "vi": "Tôi bị cảm, bác sĩ nói cần uống nhiều nước.",
+      "answer": "感冒",
+      "options": [
+        "感冒",
+        "迟到",
+        "生气",
+        "满意"
+      ]
+    },
+    {
+      "sentence": "孩子的身体很热，可能___了。",
+      "vi": "Người đứa trẻ rất nóng, có lẽ bị sốt rồi.",
+      "answer": "发烧",
+      "options": [
+        "发烧",
+        "迟到",
+        "离开",
+        "完成"
+      ]
+    },
+    {
+      "sentence": "别___，我已经平安到家了。",
+      "vi": "Đừng lo lắng, tôi đã về nhà bình an rồi.",
+      "answer": "担心",
+      "options": [
+        "担心",
+        "放心",
+        "满意",
+        "参加"
+      ]
+    },
+    {
+      "sentence": "你可以___，我会照顾好自己。",
+      "vi": "Bạn có thể yên tâm, tôi sẽ tự chăm sóc tốt bản thân.",
+      "answer": "放心",
+      "options": [
+        "放心",
+        "害怕",
+        "生气",
+        "忘记"
+      ]
+    },
+    {
+      "sentence": "他对这次旅行很___，说下次还想来。",
+      "vi": "Anh ấy rất hài lòng với chuyến đi này, nói lần sau vẫn muốn đến.",
+      "answer": "满意",
+      "options": [
+        "满意",
+        "生气",
+        "害怕",
+        "着急"
+      ]
+    },
+    {
+      "sentence": "请保护好___，不要在很暗的地方看书。",
+      "vi": "Hãy bảo vệ mắt, đừng đọc sách ở nơi quá tối.",
+      "answer": "眼睛",
+      "options": [
+        "眼睛",
+        "耳朵",
+        "鼻子",
+        "头发"
+      ]
+    },
+    {
+      "sentence": "明天是星期天，你有什么___？",
+      "vi": "Ngày mai là chủ nhật, bạn có dự định gì?",
+      "answer": "打算",
+      "options": [
+        "打算",
+        "成绩",
+        "护照",
+        "地图"
+      ]
+    },
+    {
+      "sentence": "你想___学校的运动会吗？",
+      "vi": "Bạn có muốn tham gia đại hội thể thao của trường không?",
+      "answer": "参加",
+      "options": [
+        "参加",
+        "解决",
+        "忘记",
+        "借"
+      ]
+    },
+    {
+      "sentence": "他今天起床晚了，所以上班___了。",
+      "vi": "Hôm nay anh ấy dậy muộn nên đi làm trễ.",
+      "answer": "迟到",
+      "options": [
+        "迟到",
+        "完成",
+        "满意",
+        "发烧"
+      ]
+    },
+    {
+      "sentence": "请不要___带护照。",
+      "vi": "Xin đừng quên mang hộ chiếu.",
+      "answer": "忘记",
+      "options": [
+        "忘记",
+        "发现",
+        "提高",
+        "经过"
+      ]
+    },
+    {
+      "sentence": "这本书是我向图书馆___的。",
+      "vi": "Quyển sách này tôi mượn từ thư viện.",
+      "answer": "借",
+      "options": [
+        "借",
+        "还",
+        "搬",
+        "换"
+      ]
+    },
+    {
+      "sentence": "看完书以后，请按时___给图书馆。",
+      "vi": "Đọc xong sách, hãy trả lại cho thư viện đúng hạn.",
+      "answer": "还",
+      "options": [
+        "还",
+        "借",
+        "搬",
+        "经过"
+      ]
+    },
+    {
+      "sentence": "这件衣服太小了，我想___一件大的。",
+      "vi": "Chiếc áo này nhỏ quá, tôi muốn đổi một chiếc lớn hơn.",
+      "answer": "换",
+      "options": [
+        "换",
+        "搬",
+        "借",
+        "还"
+      ]
+    },
+    {
+      "sentence": "我明天___这里，坐飞机去北京。",
+      "vi": "Ngày mai tôi rời khỏi đây, đi máy bay đến Bắc Kinh.",
+      "answer": "离开",
+      "options": [
+        "离开",
+        "参加",
+        "复习",
+        "检查"
+      ]
+    },
+    {
+      "sentence": "图书馆里很___，大家都在看书。",
+      "vi": "Trong thư viện rất yên tĩnh, mọi người đều đang đọc sách.",
+      "answer": "安静",
+      "options": [
+        "安静",
+        "新鲜",
+        "方便",
+        "重要"
+      ]
+    },
+    {
+      "sentence": "这些水果是今天刚买的，很___。",
+      "vi": "Những trái cây này vừa mua hôm nay, rất tươi.",
+      "answer": "新鲜",
+      "options": [
+        "新鲜",
+        "安静",
+        "清楚",
+        "认真"
+      ]
+    },
+    {
+      "sentence": "这道题很___，我一分钟就做完了。",
+      "vi": "Câu này rất dễ, tôi làm xong chỉ trong một phút.",
+      "answer": "容易",
+      "options": [
+        "容易",
+        "难",
+        "重要",
+        "特别"
+      ]
+    },
+    {
+      "sentence": "房间打扫完了，现在很___。",
+      "vi": "Phòng đã dọn xong, bây giờ rất sạch sẽ.",
+      "answer": "干净",
+      "options": [
+        "干净",
+        "新鲜",
+        "难",
+        "着急"
+      ]
+    },
+    {
+      "sentence": "我没听___，请再说一遍。",
+      "vi": "Tôi nghe chưa rõ, xin nói lại một lần nữa.",
+      "answer": "清楚",
+      "options": [
+        "清楚",
+        "干净",
+        "安静",
+        "新鲜"
+      ]
+    },
+    {
+      "sentence": "___明天下雨，我们就不去爬山了。",
+      "vi": "Nếu ngày mai trời mưa thì chúng ta không đi leo núi nữa.",
+      "answer": "如果",
+      "options": [
+        "如果",
+        "而且",
+        "或者",
+        "终于"
+      ]
+    },
+    {
+      "sentence": "他会说汉语，___说得很好。",
+      "vi": "Anh ấy biết nói tiếng Trung, hơn nữa còn nói rất tốt.",
+      "answer": "而且",
+      "options": [
+        "而且",
+        "如果",
+        "或者",
+        "突然"
+      ]
+    },
+    {
+      "sentence": "等了一个小时，公共汽车___来了。",
+      "vi": "Đợi một tiếng đồng hồ, cuối cùng xe buýt cũng đến.",
+      "answer": "终于",
+      "options": [
+        "终于",
+        "突然",
+        "一定",
+        "特别"
+      ]
+    }
+  ]
+}

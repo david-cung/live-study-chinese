@@ -264,6 +264,138 @@
         "再",
         "别"
       ]
+    },
+    {
+      "sentence": "我每天___三十分钟，身体很好。",
+      "vi": "Mỗi ngày tôi chạy bộ ba mươi phút nên sức khỏe rất tốt.",
+      "answer": "跑步",
+      "options": [
+        "跑步",
+        "唱歌",
+        "跳舞",
+        "考试"
+      ]
+    },
+    {
+      "sentence": "这家商店的东西很___，十块钱就能买两件。",
+      "vi": "Đồ ở cửa hàng này rất rẻ, mười tệ mua được hai chiếc.",
+      "answer": "便宜",
+      "options": [
+        "便宜",
+        "贵",
+        "远",
+        "忙"
+      ]
+    },
+    {
+      "sentence": "我有一个___，可以用它给你打电话。",
+      "vi": "Tôi có một chiếc điện thoại di động, có thể dùng nó gọi cho bạn.",
+      "answer": "手机",
+      "options": [
+        "手机",
+        "手表",
+        "报纸",
+        "铅笔"
+      ]
+    },
+    {
+      "sentence": "我喜欢看___，了解今天的事情。",
+      "vi": "Tôi thích đọc báo để biết các sự việc hôm nay.",
+      "answer": "报纸",
+      "options": [
+        "报纸",
+        "牛奶",
+        "鸡蛋",
+        "手表"
+      ]
+    },
+    {
+      "sentence": "现在八点了，他___在睡觉。",
+      "vi": "Tám giờ rồi mà anh ấy vẫn đang ngủ.",
+      "answer": "还",
+      "options": [
+        "还",
+        "最",
+        "别",
+        "一起"
+      ]
+    },
+    {
+      "sentence": "这个问题太难了，我不知道怎么___。",
+      "vi": "Câu hỏi này khó quá, tôi không biết trả lời thế nào.",
+      "answer": "回答",
+      "options": [
+        "回答",
+        "送",
+        "笑",
+        "卖"
+      ]
+    },
+    {
+      "sentence": "今天我很___，没有时间看电影。",
+      "vi": "Hôm nay tôi rất bận, không có thời gian xem phim.",
+      "answer": "忙",
+      "options": [
+        "忙",
+        "贵",
+        "远",
+        "晴"
+      ]
+    },
+    {
+      "sentence": "我家离学校很___，走五分钟就到了。",
+      "vi": "Nhà tôi rất gần trường, đi bộ năm phút là đến.",
+      "answer": "近",
+      "options": [
+        "近",
+        "远",
+        "贵",
+        "慢"
+      ]
+    },
+    {
+      "sentence": "今天___，我们去外面打篮球吧。",
+      "vi": "Hôm nay trời nắng ráo, chúng ta ra ngoài chơi bóng rổ nhé.",
+      "answer": "晴",
+      "options": [
+        "晴",
+        "贵",
+        "忙",
+        "新"
+      ]
+    },
+    {
+      "sentence": "我想买一块___，这样就能知道几点了。",
+      "vi": "Tôi muốn mua một chiếc đồng hồ đeo tay để biết mấy giờ.",
+      "answer": "手表",
+      "options": [
+        "手表",
+        "手机",
+        "报纸",
+        "铅笔"
+      ]
+    },
+    {
+      "sentence": "我___去过北京，去年去的。",
+      "vi": "Tôi đã từng đến Bắc Kinh rồi, tôi đi năm ngoái.",
+      "answer": "已经",
+      "options": [
+        "已经",
+        "正在",
+        "别",
+        "再"
+      ]
+    },
+    {
+      "sentence": "这道题我做___了，老师让我再做一次。",
+      "vi": "Tôi làm sai câu này, thầy bảo tôi làm lại một lần.",
+      "answer": "错",
+      "options": [
+        "错",
+        "对",
+        "完",
+        "懂"
+      ]
     }
   ]
 }
