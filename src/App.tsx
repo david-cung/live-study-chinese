@@ -20,6 +20,9 @@ import Stage, { type StageProps } from './components/Stage';
 import Dashboard from './components/Dashboard';
 import { nextTip } from './tips';
 import { spokenName } from './spokenName';
+import { pruneCooldowns } from '../retention';
+import { questionIntroSpeech, questionRevealSpeech, repeatQuestionSpeech } from './quizModes';
+import { GIFT_PROMOTION_SPEECH, GIFT_REMINDER_MS } from './giftPromotion';
 
 const PARAMS = new URLSearchParams(location.search);
 const IS_STAGE = PARAMS.get('view') === 'stage';
@@ -42,6 +45,8 @@ const MAX_CHATS = 30;
 
 const EMPTY_QUIZ: QuizState = {
   running: false,
+  mode: 'mixed',
+  availableKinds: [],
   phase: 'idle',
   lessonId: '',
   lessonTitle: '',
@@ -64,9 +69,6 @@ function sayMixed(text: string, urgent = false, onStart?: () => void) {
   parts.forEach((s, i) => sound.say(s, urgent, i === 0 ? onStart : undefined, CJK_SPLIT.test(s) ? 'zh' : 'vi'));
   if (parts.length === 0) onStart?.();
 }
-
-// The word on the board, read twice with a pause so beginners can catch the tones
-const readWord = (hanzi: string) => sound.say(`${hanzi}。……${hanzi}。`, true, undefined, 'zh');
 
 type UserPayload = { username: string; nickname: string; avatar: string };
 
@@ -104,9 +106,11 @@ export default function App() {
   useEffect(() => sound.onSpeaking(setSpeaking), []);
 
   const greetQueueRef = useRef<string[]>([]);
+  const greetExtraRef = useRef(0);
   const greetedRef = useRef(new Map<string, number>());
   const guestsRef = useRef(new Map<string, Guest>());
   const lastGiftVoiceRef = useRef(new Map<string, number>());
+  const lastGiftReminderRef = useRef(Date.now());
   const quizRef = useRef<QuizState>(EMPTY_QUIZ);
   const likeRef = useRef({ value: 0, goal: 300 });
   const viewersRef = useRef(0);
@@ -156,6 +160,7 @@ export default function App() {
   const onQuiz = useCallback((next: QuizState) => {
     const prev = quizRef.current;
     quizRef.current = next;
+    sound.setQuestion(next.question?.no ?? null);
     setQuiz(next);
     const q = next.question;
     if (!q) return;
@@ -166,14 +171,12 @@ export default function App() {
         setMegaAt(Date.now());
         sound.say('Câu thưởng lớn, nhân năm điểm!', true);
       } else if (q.bonus) sound.say('Câu thưởng, nhân ba điểm!', true);
-      sound.say(q.kind === 'listen' ? 'Nghe và chọn chữ đúng.' : 'Nghe cô đọc, chữ này nghĩa là gì?', true);
-      readWord(q.word.hanzi);
+      for (const line of questionIntroSpeech(q)) sound.say(line.text, true, undefined, line.lang);
     }
     if (next.phase === 'reveal' && prev.phase === 'asking' && next.correct !== null) {
       sound.bell();
       sound.say(`Hết giờ! Đáp án đúng là ${LETTERS[next.correct]}.`, true, () => sound.ding());
-      sound.say(q.word.hanzi, true, undefined, 'zh');
-      sound.say(`nghĩa là ${q.word.vi}.`, true);
+      for (const line of questionRevealSpeech(q)) sound.say(line.text, true, undefined, line.lang);
       sayMixed(
         next.winners.length
           ? `Nhanh nhất là ${joinNames(next.winners.slice(0, 2).map((n) => spokenName(n)))}. Giỏi quá!`
@@ -194,7 +197,16 @@ export default function App() {
       .then(setLessons)
       .catch(() => {});
     const es = new EventSource('/api/events');
-    const on = <T,>(event: string, fn: (data: T) => void) => es.addEventListener(event, (e) => fn(JSON.parse((e as MessageEvent).data)));
+    const on = <T,>(event: string, fn: (data: T) => void) => es.addEventListener(event, (e) => {
+      const data = JSON.parse((e as MessageEvent).data) as T;
+      const question = event === 'quiz' ? (data as QuizState).question?.no : undefined;
+      sound.group(() => fn(data), question);
+    });
+    const timers = new Set<ReturnType<typeof setTimeout>>();
+    const later = (run: () => void, ms: number) => {
+      const timer = setTimeout(() => { timers.delete(timer); run(); }, ms);
+      timers.add(timer);
+    };
 
     on<LiveStatus>('status', setStatus);
     on<{ viewerCount: number }>('roomUser', ({ viewerCount }) => {
@@ -238,10 +250,11 @@ export default function App() {
       if (Date.now() - last < REGREET_AFTER_MS) return;
       greetedRef.current.set(g.username, Date.now());
       const nickname = g.nickname.trim().slice(0, 25) || 'bạn mới';
-      greetQueueRef.current.push(spokenName(g.nickname, 'bạn mới'));
+      if (greetQueueRef.current.length < 12) greetQueueRef.current.push(spokenName(g.nickname, 'bạn mới'));
+      else greetExtraRef.current++;
       const toast = { id: ++idRef.current, nickname };
       setWelcomes((w) => [...w.slice(-2), toast]);
-      setTimeout(() => setWelcomes((w) => w.filter((x) => x !== toast)), WELCOME_TOAST_MS);
+      later(() => setWelcomes((w) => w.filter((x) => x !== toast)), WELCOME_TOAST_MS);
     });
 
     on<ChatItem>('chat', (d) => {
@@ -285,7 +298,7 @@ export default function App() {
         fancy: d.fancy,
       };
       setHanCard(card);
-      setTimeout(() => setHanCard((c) => (c?.id === card.id ? null : c)), d.fancy ? HAN_NAME_FANCY_MS : HAN_NAME_MS);
+      later(() => setHanCard((c) => (c?.id === card.id ? null : c)), d.fancy ? HAN_NAME_FANCY_MS : HAN_NAME_MS);
       lastGiftVoiceRef.current.set(d.username, Date.now());
       const who = spokenName(d.nickname);
       sayMixed(`${sound.channelName} cảm ơn ${who} đã tặng quà. Tên tiếng Trung của bạn là`, true);
@@ -300,22 +313,19 @@ export default function App() {
       sayMixed('Bạn được làm lớp trưởng, câu tới trả lời đúng được gấp đôi điểm!', true);
     });
 
-    on<{ names: string[] }>('likeThanks', ({ names }) => {
-      if (!names.length || quizRef.current.phase === 'asking') return;
-      sayMixed(`Cảm ơn ${joinNames(names)} đã thả tim cho lớp!`);
-    });
-
-    on<{ items: { nickname: string; kind: 'follow' | 'share' }[] }>('social', ({ items }) => {
+    on<{ items: { nickname: string; kind: 'follow' | 'share' }[]; extra?: { follow: number; share: number } }>('social', ({ items, extra }) => {
       for (const it of items) {
         const toast: SocialToast = { id: ++idRef.current, nickname: it.nickname, kind: it.kind };
         setSocials((s) => [...s.slice(-2), toast]);
-        setTimeout(() => setSocials((s) => s.filter((x) => x !== toast)), SOCIAL_TOAST_MS);
+        later(() => setSocials((s) => s.filter((x) => x !== toast)), SOCIAL_TOAST_MS);
       }
       if (quizRef.current.phase === 'asking') return;
       const follows = items.filter((i) => i.kind === 'follow').map((i) => i.nickname);
       const shares = items.filter((i) => i.kind === 'share').map((i) => i.nickname);
       if (follows.length) sayMixed(`Cảm ơn ${joinNames(follows)} đã follow lớp! Được cộng năm điểm khởi đầu nha.`);
       if (shares.length) sayMixed(`Cảm ơn ${joinNames(shares)} đã chia sẻ live!`);
+      if (extra?.follow) sound.say(`Cảm ơn ${extra.follow} bạn nữa đã follow lớp, mỗi bạn được cộng năm điểm!`);
+      if (extra?.share) sound.say(`Cảm ơn ${extra.share} lượt chia sẻ nữa cho lớp!`);
     });
 
     on('bonus', () => {
@@ -337,6 +347,8 @@ export default function App() {
       setQa({ item, at: Date.now() });
       const g = guestsRef.current.get(item.username);
       if (g) g.lastActive = Date.now();
+      // Score lookups keep their on-screen reply without adding speech to the live queue.
+      if (item.source === 'quick' && /^(điểm|diem|xem điểm|hạng)$/i.test(item.comment.trim())) return;
       if (item.source === 'pin') {
         sayMixed(`${spokenName(item.nickname)} nói: ${item.comment}`);
         return;
@@ -359,7 +371,10 @@ export default function App() {
       if (action === 'musicNext') sound.nextTrack();
       if (action === 'repeatWord') {
         const q = quizRef.current.question;
-        if (q) readWord(q.word.hanzi);
+        if (q) sound.group(() => {
+          const lines = quizRef.current.phase === 'reveal' ? questionRevealSpeech(q) : repeatQuestionSpeech(q);
+          for (const line of lines) sound.say(line.text, true, undefined, line.lang);
+        }, q.no);
       }
       if (action === 'autoTalk') for (const part of nextTip()) sound.say(part.text, false, undefined, part.lang);
     });
@@ -385,9 +400,19 @@ export default function App() {
         }
       }
       if (changed) commit();
+
+      // Only fill a quiet gap; never queue a backlog or speak after the lesson is paused.
+      const quiz = quizRef.current;
+      if (!STAGE_SOUND || !quiz.running || quiz.phase === 'idle' || now - lastGiftReminderRef.current < GIFT_REMINDER_MS) return;
+      const remaining = quiz.question ? (quiz.question.endsAt - now) / 1000 : 0;
+      if (quiz.phase === 'asking' && remaining < 12) return;
+      const voice = sound.stats();
+      if (voice.blocked || voice.activeAudio || voice.preloadedAudio || voice.ordinary || voice.priority || voice.activeRemaining) return;
+      lastGiftReminderRef.current = now;
+      sound.say(GIFT_PROMOTION_SPEECH);
     }, 1000);
 
-    // Countdown ticks for the last three seconds, and the word read once more halfway through
+    // Countdown ticks and repeat the current prompt without revealing hidden answers.
     let lastTick = 0;
     let repeatedNo = 0;
     const countdown = setInterval(() => {
@@ -396,7 +421,9 @@ export default function App() {
       const left = Math.ceil((q.question.endsAt - Date.now()) / 1000);
       if (q.question.no !== repeatedNo && left <= Math.ceil(q.question.seconds / 2) && left > 3) {
         repeatedNo = q.question.no;
-        sound.say(q.question.word.hanzi, true, undefined, 'zh');
+        sound.group(() => {
+          for (const line of repeatQuestionSpeech(q.question!)) sound.say(line.text, true, undefined, line.lang);
+        }, q.question.no);
       }
       if (left >= 1 && left <= 3 && left !== lastTick) {
         lastTick = left;
@@ -407,16 +434,33 @@ export default function App() {
     // Greet newcomers in batches so a busy room doesn't pile up a long voice queue
     const greet = setInterval(() => {
       const q = greetQueueRef.current;
-      if (q.length === 0 || quizRef.current.phase === 'asking') return;
+      if ((q.length === 0 && !greetExtraRef.current) || quizRef.current.phase === 'asking') return;
       const names = [...new Set(q.splice(0, GREET_NAMES_PER_LINE))];
       // Big rush: name the first few and count the rest instead of reading a backlog for minutes
-      const rest = q.length > GREET_NAMES_PER_LINE * 2 ? q.splice(0).length : 0;
-      const who = rest ? `${names.join(', ')} cùng ${rest} bạn nữa` : joinNames(names);
-      sayMixed(`Chào ${who} vào lớp! Gõ A, B, C hoặc D để trả lời câu hỏi nha.`);
+      const rest = greetExtraRef.current + (q.length > GREET_NAMES_PER_LINE * 2 ? q.splice(0).length : 0);
+      greetExtraRef.current = 0;
+      const who = rest ? (names.length ? `${names.join(', ')} cùng ${rest} bạn nữa` : `${rest} bạn mới`) : joinNames(names);
+      sound.group(() => sayMixed(`Chào ${who} vào lớp! Gõ A, B, C hoặc D để trả lời câu hỏi nha.`));
     }, GREET_EVERY_MS);
+
+    const prune = setInterval(() => {
+      pruneCooldowns(greetedRef.current, REGREET_AFTER_MS);
+      pruneCooldowns(lastGiftVoiceRef.current, GIFT_VOICE_COOLDOWN_MS);
+    }, 30000);
+
+    // Opt-in diagnostics never include names, comments, or spoken text.
+    const diagnostics = PARAMS.has('diagnostics') ? setInterval(() => {
+      console.info('[memory:stage]', { ...sound.stats(), greeted: greetedRef.current.size,
+        giftCooldowns: lastGiftVoiceRef.current.size, greetingNames: greetQueueRef.current.length,
+        greetingExtra: greetExtraRef.current, guests: guestsRef.current.size });
+    }, 10000) : null;
 
     return () => {
       es.close();
+      sound.shutdown();
+      for (const timer of timers) clearTimeout(timer);
+      clearInterval(prune);
+      if (diagnostics) clearInterval(diagnostics);
       clearInterval(tick);
       clearInterval(countdown);
       clearInterval(greet);

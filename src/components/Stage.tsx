@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { DESK_FRONT, DESK_H, DESK_W, SEATS, SEATS_PER_DESK, STAGE_H, STAGE_W, TABLES, depthScale, tableZ, type Table } from '../layout';
 import type { Speaking } from '../sound';
-import type { GiftBanner, Guest, HanNameCard, MilestoneProgress, QaItem, QuizState, SocialToast, TopEntry } from '../types';
+import type { GiftBanner, Guest, HanNameCard, MilestoneProgress, QaItem, QuizQuestion, QuizState, SocialToast, TopEntry } from '../types';
+import { QUIZ_LABELS } from '../quizModes';
+import { GIFT_PROMOTION_TEXT } from '../giftPromotion';
 
 export const QA_MS = 8000;
 const BONUS_MS = 3500;
@@ -180,19 +182,23 @@ export default function Stage(p: StageProps) {
       {/* Bottom ticker */}
       <div className="absolute left-0 right-0 bottom-0 h-[26px] bg-black/75 z-[1000] overflow-hidden flex items-center">
         <div className="marquee whitespace-nowrap text-[12px] text-white/90 font-semibold">
-          ✍️ Gõ A, B, C hoặc D để trả lời · 🔁 Gõ "đọc lại" để nghe lại từ trên bảng · 🔊 Gõ "đọc" + từ để nghe phát âm · 📖 Gõ "dịch" + từ tiếng Việt · 🏆 Gõ "điểm" để xem hạng · ❤️ Đủ 300 tim có câu thưởng x3 · 🎁 Tặng quà làm lớp trưởng ·
-          &nbsp;&nbsp;&nbsp;✍️ Gõ A, B, C hoặc D để trả lời · 🔁 Gõ "đọc lại" để nghe lại từ trên bảng · 🔊 Gõ "đọc" + từ để nghe phát âm · 📖 Gõ "dịch" + từ tiếng Việt · 🏆 Gõ "điểm" để xem hạng · ❤️ Đủ 300 tim có câu thưởng x3 · 🎁 Tặng quà làm lớp trưởng ·
+          {[0, 1].map((copy) => (
+            <span key={copy}>
+              <span className="text-[#ffd36b] font-black">🎁 {GIFT_PROMOTION_TEXT}</span>
+              {' · ✍️ Gõ A, B, C hoặc D để trả lời · 🔁 Gõ "đọc lại" để nghe lại gợi ý · 🔊 Gõ "đọc" + từ để nghe phát âm · 📖 Gõ "dịch" + từ tiếng Việt · 🏆 Gõ "điểm" để xem hạng · ❤️ Đủ 300 tim có câu thưởng x3 ·\u00a0\u00a0\u00a0'}
+            </span>
+          ))}
         </div>
       </div>
     </div>
   );
 }
 
-function Board({ quiz, now }: { quiz: QuizState; now: number }) {
+export function Board({ quiz, now }: { quiz: QuizState; now: number }) {
   const q = quiz.question;
   const reveal = quiz.phase === 'reveal';
   const left = q ? Math.max(0, Math.ceil((q.endsAt - now) / 1000)) : 0;
-  const showWord = q && (q.kind === 'meaning' || reveal);
+  const chineseOptions = q && ['listen', 'fill', 'reverse'].includes(q.kind);
   return (
     <div className="absolute left-[3%] right-[25%] top-[12.6%] h-[33.6%] z-[900] board-frame rounded-lg p-[6px]">
       <div className="relative w-full h-full rounded board px-3 py-2 flex flex-col text-white overflow-hidden">
@@ -208,7 +214,7 @@ function Board({ quiz, now }: { quiz: QuizState; now: number }) {
           <>
             <div className="flex items-center justify-between text-[12px] font-bold">
               <span className="bg-white/15 rounded-full px-2 py-0.5">Câu {q.no}</span>
-              <span className="text-[#ffe9a8]">{q.kind === 'listen' ? '🔊 Nghe và chọn chữ đúng' : '📖 Chọn nghĩa đúng'}</span>
+              <span className="text-[#ffe9a8] text-[11px]">{QUIZ_LABELS[q.kind]}</span>
               {reveal ? (
                 <span className="bg-[#3fae6b] rounded-full px-2 py-0.5">Đáp án</span>
               ) : (
@@ -224,20 +230,7 @@ function Board({ quiz, now }: { quiz: QuizState; now: number }) {
             )}
 
             <div className="flex-1 flex flex-col items-center justify-center min-h-0">
-              {showWord ? (
-                <>
-                  <div key={`${q.no}-w`} className="text-[58px] leading-[1.05] font-black chalk zh-font word-in">
-                    {q.word.hanzi}
-                  </div>
-                  <div className="text-[17px] font-bold text-[#ffe9a8] chalk">{q.word.pinyin}</div>
-                  {reveal && q.kind === 'listen' && <div className="text-[13px] text-white/85">= {q.word.vi}</div>}
-                </>
-              ) : (
-                <div className="flex flex-col items-center">
-                  <div className="text-[52px] leading-none speaker">🔊</div>
-                  <div className="text-[13px] font-bold text-white/85 mt-1">Nghe cô đọc rồi chọn chữ đúng</div>
-                </div>
-              )}
+              <QuestionPrompt question={q} reveal={reveal} />
             </div>
 
             <div className="grid grid-cols-2 gap-1.5">
@@ -246,14 +239,14 @@ function Board({ quiz, now }: { quiz: QuizState; now: number }) {
                 return (
                   <div
                     key={`${q.no}-${i}`}
-                    className={`flex items-center gap-1.5 rounded-md px-1.5 py-1 border-2 transition-all duration-300 ${
+                    className={`flex items-center min-h-[34px] gap-1.5 rounded-md px-1.5 py-1 border-2 transition-all duration-300 ${
                       right ? 'bg-[#3fae6b] border-white option-right' : reveal ? 'bg-black/20 border-white/10 opacity-40' : 'bg-black/25 border-white/30'
                     }`}
                   >
                     <span className={`w-5 h-5 shrink-0 rounded-full flex items-center justify-center text-[11px] font-black ${right ? 'bg-white text-[#2b7a4b]' : 'bg-[#ffd36b] text-[#3a2a00]'}`}>
                       {LETTERS[i]}
                     </span>
-                    <span className={`truncate font-bold ${q.kind === 'listen' ? 'text-[20px] zh-font leading-tight' : 'text-[13px]'}`}>{o}</span>
+                    <span className={`line-clamp-2 break-words font-bold leading-tight ${chineseOptions ? 'text-[19px] zh-font' : q.kind === 'pinyin' ? 'text-[14px]' : 'text-[12px]'}`}>{o}</span>
                   </div>
                 );
               })}
@@ -277,6 +270,45 @@ function Board({ quiz, now }: { quiz: QuizState; now: number }) {
         )}
       </div>
     </div>
+  );
+}
+
+export function QuestionPrompt({ question: q, reveal }: { question: QuizQuestion; reveal: boolean }) {
+  return (
+    <>
+      {q.kind === 'fill' && q.context ? (
+        <div key={`${q.no}-sentence`} className="w-full text-center py-1">
+          <div className="zh-font text-[22px] font-black leading-[1.2] chalk break-words">
+            {q.context.sentence.split('___')[0]}
+            <span className={reveal ? 'text-[#9fe8b8]' : 'inline-block min-w-[44px] mx-0.5 border-b-2 border-[#ffe9a8] text-[#ffe9a8]'}>
+              {reveal ? q.word.hanzi : '___'}
+            </span>
+            {q.context.sentence.split('___')[1]}
+          </div>
+          {reveal && <div className="text-[13px] font-bold text-[#ffe9a8] mt-0.5">{q.word.hanzi} · {q.word.pinyin}</div>}
+          <div className="text-[11px] font-semibold leading-snug text-white/85 mt-1 line-clamp-2">{q.context.vi}</div>
+        </div>
+      ) : q.kind === 'reverse' && !reveal ? (
+        <div className="text-center px-1">
+          <div className="text-[11px] font-semibold text-white/70 mb-1">Tìm chữ Hán có nghĩa là</div>
+          <div className="text-[24px] leading-tight font-black text-[#ffe9a8] break-words">{q.word.vi}</div>
+        </div>
+      ) : q.kind !== 'listen' || reveal ? (
+        <>
+          <div key={`${q.no}-w`} className="text-[52px] leading-[1.05] font-black chalk zh-font word-in">
+            {q.word.hanzi}
+          </div>
+          {(q.kind !== 'pinyin' || reveal) && <div className="text-[17px] font-bold text-[#ffe9a8] chalk">{q.word.pinyin}</div>}
+          {q.kind === 'pinyin' && !reveal && <div className="text-[11px] text-white/75 mt-1">Chú ý âm và dấu thanh!</div>}
+          {reveal && <div className="text-[11px] text-white/85 text-center">= {q.word.vi}</div>}
+        </>
+      ) : (
+        <div className="flex flex-col items-center">
+          <div className="text-[52px] leading-none speaker">🔊</div>
+          <div className="text-[13px] font-bold text-white/85 mt-1">Nghe cô đọc rồi chọn chữ đúng</div>
+        </div>
+      )}
+    </>
   );
 }
 

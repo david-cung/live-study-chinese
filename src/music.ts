@@ -33,6 +33,8 @@ export class MusicSynth {
   private nextTime = 0;
   private step = 0;
   private noise: AudioBuffer;
+  private voices = new Map<AudioScheduledSourceNode, AudioNode[]>();
+  private stopped = false;
   style: SynthStyle;
 
   constructor(ctx: AudioContext, destination: AudioNode, style: SynthStyle) {
@@ -58,17 +60,44 @@ export class MusicSynth {
   }
 
   start() {
-    if (this.timer) return;
+    if (this.timer || this.stopped) return;
     this.nextTime = this.ctx.currentTime + 0.1;
     this.step = 0;
     this.timer = setInterval(() => this.schedule(), 50);
   }
 
   stop() {
+    if (this.stopped) return;
+    this.stopped = true;
     if (this.timer) clearInterval(this.timer);
     this.timer = null;
     this.out.gain.setTargetAtTime(0, this.ctx.currentTime, 0.3);
-    setTimeout(() => this.out.disconnect(), 1500);
+    setTimeout(() => {
+      for (const [source, nodes] of this.voices) {
+        source.onended = null;
+        try { source.stop(); } catch { /* already ended */ }
+        source.disconnect();
+        for (const node of nodes) node.disconnect();
+      }
+      this.voices.clear();
+      this.reverb.disconnect();
+      this.reverb.buffer = null;
+      this.wet.disconnect();
+      this.out.disconnect();
+    }, 1500);
+  }
+
+  private release(sources: AudioScheduledSourceNode[], nodes: AudioNode[]) {
+    let remaining = sources.length;
+    for (const source of sources) {
+      this.voices.set(source, nodes);
+      source.onended = () => {
+        source.onended = null;
+        source.disconnect();
+        this.voices.delete(source);
+        if (--remaining === 0) for (const node of nodes) node.disconnect();
+      };
+    }
   }
 
   // Eighth-note grid, scheduled a little ahead of the audio clock
@@ -129,6 +158,7 @@ export class MusicSynth {
     g.gain.value = dry;
     node.connect(g).connect(this.out);
     node.connect(this.reverb);
+    return g;
   }
 
   private pad(chord: number[], t: number, len: number) {
@@ -137,7 +167,8 @@ export class MusicSynth {
     filter.frequency.value = 900;
     const g = this.env(t, 0.05, len * 0.3, len * 0.85);
     filter.connect(g);
-    this.send(g, 0.8);
+    const dry = this.send(g, 0.8);
+    const sources: OscillatorNode[] = [];
     for (const n of chord) {
       for (const detune of [-6, 6]) {
         const o = this.ctx.createOscillator();
@@ -147,8 +178,10 @@ export class MusicSynth {
         o.connect(filter);
         o.start(t);
         o.stop(t + len * 1.2);
+        sources.push(o);
       }
     }
+    this.release(sources, [filter, g, dry]);
   }
 
   private bass(midi: number, t: number, len: number) {
@@ -159,6 +192,7 @@ export class MusicSynth {
     o.connect(g).connect(this.out);
     o.start(t);
     o.stop(t + len + 0.1);
+    this.release([o], [g]);
   }
 
   private pluck(midi: number, t: number, peak: number, release: number) {
@@ -173,11 +207,12 @@ export class MusicSynth {
     g2.gain.value = 0.25;
     o.connect(g);
     o2.connect(g2).connect(g);
-    this.send(g);
+    const dry = this.send(g);
     o.start(t);
     o2.start(t);
     o.stop(t + release + 0.1);
     o2.stop(t + release + 0.1);
+    this.release([o, o2], [g, g2, dry]);
   }
 
   private lead(midi: number, t: number, len: number) {
@@ -191,11 +226,12 @@ export class MusicSynth {
     lfo.connect(lfoGain).connect(o.frequency);
     const g = this.env(t, 0.06, 0.04, len);
     o.connect(g);
-    this.send(g, 0.7);
+    const dry = this.send(g, 0.7);
     o.start(t);
     lfo.start(t);
     o.stop(t + len + 0.1);
     lfo.stop(t + len + 0.1);
+    this.release([o, lfo], [g, lfoGain, dry]);
   }
 
   private kick(t: number, peak = 0.5) {
@@ -206,6 +242,7 @@ export class MusicSynth {
     o.connect(g).connect(this.out);
     o.start(t);
     o.stop(t + 0.3);
+    this.release([o], [g]);
   }
 
   private noiseHit(t: number, freq: number, peak: number, release: number, type: BiquadFilterType) {
@@ -218,6 +255,7 @@ export class MusicSynth {
     src.connect(f).connect(g).connect(this.out);
     src.start(t, Math.random() * 0.5);
     src.stop(t + release + 0.05);
+    this.release([src], [f, g]);
   }
 
   private hat(t: number, peak: number) {

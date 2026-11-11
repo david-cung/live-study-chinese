@@ -29,13 +29,17 @@ export type Lang = 'vi' | 'zh';
 
 export type Word = { hanzi: string; pinyin: string; vi: string; topic?: string };
 export type LessonInfo = { id: string; title: string; count: number };
+export type QuizKind = 'meaning' | 'listen' | 'fill' | 'pinyin' | 'reverse';
+export type QuizMode = 'mixed' | QuizKind;
+export type ClozeExercise = { sentence: string; vi: string; answer: string; options: string[] };
 
 export type QuizQuestion = {
   no: number;
-  // meaning: see the character, pick its meaning; listen: hear it, pick the character
-  kind: 'meaning' | 'listen';
+  kind: QuizKind;
   word: Word;
   options: string[];
+  // Exactly one ___ placeholder; only fill questions have sentence context.
+  context?: { sentence: string; vi: string };
   seconds: number;
   endsAt: number;
   bonus: boolean;
@@ -65,6 +69,8 @@ export type MilestoneProgress = {
 
 export type QuizState = {
   running: boolean;
+  mode: QuizMode;
+  availableKinds: QuizKind[];
   phase: 'idle' | 'asking' | 'reveal';
   lessonId: string;
   lessonTitle: string;

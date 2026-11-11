@@ -13,7 +13,6 @@ const TIPS: Part[][] = [
   [vi('Muốn nhớ từ lâu, mỗi ngày ôn lại năm phút là đủ, quan trọng là đều đặn.')],
   [vi('Ai mới vào lớp thì gõ A, B, C hoặc D để trả lời câu hỏi nha. Trả lời càng nhanh điểm càng cao!')],
   [vi('Thả tim cho lớp đi mọi người, đủ ba trăm tim là câu tiếp theo được nhân ba điểm.')],
-  [vi('Tặng quà để cô đặt tên tiếng Trung cho bạn nha! Có chữ Hán và pinyin luôn.')],
   [vi('Follow lớp để nhận năm điểm khởi đầu, rồi trả lời câu hỏi để leo bảng vàng!')],
   [vi('Muốn nghe cô đọc một từ thì gõ chữ đọc, rồi cách một khoảng, gõ từ đó. Ví dụ: đọc cảm ơn.')],
   [vi('Gõ chữ điểm để xem mình đang đứng hạng mấy nha.')],

@@ -1,4 +1,4 @@
-import { spawn } from 'child_process';
+import { runAiProcess } from './aiProcess';
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
@@ -32,29 +32,7 @@ ${input.comment.replace(/<\/?binh_luan>/gi, '')}
 </binh_luan>`;
 
   const args = ['-p', '--mode', 'ask', '--output-format', 'text', '--trust', '--workspace', SANDBOX, '--model', model];
-  const win = process.platform === 'win32';
-  const out = await new Promise<string>((resolve, reject) => {
-    // On Windows the CLI is a .cmd shim that needs a shell; the prompt still goes through stdin, never the command line
-    const child = spawn(win ? `"${BIN}"` : BIN, win ? args.map((a) => `"${a}"`) : args, { cwd: SANDBOX, shell: win, windowsHide: true });
-    let stdout = '';
-    let stderr = '';
-    const timer = setTimeout(() => {
-      child.kill();
-      reject(new Error('AI trả lời quá 25 giây'));
-    }, TIMEOUT_MS);
-    child.stdout.on('data', (d) => (stdout += d));
-    child.stderr.on('data', (d) => (stderr += d));
-    child.on('error', (err) => {
-      clearTimeout(timer);
-      reject(new Error(`Không chạy được ${BIN}: ${err.message}. Đã cài Cursor CLI và đăng nhập chưa?`));
-    });
-    child.on('close', (code) => {
-      clearTimeout(timer);
-      if (code === 0) resolve(stdout);
-      else reject(new Error((stderr || stdout).trim().split('\n').slice(-2).join(' ').slice(0, 200) || `cursor-agent thoát với mã ${code}`));
-    });
-    child.stdin.end(prompt);
-  });
+  const out = await runAiProcess({ bin: BIN, args, cwd: SANDBOX, input: prompt, timeoutMs: TIMEOUT_MS });
   return parseReply(out);
 }
 

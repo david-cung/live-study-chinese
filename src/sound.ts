@@ -1,12 +1,16 @@
 /// <reference types="vite/client" />
 import { MusicSynth } from './music';
+import { SpeechQueue, type SpeechGroup, type SpeechLine } from './speechQueue';
 import type { Lang, MusicState } from './types';
 
 // Voice queue (Vietnamese and Chinese), quiz sounds and background music. Only the ?view=stage page calls enable(); the dashboard stays silent.
-class SoundEngine {
+export class SoundEngine {
   private enabled = false;
-  private queue: Line[] = [];
-  private priority: Line[] = [];
+  private speech = new SpeechQueue();
+  private building: SpeechGroup | null = null;
+  private preloaded: { line: SpeechLine; el: HTMLAudioElement } | null = null;
+  private cancelCurrent: (() => void) | null = null;
+  private retryLine: SpeechLine | null = null;
   private playing = false;
   private ctx: AudioContext | null = null;
   channelName = 'Lớp Tiếng Trung Online';
@@ -17,6 +21,10 @@ class SoundEngine {
   private track: HTMLAudioElement | null = null;
   private playlist: string[] | null = null;
   private trackIdx = 0;
+  private musicVersion = 0;
+  private clearTrack: (() => void) | null = null;
+  private playlistRequest: Promise<string[]> | null = null;
+  private playlistAbort: AbortController | null = null;
   private ducked = false;
 
   private current: HTMLAudioElement | null = null;
@@ -40,10 +48,18 @@ class SoundEngine {
         if (this.holder) this.becomeSilent();
       } else if (m.release && !this.holder) this.tryClaim(100 + Math.random() * 400);
     };
-    window.addEventListener('pagehide', () => this.release());
+    window.addEventListener('pagehide', this.pageHide);
+    window.addEventListener('pageshow', this.pageShow);
     this.channel.postMessage({ hello: this.id });
     this.tryClaim(400);
   }
+
+  private pageHide = () => { this.release(); this.becomeSilent(); };
+  private pageShow = () => {
+    if (!this.channel || this.holder) return;
+    this.channel.postMessage({ hello: this.id });
+    this.tryClaim(400);
+  };
 
   private tryClaim(waitMs: number) {
     if (this.claimTimer) clearTimeout(this.claimTimer);
@@ -92,6 +108,8 @@ class SoundEngine {
     this.claimTimer = null;
     this.channel?.close();
     this.channel = null;
+    window.removeEventListener('pagehide', this.pageHide);
+    window.removeEventListener('pageshow', this.pageShow);
   }
 
   // Stops every sound this engine started
@@ -99,16 +117,23 @@ class SoundEngine {
     this.holder = false;
     this.enabled = false;
     this.setBlocked(false);
-    this.track?.pause();
-    this.track = null;
+    this.musicVersion++;
+    this.playlistAbort?.abort();
+    this.playlistAbort = null;
+    this.playlistRequest = null;
+    this.clearTrack?.();
     this.synth?.stop();
     this.synth = null;
-    this.current?.pause();
-    this.current = null;
-    for (const line of [...this.priority, ...this.queue]) line.el.src = '';
-    this.priority = [];
-    this.queue = [];
+    this.cancelCurrent?.();
+    this.dropPreload();
+    this.retryLine = null;
+    this.speech.clear();
     this.playing = false;
+    this.ducked = false;
+    if (this.claimTimer) clearTimeout(this.claimTimer);
+    this.claimTimer = null;
+    if (this.mimicTimer) clearTimeout(this.mimicTimer);
+    this.mimicTimer = null;
     this.ctx?.close();
     this.ctx = null;
     this.musicGain = null;
@@ -139,70 +164,128 @@ class SoundEngine {
     if (name.trim()) this.channelName = name.trim();
   }
 
-  // onStart fires when the line actually starts playing (or right away when sound is off), to sync visuals
+  // Assemble all Vietnamese/Chinese segments before admitting the message.
+  group(run: () => void, question?: number) {
+    if (this.building) {
+      if (question !== undefined) this.building.question = question;
+      run();
+      return;
+    }
+    const group: SpeechGroup = { lines: [], urgent: false, question };
+    this.building = group;
+    try { run(); } finally {
+      this.building = null;
+      this.speech.add(group);
+      this.next();
+    }
+  }
+
+  setQuestion(question: number | null) {
+    if (this.speech.setQuestion(question)) {
+      this.cancelCurrent?.();
+      this.retryLine = null;
+    }
+    this.refreshPreload();
+    // The new question's message is still being assembled by group(). Don't
+    // start a gift from the old backlog before that message is admitted.
+    if (!this.building) this.next();
+  }
+
   say(text: string, urgent = false, onStart?: () => void, lang: Lang = 'vi') {
     if (!this.enabled || !text.trim()) {
       onStart?.();
       if (text.trim()) this.mimic({ text, lang });
       return;
     }
-    // Start downloading right away, so the line is ready the moment the previous one ends
-    const el = new Audio(`/api/tts?lang=${lang}&text=${encodeURIComponent(text)}`);
-    el.preload = 'auto';
-    const line: Line = { text, onStart, lang, el };
-    if (urgent) this.priority.push(line);
-    else {
-      // Never let a backlog build up: drop the oldest ordinary line
-      if (this.queue.length >= 6) this.queue.shift()?.onStart?.();
-      this.queue.push(line);
+    const line: SpeechLine = { text, onStart, lang };
+    if (this.building) {
+      this.building.lines.push(line);
+      this.building.urgent ||= urgent;
+    } else {
+      this.speech.add({ lines: [line], urgent });
+      this.next();
     }
-    this.next();
+  }
+
+  private disposeAudio(el: HTMLAudioElement) {
+    el.pause();
+    el.removeAttribute('src');
+    el.load();
+  }
+
+  private dropPreload() {
+    if (this.preloaded) this.disposeAudio(this.preloaded.el);
+    this.preloaded = null;
+  }
+
+  private makeAudio(line: SpeechLine) {
+    const el = new Audio(`/api/tts?lang=${line.lang}&text=${encodeURIComponent(line.text)}`);
+    el.preload = 'auto';
+    return el;
+  }
+
+  private refreshPreload() {
+    const line = this.retryLine ?? this.speech.peek();
+    if (this.preloaded?.line === line) return;
+    this.dropPreload();
+    if (this.enabled && !this.blocked && line) this.preloaded = { line, el: this.makeAudio(line) };
   }
 
   private next() {
-    if (this.playing) return;
-    const line = this.priority.shift() ?? this.queue.shift();
-    if (!line) {
-      this.duck(false);
-      return;
-    }
+    if (!this.enabled || this.blocked) return;
+    if (this.playing) { this.refreshPreload(); return; }
+    const line = this.retryLine ?? this.speech.take();
+    this.retryLine = null;
+    if (!line) { this.dropPreload(); this.duck(false); return; }
+    const el = this.preloaded?.line === line ? this.preloaded.el : this.makeAudio(line);
+    if (this.preloaded?.el === el) this.preloaded = null;
+    else this.dropPreload();
     this.playing = true;
     this.duck(true);
-    const el = line.el;
     this.current = el;
     let started = false;
+    let done = false;
     const start = () => {
-      if (started) return;
+      if (started || done) return;
       started = true;
       line.onStart?.();
       this.notify({ text: line.text, lang: line.lang });
     };
-    el.addEventListener('playing', start);
-    let done = false;
-    const finish = () => {
-      if (done) return;
+    const cleanup = () => {
       done = true;
-      start();
       clearTimeout(guard);
+      el.removeEventListener('playing', start);
+      el.removeEventListener('ended', finish);
+      el.removeEventListener('error', finish);
+      this.disposeAudio(el);
+      this.current = null;
+      this.cancelCurrent = null;
       this.playing = false;
       this.notify(null);
+    };
+    const finish = () => {
+      if (done) return;
+      cleanup();
       this.next();
     };
     const guard = setTimeout(finish, 30000);
+    this.cancelCurrent = cleanup;
+    el.addEventListener('playing', start);
     el.addEventListener('ended', finish);
     el.addEventListener('error', finish);
+    this.refreshPreload();
     el.play().catch((err) => {
-      if (err?.name !== 'NotAllowedError') return finish();
-      // Autoplay blocked: keep the line and wait for a click instead of silently skipping it
-      done = true;
-      clearTimeout(guard);
-      this.playing = false;
-      this.priority.unshift(line);
-      // Only the most recent few lines are worth reading once sound is unlocked
-      this.priority.splice(3);
-      this.queue.splice(0, Math.max(0, this.queue.length - 2));
+      if (done) return;
+      if (err?.name !== 'NotAllowedError') { finish(); return; }
+      cleanup();
+      this.retryLine = line;
+      this.dropPreload();
       this.setBlocked(true);
     });
+  }
+
+  stats() {
+    return { ...this.speech.stats(), activeAudio: this.current ? 1 : 0, preloadedAudio: this.preloaded ? 1 : 0, blocked: this.blocked };
   }
 
   blocked = false;
@@ -240,6 +323,7 @@ class SoundEngine {
       gain.gain.exponentialRampToValueAtTime(0.0001, t0 + length);
       osc.connect(gain).connect(ctx.destination);
       osc.start(t0);
+      osc.onended = () => { osc.disconnect(); gain.disconnect(); };
       osc.stop(t0 + length + 0.05);
     }
   }
@@ -272,45 +356,46 @@ class SoundEngine {
   }
 
   nextTrack() {
-    if (this.track) {
-      this.track.pause();
-      this.track = null;
-      this.trackIdx++;
-      this.playTrack();
-    } else if (this.synth) {
-      // Restart the generated music so it begins a fresh phrase
-      this.synth.stop();
-      this.synth = null;
-      this.applyMusic();
-    }
+    this.musicVersion++;
+    this.clearTrack?.();
+    this.trackIdx++;
+    this.synth?.stop();
+    this.synth = null;
+    void this.applyMusic();
   }
 
-  // Songs play in turn and loop; the list is re-read each round so newly added files join in
-  private async loadPlaylist(refresh = false) {
+  private async loadPlaylist(refresh = false): Promise<string[]> {
+    if (this.playlistRequest) return this.playlistRequest;
     if (this.playlist && !refresh) return this.playlist;
-    try {
-      this.playlist = (await (await fetch('/api/music')).json()) as string[];
-    } catch {
-      this.playlist = this.playlist || [];
-    }
-    return this.playlist;
+    const controller = new AbortController();
+    this.playlistAbort = controller;
+    const request = fetch('/api/music', { signal: controller.signal })
+      .then((r) => r.json()).then((list: unknown) => {
+        const files = Array.isArray(list) ? list.filter((v): v is string => typeof v === 'string') : [];
+        if (!controller.signal.aborted) this.playlist = files;
+        return files;
+      }).catch(() => this.playlist || []).finally(() => {
+        if (this.playlistRequest === request) {
+          this.playlistRequest = null;
+          this.playlistAbort = null;
+        }
+      });
+    this.playlistRequest = request;
+    return request;
   }
 
   private async applyMusic() {
+    const version = ++this.musicVersion;
     if (!this.enabled) return;
     let want: 'off' | 'files' | 'ballad' | 'vui' = this.music.on ? this.music.style : 'off';
-    // No files in public/music: fall back to the generated music
     if (want === 'files' && (await this.loadPlaylist()).length === 0) want = 'vui';
-
-    if (want !== 'files' && this.track) {
-      this.track.pause();
-      this.track = null;
-    }
+    if (!this.enabled || version !== this.musicVersion) return;
+    if (want !== 'files') this.clearTrack?.();
     if (this.synth && this.synth.style !== want) {
       this.synth.stop();
       this.synth = null;
     }
-    if (want === 'files' && !this.track) this.playTrack();
+    if (want === 'files' && !this.track) void this.playTrack(version);
     if ((want === 'ballad' || want === 'vui') && !this.synth) {
       const ctx = this.audio()!;
       if (!this.musicGain) {
@@ -323,19 +408,29 @@ class SoundEngine {
     this.updateVolume();
   }
 
-  private async playTrack() {
+  private async playTrack(version: number) {
     const list = await this.loadPlaylist(this.trackIdx % Math.max(1, this.playlist?.length || 1) === 0);
-    if (!this.enabled || !list.length || this.track || !this.music.on || this.music.style !== 'files') return;
+    if (!this.enabled || version !== this.musicVersion || !list.length || this.track || !this.music.on || this.music.style !== 'files') return;
     const el = new Audio(list[this.trackIdx % list.length]);
+    let retry: ReturnType<typeof setTimeout> | undefined;
     this.track = el;
-    const advance = () => {
-      if (this.track !== el) return;
-      this.track = null;
-      this.trackIdx++;
-      this.playTrack();
+    const cleanup = () => {
+      clearTimeout(retry);
+      el.removeEventListener('ended', advance);
+      el.removeEventListener('error', error);
+      this.disposeAudio(el);
+      if (this.track === el) { this.track = null; this.clearTrack = null; }
     };
+    const advance = () => {
+      if (this.track !== el || !this.enabled) return;
+      cleanup();
+      this.trackIdx++;
+      void this.playTrack(this.musicVersion);
+    };
+    const error = () => { if (!retry) retry = setTimeout(advance, 2000); };
+    this.clearTrack = cleanup;
     el.addEventListener('ended', advance);
-    el.addEventListener('error', () => setTimeout(advance, 2000));
+    el.addEventListener('error', error);
     this.updateVolume();
     el.play().catch(() => {});
   }
@@ -354,7 +449,6 @@ class SoundEngine {
   }
 }
 
-type Line = { text: string; onStart?: () => void; lang: Lang; el: HTMLAudioElement };
 export type Speaking = { text: string; lang: Lang };
 
 export const sound = new SoundEngine();

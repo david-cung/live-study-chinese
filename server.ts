@@ -9,6 +9,11 @@ import { safeName } from './moderation';
 import { hanNameFor } from './hanName';
 import { spokenName } from './src/spokenName';
 import type { AiState, Lang } from './src/types';
+import { TtsService, TtsBusyError } from './ttsCache';
+import { SocialBuffer, pruneCooldowns } from './retention';
+import { LiveSession } from './liveSession';
+import { aiProcessStats, stopAiProcess } from './aiProcess';
+import { questionAnswer } from './src/quizModes';
 
 const PORT = Number(process.env.PORT) || 3002;
 const app = express();
@@ -39,10 +44,16 @@ let conn: InstanceType<typeof TikTokLiveConnection> | null = null;
 
 // ---------- SSE ----------
 const sseClients: express.Response[] = [];
+function writeSse(res: express.Response, message: string) {
+  // A paused/abandoned browser must not retain an unlimited socket buffer.
+  if (res.destroyed || res.writableEnded) return;
+  if (res.writableLength > 1024 * 1024) { res.destroy(); return; }
+  res.write(message);
+}
 
 function broadcast(event: string, data: unknown) {
   const msg = `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`;
-  for (const res of sseClients) res.write(msg);
+  for (const res of sseClients) writeSse(res, msg);
 }
 
 // Settings survive restarts in settings.json next to this file
@@ -107,8 +118,9 @@ function addLikes(n: number) {
 
 // ---------- Engagement: Chinese names, like thanks, follow/share, session milestones ----------
 const BIG_GIFT_DIAMONDS = 99;
-const namedThisSession = new Set<string>();
-const followedThisSession = new Set<string>();
+const session = new LiveSession();
+const namedThisSession = session.named;
+const followedThisSession = session.followed;
 
 // Per-user like tally; every minute thank the top few by name
 const LIKE_THANKS_EVERY_MS = 60000;
@@ -116,8 +128,9 @@ const LIKE_THANKS_COOLDOWN_MS = 5 * 60000;
 const likeTally = new Map<string, { nickname: string; count: number }>();
 const likeThankedAt = new Map<string, number>();
 setInterval(() => {
-  if (quiz.isAsking || likeTally.size === 0) return;
   const now = Date.now();
+  pruneCooldowns(likeThankedAt, LIKE_THANKS_COOLDOWN_MS, now);
+  if (quiz.isAsking || likeTally.size === 0) return;
   const top = [...likeTally.entries()]
     .filter(([u]) => now - (likeThankedAt.get(u) || 0) >= LIKE_THANKS_COOLDOWN_MS)
     .sort((a, b) => b[1].count - a[1].count)
@@ -128,12 +141,10 @@ setInterval(() => {
   broadcast('likeThanks', { names: top.map(([, v]) => spokenName(v.nickname)) });
 }, LIKE_THANKS_EVERY_MS);
 
-type SocialKind = 'follow' | 'share';
-const socialQueue: { nickname: string; kind: SocialKind }[] = [];
+const socialQueue = new SocialBuffer();
 setInterval(() => {
-  if (quiz.isAsking || socialQueue.length === 0) return;
-  const batch = socialQueue.splice(0, 3);
-  broadcast('social', { items: batch });
+  if (quiz.isAsking || socialQueue.size === 0) return;
+  broadcast('social', socialQueue.take());
 }, 8000);
 
 type RewardLine = { vi: string; zh: string; pinyin?: string };
@@ -185,9 +196,11 @@ function checkMilestones() {
 }
 function seedMilestonesFromCurrent() {
   hitMilestones.clear();
-  namedThisSession.clear();
-  followedThisSession.clear();
   likeTally.clear();
+  likeThankedAt.clear();
+  socialQueue.clear();
+  likeAcc = 0;
+  broadcast('likeProgress', { value: likeAcc, goal: LIKE_GOAL });
   const total = status.totalLikes;
   for (const m of MILESTONE_BASE) if (total >= m) hitMilestones.add(m);
   if (total >= 5000) for (let m = 10000; m <= total; m += 5000) hitMilestones.add(m);
@@ -214,7 +227,7 @@ app.get('/api/events', (req, res) => {
   res.setHeader('Connection', 'keep-alive');
   res.flushHeaders();
   sseClients.push(res);
-  const send = (event: string, data: unknown) => res.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
+  const send = (event: string, data: unknown) => writeSse(res, `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
   // While idle, username carries the last account used so the dashboard can prefill it
   send('status', status.username ? status : { ...status, username: tiktokUser });
   if (channelName) send('control', { action: 'setName', text: channelName });
@@ -226,7 +239,7 @@ app.get('/api/events', (req, res) => {
   send('likeProgress', { value: likeAcc, goal: LIKE_GOAL });
   send('milestone', { total: status.totalLikes, nextAt: nextMilestone(status.totalLikes), label: milestoneLabel(nextMilestone(status.totalLikes)) });
   if (stageInfo) send('stageInfo', stageInfo);
-  const ping = setInterval(() => res.write(': ping\n\n'), 20000);
+  const ping = setInterval(() => writeSse(res, ': ping\n\n'), 20000);
   req.on('close', () => {
     clearInterval(ping);
     const i = sseClients.indexOf(res);
@@ -281,7 +294,7 @@ function onLike(u: User, count: number) {
 }
 
 function onFollow(u: User) {
-  socialQueue.push({ nickname: spokenName(u.nickname), kind: 'follow' });
+  socialQueue.add(spokenName(u.nickname), 'follow');
   if (!followedThisSession.has(u.username)) {
     followedThisSession.add(u.username);
     quiz.awardPoints(u, 5);
@@ -289,7 +302,7 @@ function onFollow(u: User) {
 }
 
 function onShare(u: User) {
-  socialQueue.push({ nickname: spokenName(u.nickname), kind: 'share' });
+  socialQueue.add(spokenName(u.nickname), 'share');
 }
 
 // ---------- TikTok ----------
@@ -337,9 +350,14 @@ async function connectTikTok(username: string) {
   const live = () => conn === c;
   c.on(ControlEvent.CONNECTED, (state: { roomId?: string }) => {
     if (!live()) return;
-    status = { ...status, isConnected: true, isConnecting: false, roomId: state?.roomId || '', error: '' };
+    const roomId = String(state?.roomId || '');
+    const newSession = session.enter(username, roomId);
+    status = { ...status, totalLikes: session.totalLikes, isConnected: true, isConnecting: false, roomId, error: '' };
+    if (newSession) {
+      quiz.clearSessionBenefits();
+      seedMilestonesFromCurrent();
+    } else broadcastMilestoneProgress();
     broadcast('status', status);
-    seedMilestonesFromCurrent();
     console.log(`[tiktok] đã nối @${username}, phòng ${state?.roomId || '?'}`);
     if (tiktokUser !== username) {
       tiktokUser = username;
@@ -378,15 +396,22 @@ async function connectTikTok(username: string) {
   });
 
   // TikTok resends streak gifts with a cumulative repeatCount; only forward the new units
-  const streaks = new Map<string, number>();
+  const streaks = new Map<string, { count: number; at: number }>();
+  let lastStreakPrune = 0;
   c.on(WebcastEvent.GIFT, (data: any) => {
+    if (!live()) return;
+    const now = Date.now();
+    if (now - lastStreakPrune > 30000) {
+      for (const [key, value] of streaks) if (now - value.at >= 60000) streaks.delete(key);
+      lastStreakPrune = now;
+    }
     const u = userOf(data);
     const giftName = data?.gift?.name || data?.giftDetails?.giftName || data?.giftName || 'Quà';
     const key = `${u.username}|${giftName}`;
     const total = data?.repeatCount || 1;
-    const delta = Math.max(0, total - (streaks.get(key) || 0));
+    const delta = Math.max(0, total - (streaks.get(key)?.count || 0));
     const streakable = (data?.gift?.type ?? data?.giftDetails?.giftType ?? data?.giftType) === 1;
-    if (streakable && !data?.repeatEnd) streaks.set(key, total);
+    if (streakable && !data?.repeatEnd) streaks.set(key, { count: total, at: now });
     else streaks.delete(key);
     if (delta === 0) return;
     onGift(u, giftName, data?.gift?.diamondCount || data?.diamondCount || data?.giftDetails?.diamondCount || 1, delta);
@@ -396,6 +421,7 @@ async function connectTikTok(username: string) {
     if (!live()) return;
     if (typeof data?.totalLikeCount === 'number') status.totalLikes = data.totalLikeCount;
     else status.totalLikes += data?.likeCount || 1;
+    session.totalLikes = status.totalLikes;
     onLike(userOf(data), data?.likeCount || 1);
     checkMilestones();
   });
@@ -406,6 +432,7 @@ async function connectTikTok(username: string) {
     if (live()) onShare(userOf(data));
   });
   c.on(WebcastEvent.ROOM_USER, (data: any) => {
+    if (!live()) return;
     if (typeof data?.viewerCount === 'number') {
       status.viewerCount = data.viewerCount;
       broadcast('roomUser', { viewerCount: data.viewerCount });
@@ -474,7 +501,7 @@ app.post('/api/control', (req, res) => {
         // A burst of answers from the pool, most of them right, to see scoring work
         const q = quiz.state().question;
         if (!quiz.isAsking || !q) return fail('Chưa có câu hỏi nào đang mở. Bấm "Bắt đầu" trước.');
-        const right = q.options.indexOf(q.kind === 'listen' ? q.word.hanzi : q.word.vi);
+        const right = q.options.indexOf(questionAnswer(q));
         TEST_NAMES.forEach((nickname, i) =>
           setTimeout(() => onChat({ username: `test_pool_${i}`, nickname, avatar: '' }, 'ABCD'[Math.random() < 0.65 ? right : Math.floor(Math.random() * 4)]), i * 400),
         );
@@ -497,7 +524,7 @@ app.post('/api/control', (req, res) => {
       return res.json({ success: true });
     }
 
-    // quiz commands: start | pause | skip | reset | lesson:<id> | seconds:<n>
+    // quiz commands: start | pause | skip | reset | lesson:<id> | seconds:<n> | mode:<kind>
     if (action === 'quiz') {
       if (clean === 'start') quiz.start();
       else if (clean === 'pause') quiz.pause();
@@ -505,6 +532,7 @@ app.post('/api/control', (req, res) => {
       else if (clean === 'reset') quiz.resetScores();
       else if (clean.startsWith('lesson:')) quiz.setLesson(clean.slice(7));
       else if (clean.startsWith('seconds:')) quiz.setSeconds(Number(clean.slice(8)));
+      else if (clean.startsWith('mode:')) quiz.setMode(clean.slice(5));
       else return fail('Lệnh lớp học không hợp lệ');
       saveSettings();
       return res.json({ success: true });
@@ -599,25 +627,42 @@ const VOICES: Record<Lang, { voice: string; rate: string; google: string }> = {
 const escapeXml = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 async function edgeTts(text: string, lang: Lang): Promise<Buffer> {
-  const tts = new MsEdgeTTS();
+  const tts = new MsEdgeTTS({ connectionTimeoutMs: 10000, synthesisTimeoutMs: 20000 });
+  let stopped = false;
+  let stream: ReturnType<MsEdgeTTS['toStream']>['audioStream'] | undefined;
+  let timer: ReturnType<typeof setTimeout> | undefined;
   try {
-    await tts.setMetadata(VOICES[lang].voice, OUTPUT_FORMAT.AUDIO_24KHZ_96KBITRATE_MONO_MP3);
-    const { audioStream } = tts.toStream(escapeXml(text), { rate: VOICES[lang].rate });
-    const chunks: Buffer[] = [];
-    const read = (async () => {
-      for await (const c of audioStream) chunks.push(c as Buffer);
-    })();
-    const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error('Edge TTS timeout')), 20000));
-    await Promise.race([read, timeout]);
-    if (chunks.length === 0) throw new Error('Edge TTS returned no audio');
-    return Buffer.concat(chunks);
+    const read = async () => {
+      await tts.setMetadata(VOICES[lang].voice, OUTPUT_FORMAT.AUDIO_24KHZ_96KBITRATE_MONO_MP3);
+      if (stopped) throw new Error('Edge TTS cancelled');
+      const { audioStream } = tts.toStream(escapeXml(text), { rate: VOICES[lang].rate });
+      stream = audioStream;
+      const chunks: Buffer[] = [];
+      let bytes = 0;
+      for await (const c of audioStream) {
+        const chunk = c as Buffer;
+        bytes += chunk.length;
+        if (bytes > 2 * 1024 * 1024) throw new Error('Edge TTS audio too large');
+        chunks.push(chunk);
+      }
+      if (!chunks.length) throw new Error('Edge TTS returned no audio');
+      return Buffer.concat(chunks);
+    };
+    const timeout = new Promise<never>((_, reject) => {
+      timer = setTimeout(() => reject(new Error('Edge TTS timeout')), 20000);
+    });
+    return await Promise.race([read(), timeout]);
   } finally {
+    stopped = true;
+    clearTimeout(timer);
+    stream?.destroy();
     tts.close();
   }
 }
 
 // Fallback: Google Translate TTS caps each request near 200 chars
 async function googleTts(text: string, lang: Lang): Promise<Buffer> {
+  const signal = AbortSignal.timeout(20000);
   const parts: Buffer[] = [];
   const words = text.split(/\s+/);
   let chunk = '';
@@ -632,6 +677,7 @@ async function googleTts(text: string, lang: Lang): Promise<Buffer> {
   for (const c of chunks) {
     const r = await fetch(`https://translate.google.com/translate_tts?ie=UTF-8&tl=${VOICES[lang].google}&client=tw-ob&q=${encodeURIComponent(c)}`, {
       headers: { 'User-Agent': 'Mozilla/5.0', Referer: 'https://translate.google.com/' },
+      signal,
     });
     if (!r.ok) throw new Error(`Google TTS ${r.status}`);
     parts.push(Buffer.from(await r.arrayBuffer()));
@@ -639,31 +685,52 @@ async function googleTts(text: string, lang: Lang): Promise<Buffer> {
   return Buffer.concat(parts);
 }
 
-const ttsCache = new Map<string, Buffer>();
+const ttsService = new TtsService();
 app.get('/api/tts', async (req, res) => {
   const text = String(req.query.text || '').trim().slice(0, 800);
   const lang: Lang = req.query.lang === 'zh' ? 'zh' : 'vi';
   if (!text) return res.status(400).send('Missing text');
   const key = `${lang}|${text}`;
   try {
-    let audio = ttsCache.get(key);
-    if (!audio) {
-      try {
-        audio = await edgeTts(text, lang);
-      } catch (err) {
+    const audio = await ttsService.get(key, async () => {
+      try { return await edgeTts(text, lang); }
+      catch (err) {
         console.warn('Edge TTS failed, falling back to Google:', err instanceof Error ? err.message : err);
-        audio = await googleTts(text, lang);
+        return await googleTts(text, lang);
       }
-      ttsCache.set(key, audio);
-      if (ttsCache.size > 300) ttsCache.delete(ttsCache.keys().next().value!);
-    }
+    });
+    if (res.destroyed) return;
     res.setHeader('Content-Type', 'audio/mpeg');
     res.send(audio);
   } catch (err) {
+    if (res.destroyed) return;
+    if (err instanceof TtsBusyError) return res.status(503).set('Retry-After', '2').json({ error: 'TTS busy' });
     console.error('TTS error:', err);
     res.status(500).json({ error: 'TTS failed' });
   }
 });
+
+// No viewer names, comments or audio text in diagnostics. No history retained.
+if (process.env.MEMORY_DIAGNOSTICS === '1') {
+  const snapshot = () => ({
+    at: new Date().toISOString(), pid: process.pid, uptimeSeconds: Math.round(process.uptime()),
+    memory: process.memoryUsage(), tts: ttsService.stats(), ai: aiProcessStats(),
+    sseClients: sseClients.length, comments: router.stats(), social: socialQueue.stats(),
+    cooldowns: { likeThanks: likeThankedAt.size, likeTally: likeTally.size },
+    session: { named: namedThisSession.size, followed: followedThisSession.size, ...quiz.memoryStats() },
+  });
+  setInterval(() => console.info('[memory]', JSON.stringify(snapshot())), 10000).unref();
+  app.get('/api/diagnostics', (_req, res) => res.json(snapshot()));
+}
+
+process.once('SIGINT', () => { stopAiProcess(); process.exitCode = 0; shutdown(); });
+process.once('SIGTERM', () => { stopAiProcess(); process.exitCode = 0; shutdown(); });
+function shutdown() {
+  router.dispose();
+  // Leave a short window for the owned CLI process group to be reaped.
+  const timer = setInterval(() => { if (!aiProcessStats().active) process.exit(0); }, 50);
+  setTimeout(() => { clearInterval(timer); process.exit(1); }, 7000);
+}
 
 // ---------- Vite / static ----------
 async function start() {
@@ -679,6 +746,7 @@ async function start() {
   } else {
     const dist = path.join(process.cwd(), 'dist');
     app.use(express.static(dist));
+    app.use('/api', (_req, res) => res.status(404).json({ error: 'Not found' }));
     app.get('*', (_req, res) => res.sendFile(path.join(dist, 'index.html')));
   }
   // Loopback only: the API has no login, so nobody on the same Wi-Fi can drive the live voice

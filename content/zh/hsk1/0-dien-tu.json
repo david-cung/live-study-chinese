@@ -1,0 +1,269 @@
+{
+  "title": "Luyện điền từ vào câu",
+  "cloze": [
+    {
+      "sentence": "我___学生。",
+      "vi": "Tôi là học sinh.",
+      "answer": "是",
+      "options": [
+        "是",
+        "有",
+        "在",
+        "去"
+      ]
+    },
+    {
+      "sentence": "我想___水。",
+      "vi": "Tôi muốn uống nước.",
+      "answer": "喝",
+      "options": [
+        "喝",
+        "吃",
+        "看",
+        "写"
+      ]
+    },
+    {
+      "sentence": "他喜欢___米饭。",
+      "vi": "Anh ấy thích ăn cơm.",
+      "answer": "吃",
+      "options": [
+        "吃",
+        "喝",
+        "听",
+        "读"
+      ]
+    },
+    {
+      "sentence": "我是中国人，我说___。",
+      "vi": "Tôi là người Trung Quốc, tôi nói tiếng Trung.",
+      "answer": "汉语",
+      "options": [
+        "汉语",
+        "衣服",
+        "水果",
+        "飞机"
+      ]
+    },
+    {
+      "sentence": "你叫什么___？",
+      "vi": "Bạn tên là gì?",
+      "answer": "名字",
+      "options": [
+        "名字",
+        "天气",
+        "桌子",
+        "医院"
+      ]
+    },
+    {
+      "sentence": "一加一等于___。",
+      "vi": "Một cộng một bằng hai.",
+      "answer": "二",
+      "options": [
+        "二",
+        "一",
+        "三",
+        "四"
+      ]
+    },
+    {
+      "sentence": "今天星期一，明天星期___。",
+      "vi": "Hôm nay thứ Hai, ngày mai thứ Ba.",
+      "answer": "二",
+      "options": [
+        "二",
+        "一",
+        "三",
+        "四"
+      ]
+    },
+    {
+      "sentence": "一年有十二个___。",
+      "vi": "Một năm có mười hai tháng.",
+      "answer": "月",
+      "options": [
+        "月",
+        "年",
+        "点",
+        "分钟"
+      ]
+    },
+    {
+      "sentence": "现在是下午三___。",
+      "vi": "Bây giờ là ba giờ chiều.",
+      "answer": "点",
+      "options": [
+        "点",
+        "岁",
+        "个",
+        "本"
+      ]
+    },
+    {
+      "sentence": "这本___很好看。",
+      "vi": "Quyển sách này rất hay.",
+      "answer": "书",
+      "options": [
+        "书",
+        "水",
+        "狗",
+        "飞机"
+      ]
+    },
+    {
+      "sentence": "我坐___去北京。",
+      "vi": "Tôi đi máy bay đến Bắc Kinh.",
+      "answer": "飞机",
+      "options": [
+        "飞机",
+        "电影",
+        "苹果",
+        "椅子"
+      ]
+    },
+    {
+      "sentence": "她是___，在医院工作。",
+      "vi": "Cô ấy là bác sĩ, làm việc ở bệnh viện.",
+      "answer": "医生",
+      "options": [
+        "医生",
+        "学生",
+        "老师",
+        "同学"
+      ]
+    },
+    {
+      "sentence": "我在___学习。",
+      "vi": "Tôi học ở trường.",
+      "answer": "学校",
+      "options": [
+        "学校",
+        "医院",
+        "饭店",
+        "商店"
+      ]
+    },
+    {
+      "sentence": "我想___汉语。",
+      "vi": "Tôi muốn học tiếng Trung.",
+      "answer": "学习",
+      "options": [
+        "学习",
+        "睡觉",
+        "喝",
+        "买"
+      ]
+    },
+    {
+      "sentence": "她是我的___，我们在同一个班。",
+      "vi": "Cô ấy là bạn cùng lớp của tôi, chúng tôi học cùng một lớp.",
+      "answer": "同学",
+      "options": [
+        "同学",
+        "妈妈",
+        "医生",
+        "女儿"
+      ]
+    },
+    {
+      "sentence": "今天很___，我想喝水。",
+      "vi": "Hôm nay rất nóng, tôi muốn uống nước.",
+      "answer": "热",
+      "options": [
+        "热",
+        "冷",
+        "小",
+        "少"
+      ]
+    },
+    {
+      "sentence": "今天很___，我想喝热茶。",
+      "vi": "Hôm nay rất lạnh, tôi muốn uống trà nóng.",
+      "answer": "冷",
+      "options": [
+        "冷",
+        "热",
+        "大",
+        "多"
+      ]
+    },
+    {
+      "sentence": "妈妈，___！我去学校了。",
+      "vi": "Mẹ ơi, tạm biệt! Con đi học đây.",
+      "answer": "再见",
+      "options": [
+        "再见",
+        "你好",
+        "谢谢",
+        "喂"
+      ]
+    },
+    {
+      "sentence": "___，我来晚了。",
+      "vi": "Xin lỗi, tôi đến muộn.",
+      "answer": "对不起",
+      "options": [
+        "对不起",
+        "不客气",
+        "没关系",
+        "再见"
+      ]
+    },
+    {
+      "sentence": "___，请坐！",
+      "vi": "Xin chào, mời ngồi!",
+      "answer": "你好",
+      "options": [
+        "你好",
+        "再见",
+        "对不起",
+        "没关系"
+      ]
+    },
+    {
+      "sentence": "我___在北京。",
+      "vi": "Tôi sống ở Bắc Kinh.",
+      "answer": "住",
+      "options": [
+        "住",
+        "喝",
+        "吃",
+        "写"
+      ]
+    },
+    {
+      "sentence": "我不___开车。",
+      "vi": "Tôi không biết lái xe.",
+      "answer": "会",
+      "options": [
+        "会",
+        "谁",
+        "什么",
+        "很"
+      ]
+    },
+    {
+      "sentence": "桌子___有一本书。",
+      "vi": "Trên bàn có một quyển sách.",
+      "answer": "上",
+      "options": [
+        "上",
+        "下",
+        "里",
+        "后面"
+      ]
+    },
+    {
+      "sentence": "你___去哪儿？",
+      "vi": "Bạn muốn đi đâu?",
+      "answer": "想",
+      "options": [
+        "想",
+        "是",
+        "喝",
+        "写"
+      ]
+    }
+  ]
+}

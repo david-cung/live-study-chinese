@@ -6,8 +6,11 @@
   "scripts": {
     "dev": "tsx server.ts",
     "build": "vite build",
-    "start": "NODE_ENV=production tsx server.ts",
-    "lint": "tsc --noEmit"
+    "start": "tsx scripts/start.ts",
+    "lint": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "test:soak": "tsx --test tests/soak.ts",
+    "pretest": "npm run build"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
@@ -27,5 +30,8 @@
     "@types/react-dom": "^19.3.0",
     "tsx": "^4.21.0",
     "typescript": "^5.9.0"
+  },
+  "engines": {
+    "node": ">=24 <25"
   }
 }

@@ -3,6 +3,7 @@ import { isBlocked } from './moderation';
 import type { Quiz } from './quiz';
 import type { AiState, QaItem, QuizState, Word } from './src/types';
 import { spokenName } from './src/spokenName';
+import { pruneCooldowns } from './retention';
 
 type User = { username: string; nickname: string; avatar: string };
 
@@ -55,6 +56,15 @@ export class CommentRouter {
   private userLastAi = new Map<string, number>();
   private userLastQuick = new Map<string, number>();
   private id = 0;
+  private timer: ReturnType<typeof setInterval>;
+  private lastPrune = 0;
+
+  dispose() { clearInterval(this.timer); }
+
+  stats() {
+    return { queued: this.queue.length, outbox: this.outbox.length, pending: this.ai.pending.length,
+      busy: this.ai.busy, aiCooldowns: this.userLastAi.size, quickCooldowns: this.userLastQuick.size };
+  }
 
   constructor(
     private quiz: Quiz,
@@ -71,7 +81,7 @@ export class CommentRouter {
       error: '',
       pending: [],
     };
-    setInterval(() => this.tick(), 1000);
+    this.timer = setInterval(() => this.tick(), 1000);
   }
 
   get settings() {
@@ -170,11 +180,12 @@ export class CommentRouter {
   }
   pin(user: User, comment: string) {
     this.outbox.unshift(this.item(user, comment, { vi: '' }, 'pin'));
+    this.outbox.splice(MAX_OUTBOX);
   }
   approve(id: number) {
     const i = this.ai.pending.findIndex((p) => p.id === id);
     if (i < 0) throw new Error('Câu này không còn trong danh sách chờ');
-    this.outbox.push(this.ai.pending.splice(i, 1)[0]);
+    this.deliver(this.ai.pending.splice(i, 1)[0]);
     this.push();
   }
   reject(id: number) {
@@ -208,6 +219,11 @@ export class CommentRouter {
 
   private tick() {
     const now = Date.now();
+    if (now - this.lastPrune >= 30000) {
+      this.lastPrune = now;
+      pruneCooldowns(this.userLastAi, USER_AI_COOLDOWN_MS, now);
+      pruneCooldowns(this.userLastQuick, USER_QUICK_COOLDOWN_MS, now);
+    }
     // Cards wait while viewers are answering, so they never cover the question
     if (this.outbox.length && !this.quiz.isAsking && now - this.lastDelivered >= CARD_MS) {
       this.lastDelivered = now;

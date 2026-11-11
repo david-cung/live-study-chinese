@@ -1,0 +1,269 @@
+{
+  "title": "Luyện điền từ vào câu",
+  "cloze": [
+    {
+      "sentence": "我有一个___，他比我大三岁。",
+      "vi": "Tôi có một anh trai, anh ấy hơn tôi ba tuổi.",
+      "answer": "哥哥",
+      "options": [
+        "哥哥",
+        "弟弟",
+        "姐姐",
+        "妹妹"
+      ]
+    },
+    {
+      "sentence": "我有一个___，她比我小两岁。",
+      "vi": "Tôi có một em gái, em ấy nhỏ hơn tôi hai tuổi.",
+      "answer": "妹妹",
+      "options": [
+        "妹妹",
+        "姐姐",
+        "弟弟",
+        "哥哥"
+      ]
+    },
+    {
+      "sentence": "这是我___，她是我孩子的妈妈。",
+      "vi": "Đây là vợ tôi, cô ấy là mẹ của con tôi.",
+      "answer": "妻子",
+      "options": [
+        "妻子",
+        "丈夫",
+        "哥哥",
+        "弟弟"
+      ]
+    },
+    {
+      "sentence": "我早上喝一杯___。",
+      "vi": "Buổi sáng tôi uống một cốc sữa.",
+      "answer": "牛奶",
+      "options": [
+        "牛奶",
+        "鸡蛋",
+        "面条",
+        "羊肉"
+      ]
+    },
+    {
+      "sentence": "这件衣服太___了，我的钱不够。",
+      "vi": "Bộ quần áo này đắt quá, tôi không đủ tiền.",
+      "answer": "贵",
+      "options": [
+        "贵",
+        "便宜",
+        "新",
+        "长"
+      ]
+    },
+    {
+      "sentence": "我用___给妈妈打电话。",
+      "vi": "Tôi dùng điện thoại di động gọi cho mẹ.",
+      "answer": "手机",
+      "options": [
+        "手机",
+        "手表",
+        "报纸",
+        "铅笔"
+      ]
+    },
+    {
+      "sentence": "今天是我的___，我想吃蛋糕。",
+      "vi": "Hôm nay là sinh nhật tôi, tôi muốn ăn bánh kem.",
+      "answer": "生日",
+      "options": [
+        "生日",
+        "时间",
+        "问题",
+        "事情"
+      ]
+    },
+    {
+      "sentence": "我们去___坐飞机。",
+      "vi": "Chúng tôi đến sân bay để đi máy bay.",
+      "answer": "机场",
+      "options": [
+        "机场",
+        "宾馆",
+        "教室",
+        "公司"
+      ]
+    },
+    {
+      "sentence": "我每天坐___去上班。",
+      "vi": "Hằng ngày tôi đi xe buýt đến chỗ làm.",
+      "answer": "公共汽车",
+      "options": [
+        "公共汽车",
+        "手机",
+        "鸡蛋",
+        "报纸"
+      ]
+    },
+    {
+      "sentence": "我早上七点___。",
+      "vi": "Tôi thức dậy lúc bảy giờ sáng.",
+      "answer": "起床",
+      "options": [
+        "起床",
+        "生病",
+        "游泳",
+        "考试"
+      ]
+    },
+    {
+      "sentence": "我喜欢在水里___。",
+      "vi": "Tôi thích bơi trong nước.",
+      "answer": "游泳",
+      "options": [
+        "游泳",
+        "跑步",
+        "唱歌",
+        "跳舞"
+      ]
+    },
+    {
+      "sentence": "我___了，想去看医生。",
+      "vi": "Tôi bị ốm, muốn đi khám bác sĩ.",
+      "answer": "生病",
+      "options": [
+        "生病",
+        "休息",
+        "跳舞",
+        "起床"
+      ]
+    },
+    {
+      "sentence": "我没听___，请再说一次。",
+      "vi": "Tôi nghe chưa hiểu, xin hãy nói lại một lần nữa.",
+      "answer": "懂",
+      "options": [
+        "懂",
+        "完",
+        "对",
+        "错"
+      ]
+    },
+    {
+      "sentence": "请___我，他叫什么名字。",
+      "vi": "Hãy cho tôi biết anh ấy tên là gì.",
+      "answer": "告诉",
+      "options": [
+        "告诉",
+        "帮助",
+        "送",
+        "笑"
+      ]
+    },
+    {
+      "sentence": "这道题我不会，请___我。",
+      "vi": "Tôi không làm được câu này, xin hãy giúp tôi.",
+      "answer": "帮助",
+      "options": [
+        "帮助",
+        "告诉",
+        "回答",
+        "送"
+      ]
+    },
+    {
+      "sentence": "___下雨了，所以我没去跑步。",
+      "vi": "Vì trời mưa nên tôi không đi chạy bộ.",
+      "answer": "因为",
+      "options": [
+        "因为",
+        "虽然",
+        "但是",
+        "从"
+      ]
+    },
+    {
+      "sentence": "___下雨了，但是我还是去上班了。",
+      "vi": "Mặc dù trời mưa nhưng tôi vẫn đi làm.",
+      "answer": "虽然",
+      "options": [
+        "虽然",
+        "因为",
+        "所以",
+        "到"
+      ]
+    },
+    {
+      "sentence": "他___我高。",
+      "vi": "Anh ấy cao hơn tôi.",
+      "answer": "比",
+      "options": [
+        "比",
+        "从",
+        "到",
+        "也"
+      ]
+    },
+    {
+      "sentence": "我想买一___衣服。",
+      "vi": "Tôi muốn mua một chiếc áo.",
+      "answer": "件",
+      "options": [
+        "件",
+        "两",
+        "百",
+        "千"
+      ]
+    },
+    {
+      "sentence": "___说话，老师正在上课。",
+      "vi": "Đừng nói chuyện, thầy cô đang giảng bài.",
+      "answer": "别",
+      "options": [
+        "别",
+        "最",
+        "真",
+        "一起"
+      ]
+    },
+    {
+      "sentence": "我用___写字。",
+      "vi": "Tôi dùng bút chì viết chữ.",
+      "answer": "铅笔",
+      "options": [
+        "铅笔",
+        "手表",
+        "牛奶",
+        "报纸"
+      ]
+    },
+    {
+      "sentence": "一___等于六十分钟。",
+      "vi": "Một giờ bằng sáu mươi phút.",
+      "answer": "小时",
+      "options": [
+        "小时",
+        "日",
+        "次",
+        "课"
+      ]
+    },
+    {
+      "sentence": "我们___去看电影吧。",
+      "vi": "Chúng ta cùng đi xem phim nhé.",
+      "answer": "一起",
+      "options": [
+        "一起",
+        "非常",
+        "最",
+        "为什么"
+      ]
+    },
+    {
+      "sentence": "我___在这家公司工作了三年。",
+      "vi": "Tôi đã làm việc ở công ty này được ba năm.",
+      "answer": "已经",
+      "options": [
+        "已经",
+        "正在",
+        "再",
+        "别"
+      ]
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import type { AiState, ChatItem, LessonInfo, LiveStatus, MusicState, QuizState } from '../types';
+import { QUIZ_KINDS, QUIZ_LABELS } from '../quizModes';
 
 const STAGE_URL = `http://lvh.me:${location.port || 3002}/?view=stage`;
 
@@ -16,6 +17,7 @@ const MUSIC_STYLES: { id: MusicState['style']; label: string }[] = [
   { id: 'vui', label: '🎉 Vui tươi' },
 ];
 const MODELS = ['composer-2.5', 'gemini-3.7-flash-high', 'grok-4.7-low-fast', 'auto'];
+const FAREWELL = 'Buổi học hôm nay xin kết thúc tại đây. Cảm ơn cả lớp đã cùng học tiếng Trung, thả tim và ủng hộ cô. Chúc mọi người thật nhiều sức khỏe, học vui và nhớ ôn bài nha. Hẹn gặp lại cả lớp trong buổi live tiếp theo. Tạm biệt cả lớp!';
 
 export default function Dashboard({
   status,
@@ -47,6 +49,7 @@ export default function Dashboard({
   const [speech, setSpeech] = useState('');
   const [speechLang, setSpeechLang] = useState<'vi' | 'zh'>('vi');
   const [msg, setMsg] = useState('');
+  const [endingLesson, setEndingLesson] = useState(false);
   useEffect(() => {
     if (status.username) setUser((u) => u || status.username);
   }, [status.username]);
@@ -60,6 +63,20 @@ export default function Dashboard({
     }
   };
   const control = (action: string, text?: string, lang?: string) => post('/api/control', { action, text, lang });
+  const endLesson = () => {
+    if (endingLesson) return;
+    setEndingLesson(true);
+    void run(async () => {
+      try {
+        await control('quiz', 'pause');
+        await control('speak', FAREWELL, 'vi');
+      } catch (error) {
+        throw new Error(`Chưa gửi được lời chào kết thúc. ${error instanceof Error ? error.message : String(error)}. Có thể bấm lại để thử.`);
+      } finally {
+        setEndingLesson(false);
+      }
+    }, 'Đã gửi lời chào kết thúc. Hãy chờ đọc xong rồi kết thúc LIVE trong LIVE Studio.');
+  };
 
   const dot = status.isConnected ? 'bg-green-500' : status.isConnecting ? 'bg-yellow-400 animate-pulse' : 'bg-gray-500';
   const label = status.isConnected ? `Đã nối @${status.username}` : status.isConnecting ? `Đang nối @${status.username}...` : 'Chưa kết nối';
@@ -128,13 +145,21 @@ export default function Dashboard({
             {phaseLabel} · {quiz.running ? 'đang chạy' : 'đã dừng'}
             {quiz.bonusPending && <span className="text-[#ffd36b]"> · câu tới là câu thưởng x3</span>}
           </div>
-          <select className="input w-full mb-2" value={quiz.lessonId} onChange={(e) => run(() => control('quiz', `lesson:${e.target.value}`), 'Đã đổi bài học')}>
+          <select aria-label="Bài học" className="input w-full mb-2" value={quiz.lessonId} onChange={(e) => run(() => control('quiz', `lesson:${e.target.value}`), 'Đã đổi bài học')}>
             {lessons.map((l) => (
               <option key={l.id} value={l.id}>
                 {l.title} ({l.count} từ)
               </option>
             ))}
           </select>
+          <label className="block text-xs font-semibold text-white/70 mb-1" htmlFor="quiz-mode">Dạng câu hỏi</label>
+          <select id="quiz-mode" className="input w-full" value={quiz.mode} onChange={(e) => run(() => control('quiz', `mode:${e.target.value}`), 'Đã chọn dạng bài cho câu tiếp theo')}>
+            <option value="mixed">🎲 Xen kẽ tất cả dạng bài</option>
+            {QUIZ_KINDS.map((kind) => (
+              <option key={kind} value={kind} disabled={!quiz.availableKinds.includes(kind)}>{QUIZ_LABELS[kind]}</option>
+            ))}
+          </select>
+          <div className="text-xs text-white/50 mt-1 mb-2">Áp dụng từ câu tiếp theo. Người xem vẫn trả lời A, B, C hoặc D.</div>
           <div className="grid grid-cols-3 gap-2">
             {quiz.running ? (
               <button className="btn bg-[#f08a3c]" onClick={() => run(() => control('quiz', 'pause'), 'Đã tạm dừng')}>
@@ -155,9 +180,9 @@ export default function Dashboard({
           <button
             className="btn bg-[#d92e35] w-full mt-2"
             disabled={!quiz.question}
-            onClick={() => run(() => control('repeatWord'), `Đã đọc lại ${quiz.question?.word.hanzi || ''}`)}
+            onClick={() => run(() => control('repeatWord'), 'Đã đọc lại gợi ý của câu hỏi')}
           >
-            🔊 Đọc lại từ trên bảng{quiz.question ? `: ${quiz.question.word.hanzi}` : ''}
+            🔊 Đọc lại gợi ý câu hỏi
           </button>
           <div className="text-xs text-white/60 mt-3 mb-1.5">Thời gian trả lời mỗi câu:</div>
           <div className="grid grid-cols-4 gap-1.5">
@@ -168,7 +193,17 @@ export default function Dashboard({
             ))}
           </div>
           <div className="text-xs text-white/40 mt-2 leading-relaxed">
-            Thêm hoặc sửa từ vựng trong thư mục <code>content/zh</code>, mỗi file là một bài. Đổi bài là app đọc lại file.
+            Chế độ xen kẽ đổi dạng sau mỗi câu: nghe, chọn nghĩa, điền từ, pinyin và tìm chữ theo nghĩa.
+          </div>
+          <button
+            className="btn bg-[#9b5de5] w-full mt-3 disabled:opacity-50"
+            disabled={endingLesson}
+            onClick={endLesson}
+          >
+            {endingLesson ? 'Đang gửi lời chào…' : '👋 Kết thúc buổi học'}
+          </button>
+          <div className="text-xs text-white/60 mt-1.5 leading-relaxed">
+            Tạm dừng câu hỏi và đọc lời chào tạm biệt. Nghe xong, bạn kết thúc LIVE trong LIVE Studio.
           </div>
         </Card>
 
