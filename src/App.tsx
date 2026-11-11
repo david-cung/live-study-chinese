@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { SEATS } from './layout';
+import { isTeacher, type Teacher } from './teacher';
 import { sound, type Speaking } from './sound';
 import type {
   AiState,
@@ -22,7 +23,8 @@ import { nextTip } from './tips';
 import { spokenName } from './spokenName';
 import { pruneCooldowns } from '../retention';
 import { questionIntroSpeech, questionRevealSpeech, repeatQuestionSpeech } from './quizModes';
-import { GIFT_PROMOTION_SPEECH, GIFT_REMINDER_MS } from './giftPromotion';
+import { GIFT_PROMOTION_SPEECH, GIFT_REMINDER_MS, GIFT_REMINDER_QUESTIONS, GIFT_THANKS_PAUSE_MS, GIFT_REMINDER_SPEECH_MS } from './giftPromotion';
+import { revealDuration } from './quizTiming';
 
 const PARAMS = new URLSearchParams(location.search);
 const IS_STAGE = PARAMS.get('view') === 'stage';
@@ -83,6 +85,7 @@ export default function App() {
     error: '',
   });
   const [channelName, setChannelName] = useState(sound.channelName);
+  const [teacher, setTeacher] = useState<Teacher>('female');
   const [guests, setGuests] = useState<Guest[]>([]);
   const [banner, setBanner] = useState<GiftBanner | null>(null);
   const [top, setTop] = useState<TopEntry[]>([]);
@@ -111,10 +114,11 @@ export default function App() {
   const guestsRef = useRef(new Map<string, Guest>());
   const lastGiftVoiceRef = useRef(new Map<string, number>());
   const lastGiftReminderRef = useRef(Date.now());
+  const lastGiftReceivedRef = useRef(0);
+  const completedSinceReminderRef = useRef(0);
+  const revealStartedRef = useRef(0);
   const quizRef = useRef<QuizState>(EMPTY_QUIZ);
   const likeRef = useRef({ value: 0, goal: 300 });
-  const viewersRef = useRef(0);
-  const peakViewersRef = useRef(0);
   const idRef = useRef(0);
 
   const commit = useCallback(() => setGuests([...guestsRef.current.values()]), []);
@@ -174,6 +178,8 @@ export default function App() {
       for (const line of questionIntroSpeech(q)) sound.say(line.text, true, undefined, line.lang);
     }
     if (next.phase === 'reveal' && prev.phase === 'asking' && next.correct !== null) {
+      revealStartedRef.current = Date.now();
+      completedSinceReminderRef.current++;
       sound.bell();
       sound.say(`Hết giờ! Đáp án đúng là ${LETTERS[next.correct]}.`, true, () => sound.ding());
       for (const line of questionRevealSpeech(q)) sound.say(line.text, true, undefined, line.lang);
@@ -211,15 +217,6 @@ export default function App() {
     on<LiveStatus>('status', setStatus);
     on<{ viewerCount: number }>('roomUser', ({ viewerCount }) => {
       setStatus((s) => ({ ...s, viewerCount }));
-      const prev = viewersRef.current;
-      viewersRef.current = viewerCount;
-      peakViewersRef.current = Math.max(peakViewersRef.current, viewerCount);
-      // Room suddenly busier than usual: nudge gifts for a Chinese name
-      if (viewerCount >= 20 && viewerCount > prev + 8 && viewerCount >= peakViewersRef.current * 0.9 && Math.random() < 0.4) {
-        if (quizRef.current.phase !== 'asking') {
-          sound.say('Phòng đông quá! Tặng quà để cô đặt tên tiếng Trung cho bạn nha.');
-        }
-      }
     });
     on<QuizState>('quiz', onQuiz);
     on<{ top: TopEntry[] }>('score', ({ top }) => setTop(top));
@@ -271,6 +268,7 @@ export default function App() {
     });
 
     on<UserPayload & { giftName: string; diamondCount: number; repeatCount: number; grantName?: boolean }>('gift', (d) => {
+      lastGiftReceivedRef.current = Date.now();
       const g = seat(d);
       g.vipUntil = Date.now() + VIP_MS;
       commit();
@@ -359,6 +357,7 @@ export default function App() {
     });
 
     on<{ action: string; text?: string; lang?: 'vi' | 'zh' }>('control', ({ action, text, lang }) => {
+      if (action === 'setTeacher' && isTeacher(text)) setTeacher(text);
       if (action === 'setName' && text) {
         sound.setChannelName(text);
         setChannelName(text);
@@ -401,15 +400,19 @@ export default function App() {
       }
       if (changed) commit();
 
-      // Only fill a quiet gap; never queue a backlog or speak after the lesson is paused.
+      // Wait for a completed block and a quiet reveal; never advertise during an answer window.
       const quiz = quizRef.current;
-      if (!STAGE_SOUND || !quiz.running || quiz.phase === 'idle' || now - lastGiftReminderRef.current < GIFT_REMINDER_MS) return;
-      const remaining = quiz.question ? (quiz.question.endsAt - now) / 1000 : 0;
-      if (quiz.phase === 'asking' && remaining < 12) return;
+      if (!STAGE_SOUND || !quiz.running || quiz.phase !== 'reveal' || !quiz.question ||
+        quiz.question.no % GIFT_REMINDER_QUESTIONS !== 0 ||
+        completedSinceReminderRef.current < GIFT_REMINDER_QUESTIONS ||
+        now - lastGiftReminderRef.current < GIFT_REMINDER_MS ||
+        now - lastGiftReceivedRef.current < GIFT_THANKS_PAUSE_MS) return;
+      if (revealStartedRef.current + revealDuration(quiz.question.no) - now < GIFT_REMINDER_SPEECH_MS) return;
       const voice = sound.stats();
       if (voice.blocked || voice.activeAudio || voice.preloadedAudio || voice.ordinary || voice.priority || voice.activeRemaining) return;
       lastGiftReminderRef.current = now;
-      sound.say(GIFT_PROMOTION_SPEECH);
+      completedSinceReminderRef.current = 0;
+      sound.group(() => sound.say(GIFT_PROMOTION_SPEECH), quiz.question.no);
     }, 1000);
 
     // Countdown ticks and repeat the current prompt without revealing hidden answers.
@@ -491,6 +494,7 @@ export default function App() {
     likeGoal: like.goal,
     milestone,
     channelName,
+    teacher,
     viewerCount: status.viewerCount,
   };
 
@@ -499,6 +503,7 @@ export default function App() {
     <Dashboard
       status={status}
       channelName={channelName}
+      teacher={teacher}
       guestCount={guests.length}
       music={music}
       autoTalkMinutes={autoTalkMinutes}

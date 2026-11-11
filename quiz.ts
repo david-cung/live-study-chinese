@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { revealDuration } from './src/quizTiming';
 import path from 'path';
 import type { ClozeExercise, LessonInfo, QuizKind, QuizMode, QuizQuestion, QuizState, TopEntry, Word } from './src/types';
 import { QUIZ_KINDS, QUIZ_LABELS, questionAnswer } from './src/quizModes';
@@ -6,7 +7,6 @@ import { availableQuestionKinds, clozeQuestion, shuffle, validClozeExercises, wo
 
 const CONTENT_DIR = path.join(process.cwd(), 'content', 'zh');
 export const ANSWER_SECONDS = [10, 15, 20, 30];
-const REVEAL_MS = 9000;
 const BASE_POINTS = 10;
 const LETTERS = ['A', 'B', 'C', 'D'];
 
@@ -323,7 +323,7 @@ export class Quiz {
         this.question = null;
         this.push();
       }
-    }, REVEAL_MS);
+    }, revealDuration(q.no));
   }
 
   letter(i: number) {

@@ -14,6 +14,7 @@ import { SocialBuffer, pruneCooldowns } from './retention';
 import { LiveSession } from './liveSession';
 import { aiProcessStats, stopAiProcess } from './aiProcess';
 import { questionAnswer } from './src/quizModes';
+import { isTeacher, type Teacher } from './src/teacher';
 
 const PORT = Number(process.env.PORT) || 3002;
 const app = express();
@@ -62,6 +63,7 @@ type MusicState = { on: boolean; volume: number; style: 'files' | 'ballad' | 'vu
 const MUSIC_STYLES = ['files', 'ballad', 'vui'];
 const AUTO_TALK_CHOICES = [0, 2, 3, 5, 10];
 let channelName = '';
+let teacher: Teacher = 'female';
 let music: MusicState = { on: true, volume: 0.1, style: 'files' };
 let autoTalkMinutes = 3;
 let tiktokUser = '';
@@ -69,6 +71,7 @@ let saved: any = {};
 try {
   saved = JSON.parse(fs.readFileSync(SETTINGS_FILE, 'utf8'));
   if (typeof saved.channelName === 'string') channelName = saved.channelName.trim();
+  if (isTeacher(saved.teacher)) teacher = saved.teacher;
   if (typeof saved.tiktokUser === 'string') tiktokUser = saved.tiktokUser;
   if (saved.music && MUSIC_STYLES.includes(saved.music.style)) music = { ...music, ...saved.music };
   if (AUTO_TALK_CHOICES.includes(saved.autoTalkMinutes)) autoTalkMinutes = saved.autoTalkMinutes;
@@ -83,7 +86,7 @@ const saveSettings = () => {
   try {
     fs.writeFileSync(
       SETTINGS_FILE,
-      JSON.stringify({ channelName, tiktokUser, music, autoTalkMinutes, quiz: quiz.settings, ai: router.settings }, null, 2),
+      JSON.stringify({ channelName, teacher, tiktokUser, music, autoTalkMinutes, quiz: quiz.settings, ai: router.settings }, null, 2),
     );
   } catch (err) {
     console.error('Could not save settings.json:', err);
@@ -231,6 +234,7 @@ app.get('/api/events', (req, res) => {
   // While idle, username carries the last account used so the dashboard can prefill it
   send('status', status.username ? status : { ...status, username: tiktokUser });
   if (channelName) send('control', { action: 'setName', text: channelName });
+  send('control', { action: 'setTeacher', text: teacher });
   send('music', music);
   send('autoTalk', { minutes: autoTalkMinutes });
   send('quiz', quiz.state());
@@ -476,7 +480,7 @@ app.post('/api/disconnect', (_req, res) => {
 });
 
 // ---------- Dashboard commands ----------
-const CONTROL_ACTIONS = ['speak', 'setName', 'test', 'music', 'autoTalk', 'autoTalkEvery', 'quiz', 'ai', 'repeatWord'];
+const CONTROL_ACTIONS = ['speak', 'setName', 'setTeacher', 'test', 'music', 'autoTalk', 'autoTalkEvery', 'quiz', 'ai', 'repeatWord'];
 const TEST_NAMES = ['Minh Anh', 'Tuấn Kiệt', 'Lan Chi', 'Bé Na', 'Quốc Bảo', 'Thảo Vy', 'Hoàng Long', 'Ngọc Hân'];
 const TEST_QUESTIONS = ['Cô ơi "cảm ơn" tiếng Trung nói sao?', 'đọc 你好', 'dịch tạm biệt', 'điểm', 'Khó quá cô ơi', 'Học tiếng Trung bao lâu thì giao tiếp được ạ?'];
 const pick = <T,>(a: T[]) => a[Math.floor(Math.random() * a.length)];
@@ -486,6 +490,14 @@ app.post('/api/control', (req, res) => {
   if (!CONTROL_ACTIONS.includes(action)) return res.status(400).json({ success: false, error: 'Lệnh không hợp lệ' });
   const clean = typeof text === 'string' ? text.replace(/[\x00-\x1f\x7f]/g, ' ').trim() : '';
   const fail = (error: string) => res.status(400).json({ success: false, error });
+
+  if (action === 'setTeacher') {
+    if (!isTeacher(clean)) return fail('Nhân vật không hợp lệ');
+    teacher = clean;
+    saveSettings();
+    broadcast('control', { action: 'setTeacher', text: teacher });
+    return res.json({ success: true });
+  }
 
   try {
     if (action === 'test') {

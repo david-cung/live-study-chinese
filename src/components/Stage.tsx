@@ -4,6 +4,7 @@ import type { Speaking } from '../sound';
 import type { GiftBanner, Guest, HanNameCard, MilestoneProgress, QaItem, QuizQuestion, QuizState, SocialToast, TopEntry } from '../types';
 import { QUIZ_LABELS } from '../quizModes';
 import { GIFT_PROMOTION_TEXT } from '../giftPromotion';
+import { TEACHERS, type Teacher as TeacherChoice } from '../teacher';
 
 export const QA_MS = 8000;
 const BONUS_MS = 3500;
@@ -27,6 +28,7 @@ export type StageProps = {
   likeGoal: number;
   milestone: MilestoneProgress;
   channelName: string;
+  teacher?: TeacherChoice;
   viewerCount: number;
 };
 
@@ -95,7 +97,7 @@ export default function Stage(p: StageProps) {
         </div>
       </div>
 
-      <Teacher speaking={p.speaking} pointing={p.quiz.phase === 'asking'} />
+      <Teacher speaking={p.speaking} pointing={p.quiz.phase === 'asking'} teacher={p.teacher ?? 'female'} />
 
       {/* Leaderboard under the board; the teacher stands to its right */}
       <div className="absolute left-[3%] top-[47.6%] z-[1000] w-[60%] bg-[#2a1d12]/90 rounded-md px-2 py-1 border-2 border-[#8a5a32] shadow-lg">
@@ -305,7 +307,7 @@ export function QuestionPrompt({ question: q, reveal }: { question: QuizQuestion
       ) : (
         <div className="flex flex-col items-center">
           <div className="text-[52px] leading-none speaker">🔊</div>
-          <div className="text-[13px] font-bold text-white/85 mt-1">Nghe cô đọc rồi chọn chữ đúng</div>
+          <div className="text-[13px] font-bold text-white/85 mt-1">Nghe phát âm rồi chọn chữ đúng</div>
         </div>
       )}
     </>
@@ -340,7 +342,8 @@ function HanNameOverlay({ card }: { card: HanNameCard }) {
   );
 }
 
-function Teacher({ speaking, pointing }: { speaking: Speaking | null; pointing: boolean }) {
+export function Teacher({ speaking, pointing, teacher }: { speaking: Speaking | null; pointing: boolean; teacher: TeacherChoice }) {
+  const character = TEACHERS[teacher];
   const [open, setOpen] = useState(false);
   useEffect(() => {
     if (!speaking) {
@@ -360,8 +363,8 @@ function Teacher({ speaking, pointing }: { speaking: Speaking | null; pointing: 
     <div className="absolute z-[950] pointer-events-none" style={{ right: -6, top: '11%', width: TEACHER_W, height: TEACHER_H }}>
       <div className="absolute left-1/2 -translate-x-1/2 rounded-[50%] bg-black/35 blur-[4px]" style={{ bottom: -4, width: TEACHER_W * 0.75, height: 14 }} />
       <div className={`relative w-full h-full ${speaking ? 'teacher-talk' : pointing ? 'teacher-point' : 'teacher-idle'}`}>
-        <img src="/assets/co-giao.webp" alt="" draggable={false} className="absolute inset-0 w-full h-full" style={{ opacity: open ? 0 : 1 }} />
-        <img src="/assets/co-giao-noi.webp" alt="" draggable={false} className="absolute inset-0 w-full h-full" style={{ opacity: open ? 1 : 0 }} />
+        <img src={character.idle} alt={character.label} draggable={false} className="absolute inset-0 w-full h-full object-contain" style={{ opacity: open ? 0 : 1 }} />
+        <img src={character.talking} alt="" aria-hidden draggable={false} className="absolute inset-0 w-full h-full object-contain" style={{ opacity: open ? 1 : 0 }} />
       </div>
       {speaking && (
         <div className="absolute top-[34px] left-[30%] text-[15px] sound-wave" aria-hidden>

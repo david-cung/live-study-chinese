@@ -5,6 +5,28 @@ import { availableQuestionKinds, clozeQuestion, pronunciationKey, validClozeExer
 import { QUIZ_KINDS, questionAnswer, questionIntroSpeech, questionRevealSpeech, repeatQuestionSpeech } from '../src/quizModes';
 import type { QuizKind, QuizQuestion } from '../src/types';
 
+test('each ten-question block leaves a longer reveal break before the next question', (t) => {
+  t.mock.timers.enable({ apis: ['Date', 'setTimeout'], now: 1000000 });
+  const quiz = new Quiz(() => {}, { lessonId: 'hsk3' });
+  try {
+    quiz.start();
+    for (let no = 1; no <= 10; no++) {
+      assert.equal(quiz.state().question!.no, no);
+      t.mock.timers.tick(quiz.state().question!.seconds * 1000);
+      assert.equal(quiz.state().phase, 'reveal');
+      t.mock.timers.tick(8999);
+      assert.equal(quiz.state().phase, 'reveal');
+      if (no === 10) {
+        t.mock.timers.tick(15000);
+        assert.equal(quiz.state().phase, 'reveal');
+      }
+      t.mock.timers.tick(1);
+      assert.equal(quiz.state().phase, 'asking');
+      assert.equal(quiz.state().question!.no, no + 1);
+    }
+  } finally { quiz.pause(); }
+});
+
 test('HSK1/HSK2/HSK3 include their full cloze banks with four distinct choices', () => {
   const lessons = loadLessons();
   for (const [level, count] of [['hsk1', 36], ['hsk2', 36], ['hsk3', 32]] as const) {

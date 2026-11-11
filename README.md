@@ -23,6 +23,10 @@ Bảng điều khiển: `http://localhost:3002`. Link sân khấu:
 Giữ một sân khấu có tiếng, hạn chế mở thêm nguồn Link trùng nhau.
 Chế độ phát triển vẫn dùng `npm run dev`.
 
+Trong **5. Tên kênh → Nhân vật giảng dạy**, chọn **Thầy giáo** hoặc **Cô giáo**.
+Sân khấu và bản xem trước đổi nhân vật ngay, có hình đứng yên và hình đang nói.
+Lựa chọn được lưu trong `settings.json` và khôi phục khi mở lại.
+
 ## Dạng câu hỏi trên live
 
 Trong **3. Lớp học → Dạng câu hỏi**, chọn xen kẽ hoặc luyện riêng một dạng:
@@ -38,6 +42,11 @@ liên tiếp cùng một dạng. Lựa chọn được lưu và áp dụng từ 
 Người xem vẫn bình luận **A/B/C/D** (hoặc 1/2/3/4); điểm, VIP, câu thưởng x3/x5
 và bảng xếp hạng dùng chung. Lệnh **đọc lại** nhắc gợi ý phù hợp với dạng bài;
 đáp án và câu hoàn chỉnh chỉ được đọc sau khi hết giờ.
+
+Sau mỗi 10 câu, lớp nghỉ ở phần đáp án 24 giây. Sân khấu chỉ mời tặng quà
+khi đã đọc xong đáp án, lời khen và còn ít nhất 8 giây trước câu mới.
+Lời mời cách nhau ít nhất 5 phút và tạm hoãn 2 phút sau khi nhận quà;
+nếu đang có lời đọc khác thì bỏ qua khoảng nghỉ đó. Không nhắc quà khi đang trả lời.
 
 Có sẵn **104 câu điền từ**: HSK1 và HSK2 mỗi cấp 36 câu, HSK3 có 32 câu,
 trong `content/zh/hsk1/0-dien-tu.json`, `content/zh/hsk2/0-dien-tu.json`

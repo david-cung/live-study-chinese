@@ -2,9 +2,20 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { Board, QuestionPrompt } from '../src/components/Stage';
+import { Board, QuestionPrompt, Teacher } from '../src/components/Stage';
 import { Quiz } from '../quiz';
 import { QUIZ_KINDS, QUIZ_LABELS, questionAnswer } from '../src/quizModes';
+
+test('teacher selection renders the matching idle and talking sprites', () => {
+  for (const teacher of ['male', 'female'] as const) {
+    const html = renderToStaticMarkup(createElement(Teacher, { teacher, speaking: null, pointing: false }));
+    const filename = teacher === 'male' ? 'thay-giao' : 'co-giao';
+    const other = teacher === 'male' ? 'co-giao' : 'thay-giao';
+    assert.ok(html.includes(`/assets/${filename}.`));
+    assert.ok(html.includes(`/assets/${filename}-noi.`));
+    assert.ok(!html.includes(`/assets/${other}`));
+  }
+});
 
 test('new quiz prompts hide the solution until reveal, then show pronunciation and full sentence', () => {
   const quiz = new Quiz(() => {}, { lessonId: 'hsk1' });

@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import type { AiState, ChatItem, LessonInfo, LiveStatus, MusicState, QuizState } from '../types';
 import { QUIZ_KINDS, QUIZ_LABELS } from '../quizModes';
+import { TEACHERS, type Teacher } from '../teacher';
 
 const STAGE_URL = `http://lvh.me:${location.port || 3002}/?view=stage`;
 
@@ -22,6 +23,7 @@ const FAREWELL = 'Buổi học hôm nay xin kết thúc tại đây. Cảm ơn c
 export default function Dashboard({
   status,
   channelName,
+  teacher,
   guestCount,
   music,
   autoTalkMinutes,
@@ -34,6 +36,7 @@ export default function Dashboard({
 }: {
   status: LiveStatus;
   channelName: string;
+  teacher: Teacher;
   guestCount: number;
   music: MusicState;
   autoTalkMinutes: number;
@@ -69,7 +72,7 @@ export default function Dashboard({
     void run(async () => {
       try {
         await control('quiz', 'pause');
-        await control('speak', FAREWELL, 'vi');
+        await control('speak', teacher === 'male' ? FAREWELL.replace('ủng hộ cô', 'ủng hộ thầy') : FAREWELL, 'vi');
       } catch (error) {
         throw new Error(`Chưa gửi được lời chào kết thúc. ${error instanceof Error ? error.message : String(error)}. Có thể bấm lại để thử.`);
       } finally {
@@ -210,6 +213,19 @@ export default function Dashboard({
         <AiCard ai={ai} chats={chats} run={run} control={control} />
 
         <Card title="5. Tên kênh">
+          <fieldset className="mb-4">
+            <legend className="text-sm font-semibold mb-2">Nhân vật giảng dạy</legend>
+            <div className="grid grid-cols-2 gap-2">
+              {(['female', 'male'] as const).map((choice) => (
+                <button key={choice} aria-pressed={teacher === choice}
+                  className={`btn flex flex-col items-center gap-1 ${teacher === choice ? 'bg-[#3f7fd8]' : 'bg-white/10'}`}
+                  onClick={() => run(() => control('setTeacher', choice), `Đã chọn ${TEACHERS[choice].label.toLowerCase()}`)}>
+                  <img src={TEACHERS[choice].idle} alt="" className="h-24 w-16 object-contain" />
+                  {TEACHERS[choice].label}
+                </button>
+              ))}
+            </div>
+          </fieldset>
           <div className="text-xs text-white/60 mb-2">
             Hiện trên sân khấu và dùng trong lời cảm ơn. Đang dùng: <b className="text-white">{channelName}</b>
           </div>

@@ -4,7 +4,7 @@ import { spawn } from 'node:child_process';
 import { once } from 'node:events';
 import { createServer } from 'node:net';
 import { mkdtemp, cp, rm, writeFile, readFile } from 'node:fs/promises';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import path from 'node:path';
 import os from 'node:os';
 import { setTimeout as delay } from 'node:timers/promises';
@@ -24,7 +24,7 @@ test('production serves built stage, bounds event bursts, releases SSE clients, 
   await once(listener, 'listening');
   const port = (listener.address() as { port: number }).port;
   await new Promise<void>((resolve) => listener.close(() => resolve()));
-  const child = spawn(process.execPath, ['--import', path.join(root, 'node_modules/tsx/dist/loader.mjs'), path.join(root, 'scripts/start.ts')], {
+  const child = spawn(process.execPath, ['--import', pathToFileURL(path.join(root, 'node_modules/tsx/dist/loader.mjs')).href, path.join(root, 'scripts/start.ts')], {
     cwd: dir, env: { ...process.env, PORT: String(port), MEMORY_DIAGNOSTICS: '1' }, stdio: ['ignore', 'pipe', 'pipe'],
   });
   let log = '';
@@ -66,9 +66,18 @@ test('production serves built stage, bounds event bursts, releases SSE clients, 
   const reader = events.body!.getReader();
   const initial = new TextDecoder().decode((await reader.read()).value);
   assert.ok(initial.includes('event: status'));
+  assert.ok(initial.includes('"action":"setTeacher","text":"female"'));
   assert.equal((await (await fetch(`${base}/api/diagnostics`)).json()).sseClients, 1);
   abort.abort();
   await reader.cancel().catch(() => {});
+  for (const choice of ['male', 'female', 'male']) {
+    const response = await fetch(`${base}/api/control`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'setTeacher', text: choice }) });
+    assert.equal(response.status, 200);
+    assert.equal(JSON.parse(await readFile(path.join(dir, 'settings.json'), 'utf8')).teacher, choice);
+  }
+  const invalidTeacher = await fetch(`${base}/api/control`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'setTeacher', text: '../other' }) });
+  assert.equal(invalidTeacher.status, 400);
+  assert.equal(JSON.parse(await readFile(path.join(dir, 'settings.json'), 'utf8')).teacher, 'male');
   for (let attempt = 0; ; attempt++) {
     const clients = (await (await fetch(`${base}/api/diagnostics`)).json()).sseClients;
     if (!clients) break;
@@ -112,6 +121,8 @@ test('production serves built stage, bounds event bursts, releases SSE clients, 
   assert.equal(settings.ai.enabled, false);
   assert.equal(settings.quiz.mode, 'reverse');
   child.kill('SIGTERM');
-  const [code] = await exited;
-  assert.equal(code, 0, log);
+  const [code, signal] = await exited;
+  // Windows terminates the process directly; POSIX delivers SIGTERM to the shutdown handler.
+  if (process.platform === 'win32') assert.ok(code === 0 || (code === null && signal === 'SIGTERM'), log);
+  else assert.equal(code, 0, log);
 });
